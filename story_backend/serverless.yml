@@ -1,0 +1,122 @@
+service: storytime-user-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+
+functions:
+
+  registerUser:
+    handler: handlers/registerUser.handler
+    events:
+      - http:
+          path: api/users/register
+          method: post
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  loginUser:
+    handler: handlers/loginUser.handler
+    events:
+      - http:
+          path: api/users/login
+          method: post
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  getAllUsers:
+    handler: handlers/getAllUsers.handler
+    events:
+      - http:
+          path: api/users/all
+          method: get
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  getUserProfile:
+    handler: handlers/getUserProfile.handler
+    events:
+      - http:
+          path: api/users/{id}
+          method: get
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  updateUserProfile:
+    handler: handlers/updateUserProfile.handler
+    events:
+      - http:
+          path: api/users/profile
+          method: put
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  getUserStories:
+    handler: handlers/getUserStories.handler
+    events:
+      - http:
+          path: api/stories/getUserStories
+          method: get
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  getAllStories:
+    handler: handlers/getAllStories.handler
+    events:
+      - http:
+          path: api/stories
+          method: get
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  getStoryById:
+    handler: handlers/getStoryById.handler
+    events:
+      - http:
+          path: api/stories/{id}
+          method: get
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  deleteStory:
+    handler: handlers/deleteStory.handler
+    events:
+      - http:
+          path: api/stories/{id}
+          method: delete
+          cors:
+            origin: http://localhost:3000
+            headers: [Content-Type, Authorization, Accept]
+            allowCredentials: true
+
+  
+
+
+ 
+
+
