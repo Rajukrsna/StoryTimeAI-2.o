@@ -12,6 +12,7 @@ import ChapterList from "./ChapterList";
 import CollabList from "./CollabList";
 import LeaderboardList from "./Leaderboard";
 import type { Chapter } from "@/types";
+type TabType = "read" | "collab" | "leaderboard";
 
 export default function ContentComponent({
   id,
@@ -24,7 +25,6 @@ export default function ContentComponent({
 }) {
   const [activeTab, setActiveTab] = useState<"read" | "collab" | "leaderboard">("read");
   const router = useRouter();
-
   const chapters = story.map((chapter, index) => ({
     id: index,
     title: chapter.title,
@@ -49,9 +49,13 @@ export default function ContentComponent({
           </h1>
           <ToggleGroup
             type="single"
-            value={activeTab}
-            onValueChange={(value) => setActiveTab(value as any)}
-            className="flex gap-2"
+            value={activeTab} 
+            onValueChange={(value: string | null) => {
+              if (value) {
+                setActiveTab(value as TabType);
+              }
+            }}
+             className="flex gap-2"
           >
             <ToggleGroupItem value="read" className="flex items-center gap-2">
               <FaBookOpen /> Read
