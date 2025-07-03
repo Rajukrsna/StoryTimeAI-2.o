@@ -1,20 +1,13 @@
 import expressClient from './axiosInstance/expressClient';
 import lambdaClient from './axiosInstance/lambdaClient'; 
-interface Contribution {
-  title: string;
-  score: number;
-}
-interface User {
-  _id: string;
-  name: string;
-  email?: string;
-  bio?: string;
-  profilePicture?: string;
-  contributions?: Contribution[];  // ← updated from `Number` to `Contribution[]`
+import type { Story, User, Contribution, Chapter,Author, ChapterStatus  } from "@/types"; // Adjust the path as needed
+
+interface ChapterResponse{
+  chapters: ChapterStatus[];  
 }
 
 export const getAuthors = async (): Promise<User[]> => {
-    const response = await lambdaClient.get<User[]>('/users/all');
+    const response = await expressClient.get<User[]>('api/users/all');
     
     return response.data;
 };
@@ -64,4 +57,14 @@ export const updateProfileImage = async (file: File): Promise<UploadResponse> =>
   );
 
   return response.data;
+};
+
+
+
+export const fetchMyChaptersStatus = async (
+): Promise<ChapterStatus[] > => {
+  const response = await expressClient.get<ChapterResponse>(`/api/users/my-chapters`);
+  console.log(response)
+
+  return response.data.chapters;
 };

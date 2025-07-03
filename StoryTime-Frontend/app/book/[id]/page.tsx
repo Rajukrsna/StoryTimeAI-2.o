@@ -7,39 +7,9 @@ import ContentComponent from "@/components/contentComponent";
 import { Navbar } from "@/components/Navbar";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import {updateStory} from "@/api/storyApi"
-// Define the Story type
-interface User {
-  _id: string;
-  name: string;
-  profilePicture?: string;
-}
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
-  likes:number;
-  createdBy: string | User; // allow both types
-  createdAt: string;
-}
-interface Author {
-    id: string;
-    name: string;
-    bio: string;
-    profileImage: string;
-}
-interface PendingChapter extends Chapter {
-  requestedBy: string | User;
-  status: "pending" | "approved" | "rejected";
-}
-interface Story {
-    _id: string;
-    title: string;
-    content: Chapter[];
-  pendingChapters: PendingChapter[]; // ✅ completed
-    author: Author;
-    votes: number;
-    imageUrl: string;   
-}
+import type { Story, User, Chapter,Author  } from "@/types"; // Adjust the path as needed
+
+
 
 export default function BookPage() {
    
@@ -62,6 +32,7 @@ export default function BookPage() {
         title: "",
         content: "",
         likes: 0,
+        summary: "", 
         createdBy:"",
         createdAt: "",
     }); // Send update to server

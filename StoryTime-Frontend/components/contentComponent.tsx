@@ -20,41 +20,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdCalendarToday } from "react-icons/md";
 import { FaMedal, FaUserPlus, FaSearch } from "react-icons/fa";
 import { HiOutlineStar } from "react-icons/hi";
+import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
 
-// Correct Chapter interface
-interface User {
-  _id: string;
-  name: string;
-  profilePicture?: string;
-}
-
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
-  likes: number;
-  createdBy: string | User; // allow both types
-  createdAt: string;
-}
-interface PendingChapter extends Chapter {
-  requestedBy: string | User;
-  status: "pending" | "approved" | "rejected";
-}
-interface Story {
-    _id: string;
-    title: string;
-    content: Chapter[];
-  pendingChapters: PendingChapter[]; // ✅ completed
-    author: Author;
-    votes: number;
-    imageUrl: string;   
-}
-interface Author {
-    id: string;
-    name: string;
-    bio: string;
-    profileImage: string;
-}
 
 
 export default function ContentComponent({ id, story , title}: { id: string, story: Chapter[], title: string }) {
@@ -66,6 +33,7 @@ export default function ContentComponent({ id, story , title}: { id: string, sto
     content: chapter.content,
     createdBy: chapter.createdBy,
     createdAt: chapter.createdAt,
+    summary: chapter.summary|| "No summary available",
     likes: chapter.likes,    
     liked: false, // Default or fetched separately
   }));
@@ -154,7 +122,7 @@ export default function ContentComponent({ id, story , title}: { id: string, sto
   )
 }
 
-function ChapterList({title,chapters:initialChapters,id }: {title: string, chapters: { id: number; title: string; content: string; createdBy: string | User; createdAt: string ; likes: number; liked: boolean }[], id: string }) {
+function ChapterList({title,chapters:initialChapters,id }: {title: string, chapters: { id: number; title: string; content: string; summary: string, createdBy: string | User; createdAt: string ; likes: number; liked: boolean }[], id: string }) {
     const router = useRouter();
    const [chapters, setChapters] = useState(initialChapters); // keep local state
 
@@ -189,6 +157,7 @@ const handleNavRead = (chapId: number) => {
       },
       {title: "",
         content: "",
+        summary: "",  
         likes: 0,
         createdBy:"",
         createdAt: "",}

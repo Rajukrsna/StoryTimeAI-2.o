@@ -3,12 +3,13 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 const TOKEN_KEY = 'authToken';
 
 export const getAuthToken = (): string | null => {
-    return localStorage.getItem('authToken') as string | null;
+  const token = localStorage.getItem("authToken");
+  console.log("🧪 Token from localStorage:", token);
+  return token;
 };
-
 export const refreshAuthToken = async (): Promise<string | null> => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL2}/api/users/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -19,6 +20,7 @@ export const refreshAuthToken = async (): Promise<string | null> => {
             throw new Error('Failed to refresh token');
         }
         const data = await response.json();
+        localStorage.setItem('authToken', data.token);
         setCookie(TOKEN_KEY, data.token);
         return data.token;
     } catch (error) {

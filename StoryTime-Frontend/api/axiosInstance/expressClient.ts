@@ -13,6 +13,8 @@ const expressClient = axios.create({
 expressClient.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
+    console.log("token for login", token);
+    // If token exists, set it in the Authorization header
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }

@@ -1,4 +1,4 @@
-import apiClient from "./axiosInstance";
+import expressClient from './axiosInstance/expressClient';
 
 interface LoginResponse {
   _id:string,
@@ -18,13 +18,16 @@ export const login = async (email: string, password: string): Promise<LoginResul
     const requestBody = { email, password };
     console.log("📤 Sending Login Data:", requestBody);
 
-    const response = await apiClient.post<LoginResponse>(
-      "/users/login",
+    const response = await expressClient.post<LoginResponse>(
+      "/api/users/login",
       requestBody,
       {
         headers: { "Content-Type": "application/json" },
       }
     );
+
+    console.log("✅ Login successful, response received.");
+   console.log("Login response:", response.data);
 
     const { token } = response.data;
     localStorage.setItem("authToken", token);

@@ -67,7 +67,7 @@ export default function CreatePage() {
             const response = await createAIStory(title, description);
             if (response) {
                 // Navigate to AIPage with the generated story
-                router.push(`/aiPage?story=${encodeURIComponent(response.suggestion)}&title=${encodeURIComponent(title)}&imageUrl=${encodeURIComponent(imageUrl)}`);  
+                router.push(`/aiPage?summary=${encodeURIComponent(response.summary)}&story=${encodeURIComponent(response.suggestion)}&title=${encodeURIComponent(title)}&imageUrl=${encodeURIComponent(imageUrl)}`);  
             } else {
                 alert("AI generation failed!");
             }

@@ -1,44 +1,8 @@
 import expressClient from './axiosInstance/expressClient';
 import lambdaClient from './axiosInstance/lambdaClient';  
-interface Contribution {
-  title: string;
-  score: number;
-}
-interface User {
-  _id: string;
-  name: string;
-  profilePicture?: string;
-  contributions?: Contribution[];  // ← updated from `Number` to `Contribution[]`
+import type { Story, User, Contribution, Chapter,Author  } from "@/types"; // Adjust the path as needed
 
-}
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
-  likes: number;
- createdBy: string | User; // allow both types
-  createdAt: string;
-}
-interface Author {
-    id: string;
-    name: string;
-    bio: string;
-    profileImage: string;
-}
 
-interface PendingChapter extends Chapter {
-  requestedBy: string | User;
-  status: "pending" | "approved" | "rejected";
-}
-interface Story {
-    _id: string;
-    title: string;
-    content: Chapter[];
-  pendingChapters: PendingChapter[]; // ✅ completed
-    author: Author;
-    votes: number;
-    imageUrl: string;   
-}
 
 export const getStories = async (
   search?: string,
@@ -56,19 +20,18 @@ export const getStories = async (
 
 
 export const getStory = async (id: string): Promise<Story> => {
-    const response = await lambdaClient.get<Story>(`/stories/${id}`);
+    const response = await expressClient.get<Story>(`/api/stories/${id}`);
     return response.data;
 };
 
-export const createStory = async (title: string,  initialContent: string // 👈 You’ll need to provide the user ID
-,imageUrl: string): Promise<Story> => {
+export const createStory = async (title: string,  initialContent: string 
+,imageUrl: string, summary: string, embeds: number[]): Promise<Story> => {
     const response = await expressClient.post<Story>('/api/stories', { title,  chapters: [
       {
         
         content: initialContent,
-       
       }
-    ], imageUrl });
+    ], imageUrl, summary , embeds});
     return response.data;
 };
 

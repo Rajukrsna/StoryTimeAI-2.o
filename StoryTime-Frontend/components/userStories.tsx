@@ -2,50 +2,12 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { CardHorizontal } from "./ui/card";
 import Image from "next/image";
-import { getUserStories } from "@/api/storyApi"; // corrected path
+import { getUserStories } from "@/api/storyApi"; 
 import {approveStory,rejectStory} from "@/api/storyApi";
-interface Contribution {
-  title: string;
-  score: number;
-}
-interface User {
-  _id: string;
-  name: string;
-  profilePicture?: string;
-  contributions?: Contribution[];  // ← updated from `Number` to `Contribution[]`
-
-}
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
-  likes: number;
- createdBy: string | User; // allow both types
-  createdAt: string;
-}
-interface Author {
-    id: string;
-    name: string;
-    bio: string;
-    profileImage: string;
-}
-
-interface PendingChapter extends Chapter {
-  requestedBy: string | User;
-  status: "pending" | "approved" | "rejected";
-}
-interface Story {
-    _id: string;
-    title: string;
-    content: Chapter[];
-  pendingChapters: PendingChapter[]; // ✅ completed
-    author: Author;
-    votes: number;
-    imageUrl: string;   
-}
-
+import { toast } from "sonner";
+import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
 export default function UserStories() {
-  const [stories, setStories] = useState<Story[]>([]);
+const [stories, setStories] = useState<Story[]>([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedChapter, setSelectedChapter] = useState<{ title: string; content: string } | null>(null);
   useEffect(() => {
@@ -65,12 +27,9 @@ const [selectedChapter, setSelectedChapter] = useState<{ title: string; content:
   const handleApprove = async (storyId: string, chapterIndex: number, title: string) => {
   try {
     await approveStory(storyId, chapterIndex);
-    alert("Chapter approved");
-
+    toast.success("Chapter Approved!");
     const updatedStories = await getUserStories();
     setStories(updatedStories);
-
-   
   } catch (err) {
     console.error(err);
     alert("Error approving chapter");
@@ -81,7 +40,7 @@ const [selectedChapter, setSelectedChapter] = useState<{ title: string; content:
 const handleReject = async (storyId: string, chapterIndex: number) => {
   try {
     await rejectStory(storyId, chapterIndex)
-    alert("Chapter rejected");
+    toast.success("Chapter Rejected!");
     const updatedStories = await getUserStories();
     setStories(updatedStories);
   } catch (err) {

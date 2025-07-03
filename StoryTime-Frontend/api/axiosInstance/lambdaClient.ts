@@ -3,7 +3,7 @@ import axios from "axios";
 import { getAuthToken, refreshAuthToken, logoutUser } from "@/utils/auth";
 
 const lambdaClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL2, // ✅ Lambda base URL from .env
+  baseURL: 'https://jn07w6w57c.execute-api.us-east-1.amazonaws.com/dev/api', 
   headers: {
     "Content-Type": "application/json",
   },

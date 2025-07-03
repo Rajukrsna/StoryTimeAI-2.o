@@ -20,16 +20,16 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-10 animate-fade-in">
           <div>
            <h1 className="text-4xl sm:text-7xl font-extrabold leading-tight text-gray-900 transition-all duration-300">
-  <Typewriter
-    words={['Welcome', 'Start your story', 'Let your words fly']}
-    loop={true}
-    cursor
-    cursorStyle="|"
-    typeSpeed={80}
-    deleteSpeed={50}
-    delaySpeed={1500}
-  />
-</h1>
+          <Typewriter
+            words={['Welcome', 'Start your story', 'Let your words fly']}
+            loop={true}
+            cursor
+            cursorStyle="|"
+            typeSpeed={80}
+            deleteSpeed={50}
+            delaySpeed={1500}
+          />
+        </h1>
             <p className="text-lg sm:text-2xl font-medium mt-4 text-gray-700 transition-opacity duration-300">
               Would you like to start your story?
             </p>

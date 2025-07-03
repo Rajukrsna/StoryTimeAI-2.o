@@ -58,3 +58,36 @@ Guidelines:
 };
 
 
+export const summarizeContent = async (chapterText) => {
+  if (!GEMINI_API_KEY) {
+    console.error("❌ Missing Gemini API Key!");
+    return "Summary service unavailable.";
+  }
+
+  const prompt = `Summarize the following story in 2-3 sentences:
+
+"${chapterText}"`;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
+      }
+    );
+
+    const data = await response.json();
+    const summary = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    return summary?.trim() || "No summary generated.";
+  } catch (error) {
+    console.error("❌ Summary generation error:", error.message || error);
+    return "Summary generation failed.";
+  }
+};

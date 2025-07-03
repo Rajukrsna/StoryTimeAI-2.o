@@ -3,7 +3,7 @@ import { getAuthToken, refreshAuthToken, logoutUser } from "@/utils/auth";
 
 
 // const isProd = process.env.NODE_ENV === "production";
-const baseURL =  process.env.NEXT_PUBLIC_API_URL2 
+const baseURL =  process.env.NEXT_PUBLIC_API_URL 
 console.log("Base URL:", baseURL);
 const apiClient = axios.create({
   baseURL: baseURL,

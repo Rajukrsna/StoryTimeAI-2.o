@@ -92,17 +92,6 @@ functions:
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
-  getStoryById:
-    handler: handlers/getStoryById.handler
-    events:
-      - http:
-          path: api/stories/{id}
-          method: get
-          cors:
-            origin: http://localhost:3000
-            headers: [Content-Type, Authorization, Accept]
-            allowCredentials: true
-
   deleteStory:
     handler: handlers/deleteStory.handler
     events:

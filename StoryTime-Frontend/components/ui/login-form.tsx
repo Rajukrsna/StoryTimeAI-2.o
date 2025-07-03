@@ -24,13 +24,15 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         e.preventDefault();
         try {
             const response = await login(email, password);
-
+    console.log("Login response:", response);
     if (!response.success) {
         setError( "Invalid credentials. Please try again.");
         return;
     }
             localStorage.setItem("userId", response._id)
+            await new Promise((res) => setTimeout(res, 100)); // wait 100ms
             router.push("/homepage");
+          
         } catch (error) {
             console.error("Login failed", error);
             setError("Login failed. Please check your credentials and try again.");

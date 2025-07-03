@@ -44,12 +44,6 @@
         "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllStories"
       }
     },
-    "GetStoryByIdLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/storytime-user-service-dev-getStoryById"
-      }
-    },
     "DeleteStoryLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -146,7 +140,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/registerUser.handler",
         "Runtime": "nodejs18.x",
@@ -175,7 +169,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/loginUser.handler",
         "Runtime": "nodejs18.x",
@@ -204,7 +198,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getAllUsers.handler",
         "Runtime": "nodejs18.x",
@@ -233,7 +227,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getUserProfile.handler",
         "Runtime": "nodejs18.x",
@@ -262,7 +256,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/updateUserProfile.handler",
         "Runtime": "nodejs18.x",
@@ -291,7 +285,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getUserStories.handler",
         "Runtime": "nodejs18.x",
@@ -320,7 +314,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getAllStories.handler",
         "Runtime": "nodejs18.x",
@@ -344,41 +338,12 @@
         "GetAllStoriesLogGroup"
       ]
     },
-    "GetStoryByIdLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
-        },
-        "Handler": "handlers/getStoryById.handler",
-        "Runtime": "nodejs18.x",
-        "FunctionName": "storytime-user-service-dev-getStoryById",
-        "MemorySize": 1024,
-        "Timeout": 6,
-        "Environment": {
-          "Variables": {
-            "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
-            "JWT_SECRET": "e38d5fa2ca8116dd2e466485403ed578723fdc14574b4cc0412a6fab75c23092"
-          }
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        }
-      },
-      "DependsOn": [
-        "GetStoryByIdLogGroup"
-      ]
-    },
     "DeleteStoryLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751125748388-2025-06-28T15:49:08.388Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
         },
         "Handler": "handlers/deleteStory.handler",
         "Runtime": "nodejs18.x",
@@ -402,94 +367,84 @@
         "DeleteStoryLogGroup"
       ]
     },
-    "RegisterUserLambdaVersionXoqbmYSSD8S8r3ACYLFKZ4zZPj8JHOx1kZoNO1PcY": {
+    "RegisterUserLambdaVersionzYMZt73KdhQceqAOqNdeQMC6TwiCwXPVb1jlIlfbuw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "RegisterUserLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "LoginUserLambdaVersion9smqWhFFDDB7R1mH537lABNGn02S4Q1gtib0Zh1txw": {
+    "LoginUserLambdaVersionwsF0PA8Qfw3PTSvbspF1SyHJKcgqGH26FzZS53Wnnv8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginUserLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "GetAllUsersLambdaVersionwcUJw886Lia16lXYlEDnyJ5rXL50E3vrwQnRNLpQWY": {
+    "GetAllUsersLambdaVersionwZXB1EQND3ixnJyb0jCMrFhYLWPHdeJ3Hpc3d5IbiI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetAllUsersLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "GetUserProfileLambdaVersionhgCUQmOpIp3blFsOlsVDK7xHrbeZwGjv9IO6PDhEA4Y": {
+    "GetUserProfileLambdaVersiongOZ2bQqhfIf8L1cLxRiRqWK9FF2czgJhEz4XtEFyilA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserProfileLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "UpdateUserProfileLambdaVersiontYTi5OLVuHZgx59BSn2zraS12PjCcP4vkNzwgvHImc": {
+    "UpdateUserProfileLambdaVersioneVRAWFgL1H8OF6LgVQnvICp6XCR5sj6pLGznwkKZUE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateUserProfileLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "GetUserStoriesLambdaVersionOkOh9EJPJNxaMdBmlQ6O0gvE747mnYOEszjImtdkE": {
+    "GetUserStoriesLambdaVersionbyJMrp2CrSMlTwtGE8zaTvTObFNxaGGofwrD5kIQ0A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserStoriesLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "GetAllStoriesLambdaVersion3br9ElPmg8ALAuJo4ELymcYse0RrgIRIncq5b1S1KVM": {
+    "GetAllStoriesLambdaVersionj0FJTrsuPI7um4q6vMsfqlBWkJn79H6eiV5JX4Op6JU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetAllStoriesLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
-    "GetStoryByIdLambdaVersionjCrDFfOKJoF397RceXafPWaAqHEJZYTkvna0nsf9Gdc": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "GetStoryByIdLambdaFunction"
-        },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
-      }
-    },
-    "DeleteStoryLambdaVersiongEBgPDW5MF2IJn2vzNTgkD1a1TtuemMkUEG6Z3aT9Q": {
+    "DeleteStoryLambdaVersion1ZHDtH0YpRYEhknPAcffUg9XnBDAwPLctJDtpg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteStoryLambdaFunction"
         },
-        "CodeSha256": "+JgWID+4CZzNG23XNEdjWXUP4uv7I4SSRpeosEXfm+o="
+        "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
       }
     },
     "ApiGatewayRestApi": {
@@ -986,7 +941,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
               },
               "ResponseTemplates": {
@@ -1325,52 +1280,6 @@
         "GetAllStoriesLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodApiStoriesIdVarGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceApiStoriesIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "GetStoryByIdLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      },
-      "DependsOn": [
-        "GetStoryByIdLambdaPermissionApiGateway"
-      ]
-    },
     "ApiGatewayMethodApiStoriesIdVarDelete": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -1417,7 +1326,7 @@
         "DeleteStoryLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1751125682849": {
+    "ApiGatewayDeployment1751211111712": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1441,7 +1350,6 @@
         "ApiGatewayMethodApiUsersProfilePut",
         "ApiGatewayMethodApiStoriesGetuserstoriesGet",
         "ApiGatewayMethodApiStoriesGet",
-        "ApiGatewayMethodApiStoriesIdVarGet",
         "ApiGatewayMethodApiStoriesIdVarDelete"
       ]
     },
@@ -1704,43 +1612,6 @@
         }
       }
     },
-    "GetStoryByIdLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "GetStoryByIdLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
     "DeleteStoryLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
@@ -1789,7 +1660,7 @@
     "RegisterUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "RegisterUserLambdaVersionXoqbmYSSD8S8r3ACYLFKZ4zZPj8JHOx1kZoNO1PcY"
+        "Ref": "RegisterUserLambdaVersionzYMZt73KdhQceqAOqNdeQMC6TwiCwXPVb1jlIlfbuw"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-RegisterUserLambdaFunctionQualifiedArn"
@@ -1798,7 +1669,7 @@
     "LoginUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginUserLambdaVersion9smqWhFFDDB7R1mH537lABNGn02S4Q1gtib0Zh1txw"
+        "Ref": "LoginUserLambdaVersionwsF0PA8Qfw3PTSvbspF1SyHJKcgqGH26FzZS53Wnnv8"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-LoginUserLambdaFunctionQualifiedArn"
@@ -1807,7 +1678,7 @@
     "GetAllUsersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetAllUsersLambdaVersionwcUJw886Lia16lXYlEDnyJ5rXL50E3vrwQnRNLpQWY"
+        "Ref": "GetAllUsersLambdaVersionwZXB1EQND3ixnJyb0jCMrFhYLWPHdeJ3Hpc3d5IbiI"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
@@ -1816,7 +1687,7 @@
     "GetUserProfileLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserProfileLambdaVersionhgCUQmOpIp3blFsOlsVDK7xHrbeZwGjv9IO6PDhEA4Y"
+        "Ref": "GetUserProfileLambdaVersiongOZ2bQqhfIf8L1cLxRiRqWK9FF2czgJhEz4XtEFyilA"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
@@ -1825,7 +1696,7 @@
     "UpdateUserProfileLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateUserProfileLambdaVersiontYTi5OLVuHZgx59BSn2zraS12PjCcP4vkNzwgvHImc"
+        "Ref": "UpdateUserProfileLambdaVersioneVRAWFgL1H8OF6LgVQnvICp6XCR5sj6pLGznwkKZUE"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
@@ -1834,7 +1705,7 @@
     "GetUserStoriesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserStoriesLambdaVersionOkOh9EJPJNxaMdBmlQ6O0gvE747mnYOEszjImtdkE"
+        "Ref": "GetUserStoriesLambdaVersionbyJMrp2CrSMlTwtGE8zaTvTObFNxaGGofwrD5kIQ0A"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
@@ -1843,25 +1714,16 @@
     "GetAllStoriesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetAllStoriesLambdaVersion3br9ElPmg8ALAuJo4ELymcYse0RrgIRIncq5b1S1KVM"
+        "Ref": "GetAllStoriesLambdaVersionj0FJTrsuPI7um4q6vMsfqlBWkJn79H6eiV5JX4Op6JU"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
       }
     },
-    "GetStoryByIdLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "GetStoryByIdLambdaVersionjCrDFfOKJoF397RceXafPWaAqHEJZYTkvna0nsf9Gdc"
-      },
-      "Export": {
-        "Name": "sls-storytime-user-service-dev-GetStoryByIdLambdaFunctionQualifiedArn"
-      }
-    },
     "DeleteStoryLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteStoryLambdaVersiongEBgPDW5MF2IJn2vzNTgkD1a1TtuemMkUEG6Z3aT9Q"
+        "Ref": "DeleteStoryLambdaVersion1ZHDtH0YpRYEhknPAcffUg9XnBDAwPLctJDtpg"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"

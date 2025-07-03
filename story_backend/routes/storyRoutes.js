@@ -3,44 +3,98 @@ import mongoose from "mongoose";
 import Story from "../models/Story.js";
 import User from "../models/User.js";
 import { protect } from "../utils/authMiddleware.js";
+import Chapter from "../models/Chapter.js"; // Import Chapter model
 
 const router = express.Router();
 
 // /** ✅ Create a New Story (Protected) */
 router.post("/", protect, async (req, res) => {
   try {
-    const { title, chapters , imageUrl} = req.body;
-    //console.log(chapters)
+    const { title, chapters, summary, imageUrl, embeds } = req.body;
+    console.log("summary", summary);
+    console.log("chapters", chapters);
+
     if (!title || !chapters) {
-      return res
-        .status(400)
-        .json({ message: "Title and content are required" });
+      return res.status(400).json({ message: "Title and chapters are required" });
     }
-  // Optionally inject createdBy using logged-in user:
+ // Step 2: Save chapters to Chapter collection with reference to this story
+    const Chapters = chapters.map((ch, index) => ({
+      title: ch.title || `Chapter ${index + 1}`,
+      content: ch.content,
+      createdBy: req.user._id,     // 🔗 Reference to Story
+      summary: summary,
+      embedding: embeds || [],  // Ensure per-chapter embedding
+      createdAt: new Date(),
+    }));
+    // Step 1: Create and save story metadata (without embedding chapters inside)
+    const story = new Story({
+      title,
+      author: req.user._id,
+      imageUrl,
+    content: Chapters
+    });
+
+    const savedStory = await story.save();
+
+    // Step 2: Save chapters to Chapter collection with reference to this story
     const enrichedChapters = chapters.map((ch, index) => ({
       title: ch.title || `Chapter ${index + 1}`,
       content: ch.content,
       createdBy: req.user._id,
+      storyId: savedStory._id,       // 🔗 Reference to Story
+      summary: summary,
+      embedding: embeds || [],  // Ensure per-chapter embedding
       createdAt: new Date(),
     }));
 
-    const story = new Story({
-      title,
-      content: enrichedChapters,
-      author: req.user._id,
-      imageUrl,
+    // Insert multiple chapters
+    const savedChapters = await Chapter.create(enrichedChapters);
+
+    res.status(201).json({
+      story: savedStory,
+      chapters: savedChapters,
     });
-    const savedStory = await story.save();
-    //console.log("my story", story);
-    res.status(201).json(savedStory);
-    }
-    catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ message: "Error creating story", error: error.message });
-    }
+  } catch (error) {
+    console.error("❌ Error creating story:", error);
+    res.status(500).json({
+      message: "Error creating story",
+      error: error.message,
+    });
+  }
 });
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid Story ID format" });
+  }
+
+  try {
+    const story = await Story.findById(id).populate("author", "name");
+
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    const populatedContent = await Promise.all(
+      story.content.map(async (chapter) => {
+        const user = await User.findById(chapter.createdBy).select("name profilePicture");
+        return {
+          ...chapter.toObject(),
+          createdBy: user,
+        };
+      })
+    );
+
+    story.content = populatedContent;
+
+    return res.status(200).json(story);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching story", error: error.message });
+  }
+});
+
 
 /** ✅ Leaderboard API */
 router.get("/leaderboard/:title", async (req, res) => {
@@ -63,7 +117,7 @@ router.get("/leaderboard/:title", async (req, res) => {
       path: "_id",
       select: "name profilePicture",
     });
-
+    console.log("Populated Leaderboard:", populatedLeaderboard);
     res.json(
       populatedLeaderboard.map((entry) => ({
         userId: entry._id._id,
@@ -163,7 +217,7 @@ router.put("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
      await user.save();
 
     // ✅ Destructure only allowed fields for content
-    const { title, content, createdBy, createdAt, likes } = pendingChapter;
+    const { title, content, createdBy, createdAt, likes , embedding, summary} = pendingChapter;
 
     // ✅ Push clean version to main content
     story.content.push({
@@ -171,8 +225,23 @@ router.put("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
       content,
       createdBy,
       createdAt,
+      summary,
+      embedding,
       likes
     });
+
+       // ✅ Insert into Chapter collection
+await Chapter.create({
+  title,
+  content,
+  createdBy,
+  createdAt,
+  likes,
+  storyId: story._id,     // Reference to the main story
+  summary: pendingChapter.summary || "", // Optional if you store it
+  embedding: pendingChapter.embedding || [],
+});
+
 
     // ✅ Remove from pendingChapters
     story.pendingChapters.splice(index, 1);
@@ -187,7 +256,6 @@ router.put("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
-
 // ✅ In your Express router (e.g., storyRoutes.js)
 router.delete("/:id/reject-chapter/:chapterIndex", protect, async (req, res) => {
   try {

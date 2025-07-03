@@ -8,7 +8,7 @@ export const handler = async (event) => {
     
     const authHeader = event.headers.Authorization || event.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authHeader.startsWith(" Bearer ")) {
       return {
         statusCode: 401,
         headers: {

@@ -9,16 +9,18 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { FaMagic, FaStop, FaUpload } from "react-icons/fa";
 import { toast } from "sonner";
-
+import useEmbeddings from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
 
 export default function AIPage() {
     const searchParams = useSearchParams();
     const initialStory = searchParams.get("story") || "";
+    const initialSummary = searchParams.get("summary") || ""; 
     const title = searchParams.get("title") || "No title provided.";
     const imageUrl = searchParams.get("imageUrl") || "No image provided.";
     const [story, setStory] = useState(initialStory);
     const [displayedStory, setDisplayedStory] = useState(initialStory);
     const [isTyping, setIsTyping] = useState(false);
+    const [summary, setSummary] = useState(initialSummary);
     const [isUserEditing, setIsUserEditing] = useState(false);
     const router = useRouter();
     const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -47,8 +49,10 @@ export default function AIPage() {
         setIsUserEditing(false); // Reset user edit flag
 
         const response = await createAIStory(title, story);
+        console.log("AI response:", response);
         if (response) {
             setStory(response.suggestion);
+            setSummary(response.summary); 
         } else {
             alert("AI editing failed.");
             setIsTyping(false);
@@ -63,7 +67,9 @@ export default function AIPage() {
     };
     const handlePublish = async () => {
       try {
-    const response = await createStory(title, story, imageUrl);
+    const embeds = await useEmbeddings(summary);
+    console.log("Publishing story:", summary);
+    const response = await createStory(title, story, imageUrl, summary, embeds);
     if (response) {
       toast.success("🎉 Story published successfully!");
       router.push("/homepage");

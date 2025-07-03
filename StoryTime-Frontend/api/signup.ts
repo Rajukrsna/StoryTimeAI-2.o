@@ -1,5 +1,4 @@
-import expressClient from './axiosInstance/expressClient';
-import lambdaClient from './axiosInstance/lambdaClient'; // Ensure this is the correct import for your API client
+import basicClient from './axiosInstance/basicClient';
 interface SignUpResponse {
   token: string;
 }
@@ -23,8 +22,8 @@ export const signup = async (
   console.log("📤 Sending Signup Data:", formData);
 
   try {
-    const response = await lambdaClient.post<SignUpResponse>(
-      "/users/register", // ✅ Correct path
+    const response = await basicClient.post<SignUpResponse>(
+      "/api/users/register", // ✅ Correct path
       formData ,
       {
         headers: {  "Content-Type": "multipart/form-data",}, // Ensure JSON headers

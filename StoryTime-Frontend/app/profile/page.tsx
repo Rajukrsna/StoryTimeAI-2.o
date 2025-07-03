@@ -11,19 +11,9 @@ import Image from "next/image";
 import { getMyProfile } from "@/api/profile";
 import { updateMyProfile } from "@/api/profile";
 import {updateProfileImage} from "@/api/profile";
-
-interface Contribution {
-  title: string;
-  score: number;
-}
-interface User {
-  _id: string;
-  name: string;
-  email?: string;
-  bio?: string;
-  profilePicture?: string;
-  contributions?: Contribution[];  // ← updated from `Number` to `Contribution[]`
-}
+import { fetchMyChaptersStatus } from "@/api/profile"; 
+import type { Story, User, Chapter,Author, ChapterStatus } from "@/types"; // Adjust the path as needed
+import { toast } from "sonner";
 
 
 export default function ProfilePage() {
@@ -31,6 +21,7 @@ export default function ProfilePage() {
   const [preview, setPreview] = useState<string>("/profile-picture-placeholder.svg");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [filepath, setSelectedFilePath] = useState<string>("");
+  const [chapterStatuses, setChapterStatuses] = useState<ChapterStatus[]>([])
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -43,7 +34,18 @@ export default function ProfilePage() {
         console.error("Failed to fetch profile:", error);
       }
     };
-    fetchProfile();
+    
+
+     const fetchChapters = async () => {
+        try {
+          const  chapters  = await fetchMyChaptersStatus();
+          setChapterStatuses(chapters);
+        } catch (err) {
+          console.error("Failed to fetch chapters", err);
+        }
+      };
+      fetchChapters();
+      fetchProfile();
   }, []);
 
 const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,15 +76,18 @@ const handleUpload = async () => {
         profilePicture: filepath, // e.g., "/uploads/myimg.jpg"
       });
       setProfile(updated);
-      alert("Profile picture updated!");
-  };
+      toast.success('Profile picture updated successfully!')
+
+   
+      };
+
   return (
    <main className="min-h-screen bg-white text-black">
   <Navbar />
   <section className="px-6 sm:px-10 py-10 max-w-6xl mx-auto">
     {/* Profile Section */}
     <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
-      
+
       {/* Profile Picture + Upload */}
       <div className="flex flex-col items-center text-center w-full lg:w-1/3">
         <div className="relative w-40 h-40 rounded-full overflow-hidden bg-gray-200 shadow-inner mb-4">
@@ -162,6 +167,54 @@ const handleUpload = async () => {
     <div className="mt-16">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6">Your Stories</h1>
       <UserStories />
+    </div>
+
+    {/* ✅ New Section: Chapter Contribution Status */}
+    <div className="mt-16">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6">Your Chapter Contributions</h1>
+
+      <div className="overflow-x-auto">
+        <table className="w-full table-auto border border-gray-200 rounded-lg">
+          <thead className="bg-gray-100 text-left text-sm uppercase text-gray-600">
+            <tr>
+              <th className="p-4">Story Title</th>
+              <th className="p-4">Chapter Title</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Submitted On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {chapterStatuses.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="p-4 text-center text-gray-500">
+                  No chapter contributions found.
+                </td>
+              </tr>
+            ) : (
+              chapterStatuses.map((chapter, index) => (
+                <tr key={index} className="border-t text-sm">
+                  <td className="p-4">{chapter.storyTitle}</td>
+                  <td className="p-4">{chapter.chapterTitle}</td>
+                  <td className="p-4">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        chapter.status === "approved"
+                          ? "bg-green-100 text-green-700"
+                          : chapter.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {chapter.status}
+                    </span>
+                  </td>
+                  <td className="p-4">{new Date(chapter.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 </main>

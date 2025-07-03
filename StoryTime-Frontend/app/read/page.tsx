@@ -8,21 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
 import { motion } from "framer-motion";
-
-interface User {
-  _id: string;
-  name: string;
-  profilePicture?: string;
-}
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
-  createdBy: string | User; // allow both types
-  createdAt: string;
-}
-
-
+import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
 
 
 export default function ReadPage() {

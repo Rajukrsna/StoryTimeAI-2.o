@@ -15,11 +15,15 @@ const chapterSchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
+  summary: { type: String },
+   embedding: {
+    type: [Number], 
+  } ,
   likes:{type: Number , default: 0},
   createdAt: { type: Date, default: Date.now }
 });
 const pendingChapterSchema = new mongoose.Schema({
-  ...chapterSchema.obj, // Spread existing fields
+  ...chapterSchema.obj, 
   requestedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   status: {
     type: String,
@@ -40,9 +44,9 @@ const storySchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, minlength: 3 },
     content: [chapterSchema],
-   pendingChapters: {
-   type: [pendingChapterSchema],
-  default: [], // optional but recommended
+    pendingChapters: {
+    type: [pendingChapterSchema],
+    default: [], 
 },
 
     author: {
@@ -50,22 +54,24 @@ const storySchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    imageUrl: String, // ✅ Image upload feature  (optional)
-    contributions: [contributionSchema], // ✅ Contribution feature
-    votes: { type: Number, default: 0 }, // ✅ Voting feature
-    comments: [commentSchema], // ✅ Commenting feature
+    imageUrl: String, 
+    contributions: [contributionSchema], 
+    votes: { type: Number, default: 0 },
+    comments: [commentSchema], 
     history: [
       {
         title: String,
         content: String,
         updatedAt: { type: Date, default: Date.now },
       },
-    ], // ✅ Version control
+    ], 
   },
-  { timestamps: true }
+  
+  { timestamps: true },
+  
+
 );
 
-// ✅ Middleware: Track story history on updates
 storySchema.pre("save", function (next) {
   if (this.isModified("title") || this.isModified("content")) {
     this.history.push({

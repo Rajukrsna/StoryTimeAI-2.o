@@ -11,43 +11,7 @@ import { getStories } from "@/api/storyApi";
 import { getAuthors } from "@/api/profile";
 import Image from "next/image"; 
 import ReactMarkdown from 'react-markdown';
-
-
-interface Author {
-    id: string;
-    name: string;
-    bio: string;
-    profileImage: string;
-}
-interface Contribution {
-  title: string;
-  score: number;
-}
-interface User {
-  _id: string;
-  name: string;
-  email?: string;
-  bio?: string;
-  profileImage?: string;
-  contributions?: Contribution[];  // ← updated from `Number` to `Contribution[]`
-}
-
-interface Chapter {
-  _id?: string;
-  title: string;
-  content: string;
- createdBy: string | User; // allow both types
-  createdAt: string;
-}
-interface Story {
-    _id: string;
-    title: string;
-    content: Chapter[];
-    author: Author;
-    votes: number;
-    imageUrl: string;
-}
-
+import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
 
 export default function ExplorePage() {
     const [activeTab, setActiveTab] = useState<"stories" | "authors">("stories");
@@ -145,15 +109,21 @@ export default function ExplorePage() {
     </nav>
 
     {/* Content Section */}
-    <section className="mt-8">
-      {loading ? (
-        <p className="text-center text-gray-500">Loading...</p>
-      ) : activeTab === "stories" ? (
-        <StoriesList stories={stories} />
-      ) : (
-        <AuthorsList authors={authors} />
-      )}
-    </section>
+   {/* Content Section */}
+<section className="mt-8">
+  {loading ? (
+    <div className="flex justify-center">
+      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-2 text-gray-500 text-sm">Loading...</p>
+
+    </div>
+  ) : activeTab === "stories" ? (
+    <StoriesList stories={stories} />
+  ) : (
+    <AuthorsList authors={authors} />
+  )}
+</section>
+
   </main>
 );
 
@@ -236,7 +206,7 @@ function AuthorsList({ authors }: { authors: User[] }) {
       >
         {/* Profile Image */}
         <img
-          src={author.profileImage || "/default-user.png"}
+          src={author.profilePicture || "/default-user.png"}
           alt={author.name}
           className="w-20 h-20 rounded-full object-cover border border-gray-300 shadow-sm"
         />
