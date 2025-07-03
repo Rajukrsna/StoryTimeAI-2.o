@@ -11,7 +11,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import ChapterList from "./ChapterList";
 import CollabList from "./CollabList";
 import LeaderboardList from "./Leaderboard";
-import type { Chapter, User } from "@/types";
+import type { Chapter } from "@/types";
 
 export default function ContentComponent({
   id,

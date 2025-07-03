@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BookOpen, Heart } from "lucide-react";
 import { updateStory } from "@/api/storyApi";
-import { Button } from "@/components/ui/button";
 import { CardHorizontal } from "@/components/ui/card";
 import type { User } from "@/types";
 
