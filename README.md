@@ -2,8 +2,7 @@
 
 Storytime AI is a collaborative, AI-powered storytelling platform where creativity meets community. With AI-generated chapters, collaborative writing, and intelligent story navigation using semantic search, Storytime AI enables users to co-author immersive narratives in a fun, gamified environment.
 
-![Storytime AI Banner](https://via.placeholder.com/1200x300.png?text=Storytime+AI+Showcase)
-
+![Storytime AI Banner](https://i.ibb.co/35b8P22F/story.png)
 ---
 
 ## 🚀 Features
