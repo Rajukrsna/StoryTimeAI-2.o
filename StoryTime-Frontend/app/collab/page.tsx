@@ -21,6 +21,7 @@ import clsx from "clsx";
 import {    Bold, Italic,UnderlineIcon, List, AlignLeft, AlignCenter, AlignRight, StopCircle } from 'lucide-react';
 import type { Story, User, Chapter} from "@/types"; // Adjust the path as needed
 import getEmbeddings  from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
+import { Suspense } from "react";
 
 
 export default function CollabPage() {
@@ -168,6 +169,8 @@ const editor = useEditor({
     };
 
    return (
+        <Suspense fallback={<div>Loading story...</div>}>
+
     <main className="min-h-screen bg-gradient-to-br from-white via-slate-100 to-slate-200 text-gray-800">
       <Navbar />
 
@@ -350,6 +353,8 @@ const editor = useEditor({
 
       </div>
     </main>
+        </Suspense>
+
   );
 
 }

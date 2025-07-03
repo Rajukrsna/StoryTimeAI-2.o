@@ -8,6 +8,7 @@ import { Navbar } from "@/components/Navbar";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import {updateStory} from "@/api/storyApi"
 import type { Story  } from "@/types"; // Adjust the path as needed
+import { Suspense } from "react";
 
 
 
@@ -57,6 +58,8 @@ export default function BookPage() {
         return <p className="text-center mt-10 text-gray-500"> Loading story...</p>;
     }
    return (
+        <Suspense fallback={<div className="p-10 text-center">Loading story...</div>}>
+
   <main className="min-h-screen bg-white text-black">
     <Navbar />
 
@@ -111,5 +114,7 @@ export default function BookPage() {
       <ContentComponent id={id} story={story.content} title={story.title} />
     </div>
   </main>
+      </Suspense>
+
 );
 }

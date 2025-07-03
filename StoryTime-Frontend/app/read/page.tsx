@@ -9,6 +9,7 @@ import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { MdMenuBook } from "react-icons/md";
 import { motion } from "framer-motion";
 import type {  Chapter } from "@/types"; // Adjust the path as needed
+import { Suspense } from "react";
 
 
 export default function ReadPage() {
@@ -58,6 +59,8 @@ const handleReadOut = () => {
 
 
   return (
+        <Suspense fallback={<div className="text-center p-8">Loading chapter...</div>}>
+
    <main
   className="min-h-screen bg-[#f9f9f6] text-gray-900 font-sans"
   style={{
@@ -117,5 +120,7 @@ const handleReadOut = () => {
     </p>
   )}
 </main>
+    </Suspense>
+
   );
 }

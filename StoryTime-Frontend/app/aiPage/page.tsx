@@ -10,6 +10,7 @@ import { Navbar } from "@/components/Navbar";
 import { FaMagic, FaStop, FaUpload } from "react-icons/fa";
 import { toast } from "sonner";
 import getEmbeddings from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
+import { Suspense } from "react"; // ⬅️ Add this
 
 export default function AIPage() {
     const searchParams = useSearchParams();
@@ -84,6 +85,7 @@ export default function AIPage() {
     return (
   <>
     <Navbar />
+    <Suspense fallback={<div className="p-8 text-center">Loading story...</div>}>
 
     <main className="min-h-screen bg-[#fdfdfd] px-6 py-12 max-w-5xl mx-auto text-gray-900 font-sans">
       <div className="mb-8">
@@ -138,6 +140,8 @@ export default function AIPage() {
         </Button>
       </div>
     </main>
+        </Suspense>
+
   </>
 );
 
