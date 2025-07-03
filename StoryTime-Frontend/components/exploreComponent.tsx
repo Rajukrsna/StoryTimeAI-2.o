@@ -11,7 +11,7 @@ import { getStories } from "@/api/storyApi";
 import { getAuthors } from "@/api/profile";
 import Image from "next/image"; 
 import ReactMarkdown from 'react-markdown';
-import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
+import type { Story, User } from "@/types"; // Adjust the path as needed
 
 export default function ExplorePage() {
     const [activeTab, setActiveTab] = useState<"stories" | "authors">("stories");
