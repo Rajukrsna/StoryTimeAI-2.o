@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { FaMagic, FaStop, FaUpload } from "react-icons/fa";
 import { toast } from "sonner";
-import useEmbeddings from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
+import getEmbeddings from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
 
 export default function AIPage() {
     const searchParams = useSearchParams();
@@ -67,7 +67,7 @@ export default function AIPage() {
     };
     const handlePublish = async () => {
       try {
-    const embeds = await useEmbeddings(summary);
+    const embeds = await getEmbeddings(summary);
     console.log("Publishing story:", summary);
     const response = await createStory(title, story, imageUrl, summary, embeds);
     if (response) {

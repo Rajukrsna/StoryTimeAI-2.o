@@ -20,7 +20,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdCalendarToday } from "react-icons/md";
 import { FaMedal, FaUserPlus, FaSearch } from "react-icons/fa";
 import { HiOutlineStar } from "react-icons/hi";
-import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
+import type { Story, User, Chapter } from "@/types"; // Adjust the path as needed
 
 
 

@@ -12,7 +12,7 @@ import { getMyProfile } from "@/api/profile";
 import { updateMyProfile } from "@/api/profile";
 import {updateProfileImage} from "@/api/profile";
 import { fetchMyChaptersStatus } from "@/api/profile"; 
-import type { Story, User, Chapter,Author, ChapterStatus } from "@/types"; // Adjust the path as needed
+import type {  User, ChapterStatus } from "@/types"; // Adjust the path as needed
 import { toast } from "sonner";
 
 

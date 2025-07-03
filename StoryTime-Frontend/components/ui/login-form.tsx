@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { login } from "@/api/login";
-import { FaGoogle } from "react-icons/fa";
 import React, { useState } from "react";
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {

@@ -5,7 +5,8 @@ import Image from "next/image";
 import { getUserStories } from "@/api/storyApi"; 
 import {approveStory,rejectStory} from "@/api/storyApi";
 import { toast } from "sonner";
-import type { Story, User, Chapter,Author ,PendingChapter } from "@/types"; // Adjust the path as needed
+import type { Story} from "@/types"; 
+
 export default function UserStories() {
 const [stories, setStories] = useState<Story[]>([]);
 const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +25,7 @@ const [selectedChapter, setSelectedChapter] = useState<{ title: string; content:
 
     fetchStories();
   }, []);
-  const handleApprove = async (storyId: string, chapterIndex: number, title: string) => {
+  const handleApprove = async (storyId: string, chapterIndex: number) => {
   try {
     await approveStory(storyId, chapterIndex);
     toast.success("Chapter Approved!");
@@ -94,7 +95,7 @@ return (
             <div className="flex flex-wrap gap-2 mt-2">
               <Button
                 variant="secondary"
-                onClick={() => handleApprove(story._id, index, story.title)}
+                onClick={() => handleApprove(story._id, index)}
               >
                 Approve
               </Button>

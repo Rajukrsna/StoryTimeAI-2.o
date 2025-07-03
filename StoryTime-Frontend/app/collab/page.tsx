@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { sendToPlotBot } from "@/api/aiApi";  
 import clsx from "clsx";
 import {    Bold, Italic,UnderlineIcon, List, AlignLeft, AlignCenter, AlignRight, StopCircle } from 'lucide-react';
-import type { Story, User, Chapter, Author , Contribution} from "@/types"; // Adjust the path as needed
+import type { Story, User, Chapter} from "@/types"; // Adjust the path as needed
 import getEmbeddings  from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
 
 

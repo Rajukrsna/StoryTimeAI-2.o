@@ -7,7 +7,7 @@ import ContentComponent from "@/components/contentComponent";
 import { Navbar } from "@/components/Navbar";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import {updateStory} from "@/api/storyApi"
-import type { Story, User, Chapter,Author  } from "@/types"; // Adjust the path as needed
+import type { Story  } from "@/types"; // Adjust the path as needed
 
 
 
