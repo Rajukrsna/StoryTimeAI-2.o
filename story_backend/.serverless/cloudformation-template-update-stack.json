@@ -128,7 +128,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getAllUsers.handler",
         "Runtime": "nodejs18.x",
@@ -157,7 +157,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getUserProfile.handler",
         "Runtime": "nodejs18.x",
@@ -186,7 +186,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/updateUserProfile.handler",
         "Runtime": "nodejs18.x",
@@ -215,7 +215,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getUserStories.handler",
         "Runtime": "nodejs18.x",
@@ -244,7 +244,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/getAllStories.handler",
         "Runtime": "nodejs18.x",
@@ -273,7 +273,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-          "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+          "S3Key": "serverless/storytime-user-service/dev/1751553593771-2025-07-03T14:39:53.771Z/storytime-user-service.zip"
         },
         "Handler": "handlers/deleteStory.handler",
         "Runtime": "nodejs18.x",
@@ -297,64 +297,64 @@
         "DeleteStoryLogGroup"
       ]
     },
-    "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE": {
+    "GetAllUsersLambdaVersionHj2uKYOBR4gsWy1w7qjkuE8YMUHd0IbMRbR9emG1Clw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetAllUsersLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
-    "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4": {
+    "GetUserProfileLambdaVersionSiSWSTNtvZh9AZEBXgo1B7Z0eovwWALd0sKcFfYtlws": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserProfileLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
-    "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw": {
+    "UpdateUserProfileLambdaVersion7rZg5h065kSCc8qzlE51Dw3RbGMaUyFaW0M9geBaR9g": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateUserProfileLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
-    "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE": {
+    "GetUserStoriesLambdaVersionEHuTlrQzG8PvZZ6uakMyQ7D3MHqIB06fOd7uTW9K0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUserStoriesLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
-    "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo": {
+    "GetAllStoriesLambdaVersionh3ZVHx0QbYUar5tAqJI5ROC9Gp7kP9ySTrKGhNjCp0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetAllStoriesLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
-    "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54": {
+    "DeleteStoryLambdaVersionxrOF0Cadkq90S37kpv8iXqfSDrxzfxPpSaCvpEb4E": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteStoryLambdaFunction"
         },
-        "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+        "CodeSha256": "qnAzHKJXLP7IOCBhE7wb/gltOEgh9YdB0sJtRI1vcLU="
       }
     },
     "ApiGatewayRestApi": {
@@ -496,7 +496,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -543,7 +543,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -590,7 +590,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -637,7 +637,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -684,7 +684,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -731,7 +731,7 @@
             {
               "StatusCode": "200",
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://story-time-ai-2-o.vercel.app'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'",
                 "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -1026,7 +1026,7 @@
         "DeleteStoryLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1751552737104": {
+    "ApiGatewayDeployment1751553573391": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1282,7 +1282,7 @@
     "GetAllUsersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
+        "Ref": "GetAllUsersLambdaVersionHj2uKYOBR4gsWy1w7qjkuE8YMUHd0IbMRbR9emG1Clw"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
@@ -1291,7 +1291,7 @@
     "GetUserProfileLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
+        "Ref": "GetUserProfileLambdaVersionSiSWSTNtvZh9AZEBXgo1B7Z0eovwWALd0sKcFfYtlws"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
@@ -1300,7 +1300,7 @@
     "UpdateUserProfileLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
+        "Ref": "UpdateUserProfileLambdaVersion7rZg5h065kSCc8qzlE51Dw3RbGMaUyFaW0M9geBaR9g"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
@@ -1309,7 +1309,7 @@
     "GetUserStoriesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
+        "Ref": "GetUserStoriesLambdaVersionEHuTlrQzG8PvZZ6uakMyQ7D3MHqIB06fOd7uTW9K0"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
@@ -1318,7 +1318,7 @@
     "GetAllStoriesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
+        "Ref": "GetAllStoriesLambdaVersionh3ZVHx0QbYUar5tAqJI5ROC9Gp7kP9ySTrKGhNjCp0"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
@@ -1327,7 +1327,7 @@
     "DeleteStoryLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
+        "Ref": "DeleteStoryLambdaVersionxrOF0Cadkq90S37kpv8iXqfSDrxzfxPpSaCvpEb4E"
       },
       "Export": {
         "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"

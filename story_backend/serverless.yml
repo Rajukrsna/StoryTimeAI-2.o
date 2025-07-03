@@ -22,7 +22,7 @@ functions:
           path: api/users/all
           method: get
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
@@ -33,7 +33,7 @@ functions:
           path: api/users/{id}
           method: get
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
@@ -44,7 +44,7 @@ functions:
           path: api/users/profile
           method: put
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
@@ -55,7 +55,7 @@ functions:
           path: api/stories/getUserStories
           method: get
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
@@ -66,7 +66,7 @@ functions:
           path: api/stories
           method: get
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
@@ -77,7 +77,7 @@ functions:
           path: api/stories/{id}
           method: delete
           cors:
-            origin: http://localhost:3000
+            origin: https://story-time-ai-2-o.vercel.app
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
