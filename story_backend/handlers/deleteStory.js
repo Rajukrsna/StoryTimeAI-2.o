@@ -18,7 +18,7 @@ export const handler = async (event) => {
     if (!story) {
       return {
         statusCode: 404,headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
         body: JSON.stringify({ message: "Story not found" }),
@@ -28,7 +28,7 @@ export const handler = async (event) => {
     await story.deleteOne();
     return {
       statusCode: 200,headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
       body: JSON.stringify({ message: "Story deleted successfully" }),
@@ -36,7 +36,7 @@ export const handler = async (event) => {
   } catch (error) {
     return {
       statusCode: 500,headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
       body: JSON.stringify({ message: "Error deleting story", error: error.message }),

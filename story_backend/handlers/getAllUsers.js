@@ -9,7 +9,7 @@ try{
     return{
         statusCode: 200,
         headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
         body: JSON.stringify(
@@ -26,7 +26,7 @@ try{
     return{
         statusCode: 500,
         headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
         body: JSON.stringify({ message: "Error fetching user profile", error: error.message }), 

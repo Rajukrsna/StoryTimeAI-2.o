@@ -27,18 +27,6 @@
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
         "Resources": {
-          "RegisterUserLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/storytime-user-service-dev-registerUser"
-            }
-          },
-          "LoginUserLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/storytime-user-service-dev-loginUser"
-            }
-          },
           "GetAllUsersLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -156,70 +144,12 @@
               }
             }
           },
-          "RegisterUserLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
-              },
-              "Handler": "handlers/registerUser.handler",
-              "Runtime": "nodejs18.x",
-              "FunctionName": "storytime-user-service-dev-registerUser",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
-                  "JWT_SECRET": "e38d5fa2ca8116dd2e466485403ed578723fdc14574b4cc0412a6fab75c23092"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "RegisterUserLogGroup"
-            ]
-          },
-          "LoginUserLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
-              },
-              "Handler": "handlers/loginUser.handler",
-              "Runtime": "nodejs18.x",
-              "FunctionName": "storytime-user-service-dev-loginUser",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
-                  "JWT_SECRET": "e38d5fa2ca8116dd2e466485403ed578723fdc14574b4cc0412a6fab75c23092"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "LoginUserLogGroup"
-            ]
-          },
           "GetAllUsersLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/getAllUsers.handler",
               "Runtime": "nodejs18.x",
@@ -248,7 +178,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/getUserProfile.handler",
               "Runtime": "nodejs18.x",
@@ -277,7 +207,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/updateUserProfile.handler",
               "Runtime": "nodejs18.x",
@@ -306,7 +236,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/getUserStories.handler",
               "Runtime": "nodejs18.x",
@@ -335,7 +265,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/getAllStories.handler",
               "Runtime": "nodejs18.x",
@@ -364,7 +294,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
-                "S3Key": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z/storytime-user-service.zip"
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
               },
               "Handler": "handlers/deleteStory.handler",
               "Runtime": "nodejs18.x",
@@ -388,84 +318,64 @@
               "DeleteStoryLogGroup"
             ]
           },
-          "RegisterUserLambdaVersionzYMZt73KdhQceqAOqNdeQMC6TwiCwXPVb1jlIlfbuw": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "RegisterUserLambdaFunction"
-              },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
-            }
-          },
-          "LoginUserLambdaVersionwsF0PA8Qfw3PTSvbspF1SyHJKcgqGH26FzZS53Wnnv8": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "LoginUserLambdaFunction"
-              },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
-            }
-          },
-          "GetAllUsersLambdaVersionwZXB1EQND3ixnJyb0jCMrFhYLWPHdeJ3Hpc3d5IbiI": {
+          "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetAllUsersLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
-          "GetUserProfileLambdaVersiongOZ2bQqhfIf8L1cLxRiRqWK9FF2czgJhEz4XtEFyilA": {
+          "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserProfileLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
-          "UpdateUserProfileLambdaVersioneVRAWFgL1H8OF6LgVQnvICp6XCR5sj6pLGznwkKZUE": {
+          "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdateUserProfileLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
-          "GetUserStoriesLambdaVersionbyJMrp2CrSMlTwtGE8zaTvTObFNxaGGofwrD5kIQ0A": {
+          "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUserStoriesLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
-          "GetAllStoriesLambdaVersionj0FJTrsuPI7um4q6vMsfqlBWkJn79H6eiV5JX4Op6JU": {
+          "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetAllStoriesLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
-          "DeleteStoryLambdaVersion1ZHDtH0YpRYEhknPAcffUg9XnBDAwPLctJDtpg": {
+          "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DeleteStoryLambdaFunction"
               },
-              "CodeSha256": "svtxNNOmyu6NCG6vrYKyvwxxhUsm0jrFn5W1DcjL06s="
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
             }
           },
           "ApiGatewayRestApi": {
@@ -502,30 +412,6 @@
                 "Ref": "ApiGatewayResourceApi"
               },
               "PathPart": "users",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceApiUsersRegister": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Ref": "ApiGatewayResourceApiUsers"
-              },
-              "PathPart": "register",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceApiUsersLogin": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Ref": "ApiGatewayResourceApiUsers"
-              },
-              "PathPart": "login",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -598,100 +484,6 @@
                 "Ref": "ApiGatewayResourceApiStories"
               },
               "PathPart": "{id}",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayMethodApiUsersRegisterOptions": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "AuthorizationType": "NONE",
-              "HttpMethod": "OPTIONS",
-              "MethodResponses": [
-                {
-                  "StatusCode": "200",
-                  "ResponseParameters": {
-                    "method.response.header.Access-Control-Allow-Origin": true,
-                    "method.response.header.Access-Control-Allow-Headers": true,
-                    "method.response.header.Access-Control-Allow-Methods": true,
-                    "method.response.header.Access-Control-Allow-Credentials": true
-                  },
-                  "ResponseModels": {}
-                }
-              ],
-              "RequestParameters": {},
-              "Integration": {
-                "Type": "MOCK",
-                "RequestTemplates": {
-                  "application/json": "{statusCode:200}"
-                },
-                "ContentHandling": "CONVERT_TO_TEXT",
-                "IntegrationResponses": [
-                  {
-                    "StatusCode": "200",
-                    "ResponseParameters": {
-                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
-                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
-                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
-                      "method.response.header.Access-Control-Allow-Credentials": "'true'"
-                    },
-                    "ResponseTemplates": {
-                      "application/json": ""
-                    }
-                  }
-                ]
-              },
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceApiUsersRegister"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayMethodApiUsersLoginOptions": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "AuthorizationType": "NONE",
-              "HttpMethod": "OPTIONS",
-              "MethodResponses": [
-                {
-                  "StatusCode": "200",
-                  "ResponseParameters": {
-                    "method.response.header.Access-Control-Allow-Origin": true,
-                    "method.response.header.Access-Control-Allow-Headers": true,
-                    "method.response.header.Access-Control-Allow-Methods": true,
-                    "method.response.header.Access-Control-Allow-Credentials": true
-                  },
-                  "ResponseModels": {}
-                }
-              ],
-              "RequestParameters": {},
-              "Integration": {
-                "Type": "MOCK",
-                "RequestTemplates": {
-                  "application/json": "{statusCode:200}"
-                },
-                "ContentHandling": "CONVERT_TO_TEXT",
-                "IntegrationResponses": [
-                  {
-                    "StatusCode": "200",
-                    "ResponseParameters": {
-                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
-                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
-                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
-                      "method.response.header.Access-Control-Allow-Credentials": "'true'"
-                    },
-                    "ResponseTemplates": {
-                      "application/json": ""
-                    }
-                  }
-                ]
-              },
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceApiUsersLogin"
-              },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -979,98 +771,6 @@
               }
             }
           },
-          "ApiGatewayMethodApiUsersRegisterPost": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "POST",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceApiUsersRegister"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "RegisterUserLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": []
-            },
-            "DependsOn": [
-              "RegisterUserLambdaPermissionApiGateway"
-            ]
-          },
-          "ApiGatewayMethodApiUsersLoginPost": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "POST",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceApiUsersLogin"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "LoginUserLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": []
-            },
-            "DependsOn": [
-              "LoginUserLambdaPermissionApiGateway"
-            ]
-          },
           "ApiGatewayMethodApiUsersAllGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
@@ -1347,7 +1047,7 @@
               "DeleteStoryLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1751211111712": {
+          "ApiGatewayDeployment1751552737104": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1356,16 +1056,12 @@
               "StageName": "dev"
             },
             "DependsOn": [
-              "ApiGatewayMethodApiUsersRegisterOptions",
-              "ApiGatewayMethodApiUsersLoginOptions",
               "ApiGatewayMethodApiUsersAllOptions",
               "ApiGatewayMethodApiUsersIdVarOptions",
               "ApiGatewayMethodApiUsersProfileOptions",
               "ApiGatewayMethodApiStoriesGetuserstoriesOptions",
               "ApiGatewayMethodApiStoriesOptions",
               "ApiGatewayMethodApiStoriesIdVarOptions",
-              "ApiGatewayMethodApiUsersRegisterPost",
-              "ApiGatewayMethodApiUsersLoginPost",
               "ApiGatewayMethodApiUsersAllGet",
               "ApiGatewayMethodApiUsersIdVarGet",
               "ApiGatewayMethodApiUsersProfilePut",
@@ -1373,80 +1069,6 @@
               "ApiGatewayMethodApiStoriesGet",
               "ApiGatewayMethodApiStoriesIdVarDelete"
             ]
-          },
-          "RegisterUserLambdaPermissionApiGateway": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "RegisterUserLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "ApiGatewayRestApi"
-                    },
-                    "/*/*"
-                  ]
-                ]
-              }
-            }
-          },
-          "LoginUserLambdaPermissionApiGateway": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "LoginUserLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "ApiGatewayRestApi"
-                    },
-                    "/*/*"
-                  ]
-                ]
-              }
-            }
           },
           "GetAllUsersLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
@@ -1678,28 +1300,10 @@
               "Name": "sls-storytime-user-service-dev-ServerlessDeploymentBucketName"
             }
           },
-          "RegisterUserLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "RegisterUserLambdaVersionzYMZt73KdhQceqAOqNdeQMC6TwiCwXPVb1jlIlfbuw"
-            },
-            "Export": {
-              "Name": "sls-storytime-user-service-dev-RegisterUserLambdaFunctionQualifiedArn"
-            }
-          },
-          "LoginUserLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "LoginUserLambdaVersionwsF0PA8Qfw3PTSvbspF1SyHJKcgqGH26FzZS53Wnnv8"
-            },
-            "Export": {
-              "Name": "sls-storytime-user-service-dev-LoginUserLambdaFunctionQualifiedArn"
-            }
-          },
           "GetAllUsersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetAllUsersLambdaVersionwZXB1EQND3ixnJyb0jCMrFhYLWPHdeJ3Hpc3d5IbiI"
+              "Ref": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
@@ -1708,7 +1312,7 @@
           "GetUserProfileLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserProfileLambdaVersiongOZ2bQqhfIf8L1cLxRiRqWK9FF2czgJhEz4XtEFyilA"
+              "Ref": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
@@ -1717,7 +1321,7 @@
           "UpdateUserProfileLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdateUserProfileLambdaVersioneVRAWFgL1H8OF6LgVQnvICp6XCR5sj6pLGznwkKZUE"
+              "Ref": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
@@ -1726,7 +1330,7 @@
           "GetUserStoriesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUserStoriesLambdaVersionbyJMrp2CrSMlTwtGE8zaTvTObFNxaGGofwrD5kIQ0A"
+              "Ref": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
@@ -1735,7 +1339,7 @@
           "GetAllStoriesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetAllStoriesLambdaVersionj0FJTrsuPI7um4q6vMsfqlBWkJn79H6eiV5JX4Op6JU"
+              "Ref": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
@@ -1744,7 +1348,7 @@
           "DeleteStoryLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DeleteStoryLambdaVersion1ZHDtH0YpRYEhknPAcffUg9XnBDAwPLctJDtpg"
+              "Ref": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
             },
             "Export": {
               "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"
@@ -1782,70 +1386,6 @@
     },
     "pluginsData": {},
     "functions": {
-      "registerUser": {
-        "handler": "handlers/registerUser.handler",
-        "events": [
-          {
-            "http": {
-              "path": "api/users/register",
-              "method": "post",
-              "cors": {
-                "origin": "http://localhost:3000",
-                "methods": [
-                  "OPTIONS",
-                  "POST"
-                ],
-                "headers": [
-                  "Content-Type",
-                  "Authorization",
-                  "Accept"
-                ],
-                "allowCredentials": true
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "storytime-user-service-dev-registerUser",
-        "package": {},
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs18.x",
-        "vpc": {},
-        "versionLogicalId": "RegisterUserLambdaVersionzYMZt73KdhQceqAOqNdeQMC6TwiCwXPVb1jlIlfbuw"
-      },
-      "loginUser": {
-        "handler": "handlers/loginUser.handler",
-        "events": [
-          {
-            "http": {
-              "path": "api/users/login",
-              "method": "post",
-              "cors": {
-                "origin": "http://localhost:3000",
-                "methods": [
-                  "OPTIONS",
-                  "POST"
-                ],
-                "headers": [
-                  "Content-Type",
-                  "Authorization",
-                  "Accept"
-                ],
-                "allowCredentials": true
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "storytime-user-service-dev-loginUser",
-        "package": {},
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs18.x",
-        "vpc": {},
-        "versionLogicalId": "LoginUserLambdaVersionwsF0PA8Qfw3PTSvbspF1SyHJKcgqGH26FzZS53Wnnv8"
-      },
       "getAllUsers": {
         "handler": "handlers/getAllUsers.handler",
         "events": [
@@ -1876,7 +1416,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetAllUsersLambdaVersionwZXB1EQND3ixnJyb0jCMrFhYLWPHdeJ3Hpc3d5IbiI"
+        "versionLogicalId": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
       },
       "getUserProfile": {
         "handler": "handlers/getUserProfile.handler",
@@ -1908,7 +1448,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetUserProfileLambdaVersiongOZ2bQqhfIf8L1cLxRiRqWK9FF2czgJhEz4XtEFyilA"
+        "versionLogicalId": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
       },
       "updateUserProfile": {
         "handler": "handlers/updateUserProfile.handler",
@@ -1940,7 +1480,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "UpdateUserProfileLambdaVersioneVRAWFgL1H8OF6LgVQnvICp6XCR5sj6pLGznwkKZUE"
+        "versionLogicalId": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
       },
       "getUserStories": {
         "handler": "handlers/getUserStories.handler",
@@ -1972,7 +1512,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetUserStoriesLambdaVersionbyJMrp2CrSMlTwtGE8zaTvTObFNxaGGofwrD5kIQ0A"
+        "versionLogicalId": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
       },
       "getAllStories": {
         "handler": "handlers/getAllStories.handler",
@@ -2004,7 +1544,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetAllStoriesLambdaVersionj0FJTrsuPI7um4q6vMsfqlBWkJn79H6eiV5JX4Op6JU"
+        "versionLogicalId": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
       },
       "deleteStory": {
         "handler": "handlers/deleteStory.handler",
@@ -2036,7 +1576,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "DeleteStoryLambdaVersion1ZHDtH0YpRYEhknPAcffUg9XnBDAwPLctJDtpg"
+        "versionLogicalId": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
       }
     },
     "configValidationMode": "warn",
@@ -2056,7 +1596,7 @@
     "artifact": "D:\\StoryGenerator\\story_backend\\.serverless\\storytime-user-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/storytime-user-service/dev/1751211153595-2025-06-29T15:32:33.595Z",
+    "artifactDirectoryName": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z",
     "artifact": "storytime-user-service.zip"
   }
 }

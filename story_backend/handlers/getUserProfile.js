@@ -12,7 +12,7 @@ export const handler = async (event) => {
       return {
         statusCode: 401,
         headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
         body: JSON.stringify({ message: "Not authorized, no token" }),
@@ -31,7 +31,7 @@ export const handler = async (event) => {
       return {
         statusCode: 404,
         headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
         body: JSON.stringify({ message: "User not found" }),
@@ -41,7 +41,7 @@ export const handler = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
       body: JSON.stringify(user),
@@ -50,7 +50,7 @@ export const handler = async (event) => {
     return {
       statusCode: 500,
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://story-time-ai-2-o.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       },
       body: JSON.stringify({ message: "Error fetching user profile", error: error.message }),

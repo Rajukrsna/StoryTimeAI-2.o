@@ -15,28 +15,6 @@ provider:
 
 functions:
 
-  registerUser:
-    handler: handlers/registerUser.handler
-    events:
-      - http:
-          path: api/users/register
-          method: post
-          cors:
-            origin: http://localhost:3000
-            headers: [Content-Type, Authorization, Accept]
-            allowCredentials: true
-
-  loginUser:
-    handler: handlers/loginUser.handler
-    events:
-      - http:
-          path: api/users/login
-          method: post
-          cors:
-            origin: http://localhost:3000
-            headers: [Content-Type, Authorization, Accept]
-            allowCredentials: true
-
   getAllUsers:
     handler: handlers/getAllUsers.handler
     events:

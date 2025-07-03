@@ -23,51 +23,1373 @@
           }
         ],
         "stage": "dev",
-        "versionFunctions": true
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "GetAllUsersLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllUsers"
+              }
+            },
+            "GetUserProfileLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserProfile"
+              }
+            },
+            "UpdateUserProfileLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-updateUserProfile"
+              }
+            },
+            "GetUserStoriesLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserStories"
+              }
+            },
+            "GetAllStoriesLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllStories"
+              }
+            },
+            "DeleteStoryLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/storytime-user-service-dev-deleteStory"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "storytime-user-service",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "s3:*"
+                          ],
+                          "Resource": "*"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "storytime-user-service",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetAllUsersLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/getAllUsers.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-getAllUsers",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetAllUsersLogGroup"
+              ]
+            },
+            "GetUserProfileLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/getUserProfile.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-getUserProfile",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetUserProfileLogGroup"
+              ]
+            },
+            "UpdateUserProfileLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/updateUserProfile.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-updateUserProfile",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "UpdateUserProfileLogGroup"
+              ]
+            },
+            "GetUserStoriesLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/getUserStories.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-getUserStories",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetUserStoriesLogGroup"
+              ]
+            },
+            "GetAllStoriesLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/getAllStories.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-getAllStories",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "GetAllStoriesLogGroup"
+              ]
+            },
+            "DeleteStoryLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                  "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+                },
+                "Handler": "handlers/deleteStory.handler",
+                "Runtime": "nodejs18.x",
+                "FunctionName": "storytime-user-service-dev-deleteStory",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                    "JWT_SECRET": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "DeleteStoryLogGroup"
+              ]
+            },
+            "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetAllUsersLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetUserProfileLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "UpdateUserProfileLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetUserStoriesLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "GetAllStoriesLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "DeleteStoryLambdaFunction"
+                },
+                "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-storytime-user-service",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceApi": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "api",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiUsers": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApi"
+                },
+                "PathPart": "users",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiUsersAll": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApiUsers"
+                },
+                "PathPart": "all",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiUsersIdVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApiUsers"
+                },
+                "PathPart": "{id}",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiUsersProfile": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApiUsers"
+                },
+                "PathPart": "profile",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiStories": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApi"
+                },
+                "PathPart": "stories",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiStoriesGetuserstories": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApiStories"
+                },
+                "PathPart": "getUserStories",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceApiStoriesIdVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceApiStories"
+                },
+                "PathPart": "{id}",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiUsersAllOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersAll"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiUsersIdVarOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersIdVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiUsersProfileOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersProfile"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiStoriesGetuserstoriesOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiStoriesOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStories"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiStoriesIdVarOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true,
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'",
+                        "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStoriesIdVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodApiUsersAllGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersAll"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "GetAllUsersLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "GetAllUsersLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodApiUsersIdVarGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersIdVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "GetUserProfileLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "GetUserProfileLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodApiUsersProfilePut": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "PUT",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiUsersProfile"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "UpdateUserProfileLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "UpdateUserProfileLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodApiStoriesGetuserstoriesGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "GetUserStoriesLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "GetUserStoriesLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodApiStoriesGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStories"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "GetAllStoriesLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "GetAllStoriesLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodApiStoriesIdVarDelete": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "DELETE",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceApiStoriesIdVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "DeleteStoryLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "DeleteStoryLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1751552737104": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodApiUsersAllOptions",
+                "ApiGatewayMethodApiUsersIdVarOptions",
+                "ApiGatewayMethodApiUsersProfileOptions",
+                "ApiGatewayMethodApiStoriesGetuserstoriesOptions",
+                "ApiGatewayMethodApiStoriesOptions",
+                "ApiGatewayMethodApiStoriesIdVarOptions",
+                "ApiGatewayMethodApiUsersAllGet",
+                "ApiGatewayMethodApiUsersIdVarGet",
+                "ApiGatewayMethodApiUsersProfilePut",
+                "ApiGatewayMethodApiStoriesGetuserstoriesGet",
+                "ApiGatewayMethodApiStoriesGet",
+                "ApiGatewayMethodApiStoriesIdVarDelete"
+              ]
+            },
+            "GetAllUsersLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetAllUsersLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetUserProfileLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetUserProfileLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "UpdateUserProfileLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "UpdateUserProfileLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetUserStoriesLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetUserStoriesLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "GetAllStoriesLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "GetAllStoriesLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "DeleteStoryLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "DeleteStoryLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "GetAllUsersLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
+              }
+            },
+            "GetUserProfileLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
+              }
+            },
+            "UpdateUserProfileLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
+              }
+            },
+            "GetUserStoriesLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
+              }
+            },
+            "GetAllStoriesLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
+              }
+            },
+            "DeleteStoryLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-storytime-user-service-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
       },
       "functions": {
-        "registerUser": {
-          "handler": "handlers/registerUser.handler",
-          "events": [
-            {
-              "http": {
-                "path": "api/users/register",
-                "method": "post",
-                "cors": {
-                  "origin": "http://localhost:3000",
-                  "headers": [
-                    "Content-Type",
-                    "Authorization",
-                    "Accept"
-                  ],
-                  "allowCredentials": "<REDACTED>"
-                }
-              }
-            }
-          ],
-          "name": "storytime-user-service-dev-registerUser"
-        },
-        "loginUser": {
-          "handler": "handlers/loginUser.handler",
-          "events": [
-            {
-              "http": {
-                "path": "api/users/login",
-                "method": "post",
-                "cors": {
-                  "origin": "http://localhost:3000",
-                  "headers": [
-                    "Content-Type",
-                    "Authorization",
-                    "Accept"
-                  ],
-                  "allowCredentials": "<REDACTED>"
-                }
-              }
-            }
-          ],
-          "name": "storytime-user-service-dev-loginUser"
-        },
         "getAllUsers": {
           "handler": "handlers/getAllUsers.handler",
           "events": [
@@ -77,17 +1399,28 @@
                 "method": "get",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-getAllUsers"
+          "name": "storytime-user-service-dev-getAllUsers",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
         },
         "getUserProfile": {
           "handler": "handlers/getUserProfile.handler",
@@ -98,17 +1431,28 @@
                 "method": "get",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-getUserProfile"
+          "name": "storytime-user-service-dev-getUserProfile",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
         },
         "updateUserProfile": {
           "handler": "handlers/updateUserProfile.handler",
@@ -119,17 +1463,28 @@
                 "method": "put",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "PUT"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-updateUserProfile"
+          "name": "storytime-user-service-dev-updateUserProfile",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
         },
         "getUserStories": {
           "handler": "handlers/getUserStories.handler",
@@ -140,17 +1495,28 @@
                 "method": "get",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-getUserStories"
+          "name": "storytime-user-service-dev-getUserStories",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
         },
         "getAllStories": {
           "handler": "handlers/getAllStories.handler",
@@ -161,17 +1527,28 @@
                 "method": "get",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-getAllStories"
+          "name": "storytime-user-service-dev-getAllStories",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
         },
         "deleteStory": {
           "handler": "handlers/deleteStory.handler",
@@ -182,17 +1559,28 @@
                 "method": "delete",
                 "cors": {
                   "origin": "http://localhost:3000",
+                  "methods": [
+                    "OPTIONS",
+                    "DELETE"
+                  ],
                   "headers": [
                     "Content-Type",
                     "Authorization",
                     "Accept"
                   ],
                   "allowCredentials": "<REDACTED>"
-                }
+                },
+                "integration": "AWS_PROXY"
               }
             }
           ],
-          "name": "storytime-user-service-dev-deleteStory"
+          "name": "storytime-user-service-dev-deleteStory",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs18.x",
+          "vpc": {},
+          "versionLogicalId": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
         }
       }
     },
@@ -214,7 +1602,1371 @@
         }
       ],
       "stage": "dev",
-      "versionFunctions": true
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "GetAllUsersLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllUsers"
+            }
+          },
+          "GetUserProfileLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserProfile"
+            }
+          },
+          "UpdateUserProfileLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-updateUserProfile"
+            }
+          },
+          "GetUserStoriesLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserStories"
+            }
+          },
+          "GetAllStoriesLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllStories"
+            }
+          },
+          "DeleteStoryLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/storytime-user-service-dev-deleteStory"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "storytime-user-service",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "s3:*"
+                        ],
+                        "Resource": "*"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "storytime-user-service",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetAllUsersLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/getAllUsers.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-getAllUsers",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetAllUsersLogGroup"
+            ]
+          },
+          "GetUserProfileLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/getUserProfile.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-getUserProfile",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetUserProfileLogGroup"
+            ]
+          },
+          "UpdateUserProfileLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/updateUserProfile.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-updateUserProfile",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "UpdateUserProfileLogGroup"
+            ]
+          },
+          "GetUserStoriesLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/getUserStories.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-getUserStories",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetUserStoriesLogGroup"
+            ]
+          },
+          "GetAllStoriesLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/getAllStories.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-getAllStories",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetAllStoriesLogGroup"
+            ]
+          },
+          "DeleteStoryLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+                "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+              },
+              "Handler": "handlers/deleteStory.handler",
+              "Runtime": "nodejs18.x",
+              "FunctionName": "storytime-user-service-dev-deleteStory",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                  "JWT_SECRET": "<REDACTED>"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "DeleteStoryLogGroup"
+            ]
+          },
+          "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetAllUsersLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetUserProfileLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "UpdateUserProfileLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetUserStoriesLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetAllStoriesLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "DeleteStoryLambdaFunction"
+              },
+              "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-storytime-user-service",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceApi": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "api",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiUsers": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApi"
+              },
+              "PathPart": "users",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiUsersAll": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiUsers"
+              },
+              "PathPart": "all",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiUsersIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiUsers"
+              },
+              "PathPart": "{id}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiUsersProfile": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiUsers"
+              },
+              "PathPart": "profile",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiStories": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApi"
+              },
+              "PathPart": "stories",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiStoriesGetuserstories": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiStories"
+              },
+              "PathPart": "getUserStories",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiStoriesIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiStories"
+              },
+              "PathPart": "{id}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiUsersAllOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersAll"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiUsersIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiUsersProfileOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersProfile"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiStoriesGetuserstoriesOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiStoriesOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStories"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiStoriesIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'",
+                      "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStoriesIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodApiUsersAllGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersAll"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetAllUsersLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetAllUsersLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodApiUsersIdVarGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetUserProfileLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetUserProfileLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodApiUsersProfilePut": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PUT",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiUsersProfile"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "UpdateUserProfileLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "UpdateUserProfileLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodApiStoriesGetuserstoriesGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetUserStoriesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetUserStoriesLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodApiStoriesGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStories"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetAllStoriesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetAllStoriesLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodApiStoriesIdVarDelete": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "DELETE",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceApiStoriesIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": "<REDACTED>",
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "DeleteStoryLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "DeleteStoryLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1751552737104": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodApiUsersAllOptions",
+              "ApiGatewayMethodApiUsersIdVarOptions",
+              "ApiGatewayMethodApiUsersProfileOptions",
+              "ApiGatewayMethodApiStoriesGetuserstoriesOptions",
+              "ApiGatewayMethodApiStoriesOptions",
+              "ApiGatewayMethodApiStoriesIdVarOptions",
+              "ApiGatewayMethodApiUsersAllGet",
+              "ApiGatewayMethodApiUsersIdVarGet",
+              "ApiGatewayMethodApiUsersProfilePut",
+              "ApiGatewayMethodApiStoriesGetuserstoriesGet",
+              "ApiGatewayMethodApiStoriesGet",
+              "ApiGatewayMethodApiStoriesIdVarDelete"
+            ]
+          },
+          "GetAllUsersLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetAllUsersLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetUserProfileLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetUserProfileLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "UpdateUserProfileLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "UpdateUserProfileLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetUserStoriesLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetUserStoriesLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetAllStoriesLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetAllStoriesLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "DeleteStoryLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "DeleteStoryLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "GetAllUsersLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetUserProfileLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
+            }
+          },
+          "UpdateUserProfileLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetUserStoriesLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetAllStoriesLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
+            }
+          },
+          "DeleteStoryLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-storytime-user-service-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
     },
     "dashboard": {
       "isEnabledForService": false,
@@ -225,14 +2977,11 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "service: storytime-user-service\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  region: us-east-1\r\n  environment:\r\n    MONGO_URI: ${env:MONGO_URI}\r\n    JWT_SECRET: ${env:JWT_SECRET}\r\n  iamRoleStatements:\r\n    - Effect: Allow\r\n      Action:\r\n        - s3:*\r\n      Resource: \"*\"\r\n\r\nfunctions:\r\n\r\n  registerUser:\r\n    handler: handlers/registerUser.handler\r\n    events:\r\n      - http:\r\n          path: api/users/register\r\n          method: post\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  loginUser:\r\n    handler: handlers/loginUser.handler\r\n    events:\r\n      - http:\r\n          path: api/users/login\r\n          method: post\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getAllUsers:\r\n    handler: handlers/getAllUsers.handler\r\n    events:\r\n      - http:\r\n          path: api/users/all\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getUserProfile:\r\n    handler: handlers/getUserProfile.handler\r\n    events:\r\n      - http:\r\n          path: api/users/{id}\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  updateUserProfile:\r\n    handler: handlers/updateUserProfile.handler\r\n    events:\r\n      - http:\r\n          path: api/users/profile\r\n          method: put\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getUserStories:\r\n    handler: handlers/getUserStories.handler\r\n    events:\r\n      - http:\r\n          path: api/stories/getUserStories\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getAllStories:\r\n    handler: handlers/getAllStories.handler\r\n    events:\r\n      - http:\r\n          path: api/stories\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  deleteStory:\r\n    handler: handlers/deleteStory.handler\r\n    events:\r\n      - http:\r\n          path: api/stories/{id}\r\n          method: delete\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  \r\n\r\n\r\n \r\n\r\n\r\n",
+    "serviceRawFile": "service: storytime-user-service\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs18.x\r\n  region: us-east-1\r\n  environment:\r\n    MONGO_URI: ${env:MONGO_URI}\r\n    JWT_SECRET: ${env:JWT_SECRET}\r\n  iamRoleStatements:\r\n    - Effect: Allow\r\n      Action:\r\n        - s3:*\r\n      Resource: \"*\"\r\n\r\nfunctions:\r\n\r\n  getAllUsers:\r\n    handler: handlers/getAllUsers.handler\r\n    events:\r\n      - http:\r\n          path: api/users/all\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getUserProfile:\r\n    handler: handlers/getUserProfile.handler\r\n    events:\r\n      - http:\r\n          path: api/users/{id}\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  updateUserProfile:\r\n    handler: handlers/updateUserProfile.handler\r\n    events:\r\n      - http:\r\n          path: api/users/profile\r\n          method: put\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getUserStories:\r\n    handler: handlers/getUserStories.handler\r\n    events:\r\n      - http:\r\n          path: api/stories/getUserStories\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  getAllStories:\r\n    handler: handlers/getAllStories.handler\r\n    events:\r\n      - http:\r\n          path: api/stories\r\n          method: get\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  deleteStory:\r\n    handler: handlers/deleteStory.handler\r\n    events:\r\n      - http:\r\n          path: api/stories/{id}\r\n          method: delete\r\n          cors:\r\n            origin: http://localhost:3000\r\n            headers: [Content-Type, Authorization, Accept]\r\n            allowCredentials: true\r\n\r\n  \r\n\r\n\r\n \r\n\r\n\r\n",
     "command": [
-      "logs"
+      "deploy"
     ],
-    "options": {
-      "stage": "dev",
-      "function": "getAllStories"
-    },
+    "options": {},
     "orgId": "26bb6359-4f6c-4e59-968d-bb23f927b5bc",
     "orgName": "storytimeai",
     "userId": "KXYLQ0vdppdnJ1Ggp6",
@@ -303,6 +3052,1369 @@
         "OutputValue": "serverless-framework-deployments-us-east-1-863edeb2-807a",
         "ExportName": "sls-storytime-user-service-dev-ServerlessDeploymentBucketName"
       }
-    ]
+    ],
+    "compiledCloudFormationTemplate": {
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "The AWS CloudFormation template for this Serverless application",
+      "Resources": {
+        "GetAllUsersLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllUsers"
+          }
+        },
+        "GetUserProfileLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserProfile"
+          }
+        },
+        "UpdateUserProfileLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-updateUserProfile"
+          }
+        },
+        "GetUserStoriesLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-getUserStories"
+          }
+        },
+        "GetAllStoriesLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-getAllStories"
+          }
+        },
+        "DeleteStoryLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/storytime-user-service-dev-deleteStory"
+          }
+        },
+        "IamRoleLambdaExecution": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+            "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": [
+                      "lambda.amazonaws.com"
+                    ]
+                  },
+                  "Action": [
+                    "sts:AssumeRole"
+                  ]
+                }
+              ]
+            },
+            "Policies": [
+              {
+                "PolicyName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "storytime-user-service",
+                      "dev",
+                      "lambda"
+                    ]
+                  ]
+                },
+                "PolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:CreateLogStream",
+                        "logs:CreateLogGroup",
+                        "logs:TagResource"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*"
+                        }
+                      ]
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:PutLogEvents"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/storytime-user-service-dev*:*:*"
+                        }
+                      ]
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "s3:*"
+                      ],
+                      "Resource": "*"
+                    }
+                  ]
+                }
+              }
+            ],
+            "Path": "/",
+            "RoleName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "storytime-user-service",
+                  "dev",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  "lambdaRole"
+                ]
+              ]
+            }
+          }
+        },
+        "GetAllUsersLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/getAllUsers.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-getAllUsers",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "GetAllUsersLogGroup"
+          ]
+        },
+        "GetUserProfileLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/getUserProfile.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-getUserProfile",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "GetUserProfileLogGroup"
+          ]
+        },
+        "UpdateUserProfileLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/updateUserProfile.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-updateUserProfile",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "UpdateUserProfileLogGroup"
+          ]
+        },
+        "GetUserStoriesLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/getUserStories.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-getUserStories",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "GetUserStoriesLogGroup"
+          ]
+        },
+        "GetAllStoriesLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/getAllStories.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-getAllStories",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "GetAllStoriesLogGroup"
+          ]
+        },
+        "DeleteStoryLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+              "S3Key": "serverless/storytime-user-service/dev/1751552767187-2025-07-03T14:26:07.187Z/storytime-user-service.zip"
+            },
+            "Handler": "handlers/deleteStory.handler",
+            "Runtime": "nodejs18.x",
+            "FunctionName": "storytime-user-service-dev-deleteStory",
+            "MemorySize": 1024,
+            "Timeout": 6,
+            "Environment": {
+              "Variables": {
+                "MONGO_URI": "mongodb+srv://pravraju:pravinraju1234@cluster0.ae9kr3i.mongodb.net/StoryTellerDB?retryWrites=true&w=majority&appName=Cluster0",
+                "JWT_SECRET": "<REDACTED>"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "DeleteStoryLogGroup"
+          ]
+        },
+        "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "GetAllUsersLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "GetUserProfileLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "UpdateUserProfileLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "GetUserStoriesLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "GetAllStoriesLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "DeleteStoryLambdaFunction"
+            },
+            "CodeSha256": "PepyWssUpUAG6SWBpcUKNhjtNZSzxGOcWAaq/2mpwUs="
+          }
+        },
+        "ApiGatewayRestApi": {
+          "Type": "AWS::ApiGateway::RestApi",
+          "Properties": {
+            "Name": "dev-storytime-user-service",
+            "EndpointConfiguration": {
+              "Types": [
+                "EDGE"
+              ]
+            },
+            "Policy": ""
+          }
+        },
+        "ApiGatewayResourceApi": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Fn::GetAtt": [
+                "ApiGatewayRestApi",
+                "RootResourceId"
+              ]
+            },
+            "PathPart": "api",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiUsers": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApi"
+            },
+            "PathPart": "users",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiUsersAll": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApiUsers"
+            },
+            "PathPart": "all",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiUsersIdVar": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApiUsers"
+            },
+            "PathPart": "{id}",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiUsersProfile": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApiUsers"
+            },
+            "PathPart": "profile",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiStories": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApi"
+            },
+            "PathPart": "stories",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiStoriesGetuserstories": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApiStories"
+            },
+            "PathPart": "getUserStories",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayResourceApiStoriesIdVar": {
+          "Type": "AWS::ApiGateway::Resource",
+          "Properties": {
+            "ParentId": {
+              "Ref": "ApiGatewayResourceApiStories"
+            },
+            "PathPart": "{id}",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiUsersAllOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersAll"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiUsersIdVarOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersIdVar"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiUsersProfileOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersProfile"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiStoriesGetuserstoriesOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiStoriesOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStories"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiStoriesIdVarOptions": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "AuthorizationType": "NONE",
+            "HttpMethod": "OPTIONS",
+            "MethodResponses": [
+              {
+                "StatusCode": "200",
+                "ResponseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                  "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                },
+                "ResponseModels": {}
+              }
+            ],
+            "RequestParameters": {},
+            "Integration": {
+              "Type": "MOCK",
+              "RequestTemplates": {
+                "application/json": "{statusCode:200}"
+              },
+              "ContentHandling": "CONVERT_TO_TEXT",
+              "IntegrationResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": "'http://localhost:3000'",
+                    "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,Accept'",
+                    "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE'",
+                    "method.response.header.Access-Control-Allow-Credentials": "<REDACTED>"
+                  },
+                  "ResponseTemplates": {
+                    "application/json": ""
+                  }
+                }
+              ]
+            },
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStoriesIdVar"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
+        },
+        "ApiGatewayMethodApiUsersAllGet": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "GET",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersAll"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "GetAllUsersLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "GetAllUsersLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodApiUsersIdVarGet": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "GET",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersIdVar"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "GetUserProfileLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "GetUserProfileLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodApiUsersProfilePut": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "PUT",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiUsersProfile"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "UpdateUserProfileLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "UpdateUserProfileLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodApiStoriesGetuserstoriesGet": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "GET",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStoriesGetuserstories"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "GetUserStoriesLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "GetUserStoriesLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodApiStoriesGet": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "GET",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStories"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "GetAllStoriesLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "GetAllStoriesLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayMethodApiStoriesIdVarDelete": {
+          "Type": "AWS::ApiGateway::Method",
+          "Properties": {
+            "HttpMethod": "DELETE",
+            "RequestParameters": {},
+            "ResourceId": {
+              "Ref": "ApiGatewayResourceApiStoriesIdVar"
+            },
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "ApiKeyRequired": "<REDACTED>",
+            "AuthorizationType": "NONE",
+            "Integration": {
+              "IntegrationHttpMethod": "POST",
+              "Type": "AWS_PROXY",
+              "Uri": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":apigateway:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":lambda:path/2015-03-31/functions/",
+                    {
+                      "Fn::GetAtt": [
+                        "DeleteStoryLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "/invocations"
+                  ]
+                ]
+              }
+            },
+            "MethodResponses": []
+          },
+          "DependsOn": [
+            "DeleteStoryLambdaPermissionApiGateway"
+          ]
+        },
+        "ApiGatewayDeployment1751552737104": {
+          "Type": "AWS::ApiGateway::Deployment",
+          "Properties": {
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            },
+            "StageName": "dev"
+          },
+          "DependsOn": [
+            "ApiGatewayMethodApiUsersAllOptions",
+            "ApiGatewayMethodApiUsersIdVarOptions",
+            "ApiGatewayMethodApiUsersProfileOptions",
+            "ApiGatewayMethodApiStoriesGetuserstoriesOptions",
+            "ApiGatewayMethodApiStoriesOptions",
+            "ApiGatewayMethodApiStoriesIdVarOptions",
+            "ApiGatewayMethodApiUsersAllGet",
+            "ApiGatewayMethodApiUsersIdVarGet",
+            "ApiGatewayMethodApiUsersProfilePut",
+            "ApiGatewayMethodApiStoriesGetuserstoriesGet",
+            "ApiGatewayMethodApiStoriesGet",
+            "ApiGatewayMethodApiStoriesIdVarDelete"
+          ]
+        },
+        "GetAllUsersLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "GetAllUsersLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "GetUserProfileLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "GetUserProfileLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "UpdateUserProfileLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "UpdateUserProfileLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "GetUserStoriesLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "GetUserStoriesLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "GetAllStoriesLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "GetAllStoriesLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        },
+        "DeleteStoryLambdaPermissionApiGateway": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "DeleteStoryLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  "/*/*"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "Outputs": {
+        "ServerlessDeploymentBucketName": {
+          "Value": "serverless-framework-deployments-us-east-1-863edeb2-807a",
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-ServerlessDeploymentBucketName"
+          }
+        },
+        "GetAllUsersLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "GetAllUsersLambdaVersion1pKYytE4ta67LVfVpZDJ7EIndbG71CFESTkzStvxE"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-GetAllUsersLambdaFunctionQualifiedArn"
+          }
+        },
+        "GetUserProfileLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "GetUserProfileLambdaVersionvneAEKFI7fBT6oF8oGQwgRlmFnwxNfF0F9xWs2AbEP4"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-GetUserProfileLambdaFunctionQualifiedArn"
+          }
+        },
+        "UpdateUserProfileLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "UpdateUserProfileLambdaVersioncJ5UJaw2KHHWbwZxQw3rWJAxZrTocsUsQTpEOg6PZw"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-UpdateUserProfileLambdaFunctionQualifiedArn"
+          }
+        },
+        "GetUserStoriesLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "GetUserStoriesLambdaVersiond6XdFNKl0D5Tm8cQ1qyRPTlXQBaWIBr91WZBzGcKOE"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-GetUserStoriesLambdaFunctionQualifiedArn"
+          }
+        },
+        "GetAllStoriesLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "GetAllStoriesLambdaVersionKGpwoat2dhgdjr4Mgko9pKAW0NNOgDkUibJ5GPEktoo"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-GetAllStoriesLambdaFunctionQualifiedArn"
+          }
+        },
+        "DeleteStoryLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "DeleteStoryLambdaVersionkG32KDQ6AyNelYdHDRCPLypdGK9giHBxXRH9vTWGM54"
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-DeleteStoryLambdaFunctionQualifiedArn"
+          }
+        },
+        "ServiceEndpoint": {
+          "Description": "URL of the service endpoint",
+          "Value": {
+            "Fn::Join": [
+              "",
+              [
+                "https://",
+                {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                ".execute-api.",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ".",
+                {
+                  "Ref": "AWS::URLSuffix"
+                },
+                "/dev"
+              ]
+            ]
+          },
+          "Export": {
+            "Name": "sls-storytime-user-service-dev-ServiceEndpoint"
+          }
+        }
+      }
+    }
   }
 }
