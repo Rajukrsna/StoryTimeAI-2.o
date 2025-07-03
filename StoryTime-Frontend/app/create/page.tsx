@@ -27,29 +27,31 @@ export default function CreatePage() {
     };
 
     const handleUpload = async () => {
-        if (!file) return null; // No file selected
+    if (!file) return null;
 
-        const formData = new FormData();
-        formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "unsigned_preset"); // from step 2
 
-        try {
-            const res = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
+    try {
+        const res = await fetch("https://api.cloudinary.com/v1_1/dneqrmfuv/image/upload", {
+            method: "POST",
+            body: formData,
+        });
 
-            const data = await res.json();
-            if (data.success) {
-                return data.filePath; // Return relative file path
-            } else {
-                alert("File upload failed!");
-                return null;
-            }
-        } catch (error) {
-            console.error("Error uploading file:", error);
+        const data = await res.json();
+        if (data.secure_url) {
+            console.log("Uploaded image URL:", data.secure_url);
+            return data.secure_url;
+        } else {
+            alert("Cloudinary upload failed");
             return null;
         }
-    };
+    } catch (error) {
+        console.error("Upload error:", error);
+        return null;
+    }
+};
 
     const handleCreate = async () => {
         setIsLoading(true); // Start loading
