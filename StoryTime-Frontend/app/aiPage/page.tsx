@@ -1,10 +1,7 @@
-// app/aiPage/page.tsx
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
+"use client"; // 👈 THIS IS CRUCIAL
 
-const AiPageClient = dynamic(() => import("@/components/AiPageClient"), {
-  ssr: false,
-});
+import { Suspense } from "react";
+import AiPageClient from "@/components/AiPageClient";
 
 export default function Page() {
   return (
