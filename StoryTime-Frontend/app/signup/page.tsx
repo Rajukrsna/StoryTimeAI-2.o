@@ -21,20 +21,45 @@ export default function SignUpPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [profileFile, setProfileFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState("/profile-picture-placeholder.svg");
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-
+    const [file, setFile] = useState<File | null>(null);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-        setPreviewUrl(URL.createObjectURL(file));
-        setProfileFile(file); // store File instead of Base64
-  }
+        if (e.target.files && e.target.files[0]) {
+            setFile(e.target.files[0]);
+            setPreviewUrl(URL.createObjectURL(e.target.files[0])); // Set preview URL for the image
+        }
     };
+
+    const handleUpload = async () => {
+    if (!file) return null;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "unsigned_preset"); // from step 2
+
+    try {
+        const res = await fetch("https://api.cloudinary.com/v1_1/dneqrmfuv/image/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await res.json();
+        if (data.secure_url) {
+            console.log("Uploaded image URL:", data.secure_url);
+            return data.secure_url;
+        } else {
+            alert("Cloudinary upload failed");
+            return null;
+        }
+    } catch (error) {
+        console.error("Upload error:", error);
+        return null;
+    }
+};
     const handleSignUp = async () => {
         try {
+            const profileFile = await handleUpload(); // Upload file and get URL
             await signup(name, email, password, profileFile);
             router.push("/homepage");
         } catch (error) {

@@ -115,7 +115,7 @@ router.get("/my-chapters",protect, async (req, res) =>
   router.post("/register", upload.single("profilePicture"), async (req, res) => {
   try {
     console.log("📥 Sign-up request received:", req.body);
-    const { name, email, password } = req.body;
+    const { name, email, password, profilePicture } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -131,7 +131,7 @@ router.get("/my-chapters",protect, async (req, res) =>
       name,
       email,
       password: password,
-      profilePicture: "", // Upload handled separately
+      profilePicture: profilePicture, // Upload handled separately
     });
 
     await newUser.save();
