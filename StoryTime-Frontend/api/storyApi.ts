@@ -58,7 +58,7 @@ export const getLeaderBoard = async (title: string): Promise<LeaderboardEntry[]>
 };
 
 export const getUserStories = async():Promise<Story[]> => {
-  const response = await lambdaClient.get<Story[]>("/stories/getUserStories");
+  const response = await expressClient.get<Story[]>("/api/stories/getUserStories");
   return response.data;
 };
 

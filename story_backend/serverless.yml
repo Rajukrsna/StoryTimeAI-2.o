@@ -48,17 +48,6 @@ functions:
             headers: [Content-Type, Authorization, Accept]
             allowCredentials: true
 
-  getUserStories:
-    handler: handlers/getUserStories.handler
-    events:
-      - http:
-          path: api/stories/getUserStories
-          method: get
-          cors:
-            origin: https://story-time-ai-2-o.vercel.app
-            headers: [Content-Type, Authorization, Accept]
-            allowCredentials: true
-
   getAllStories:
     handler: handlers/getAllStories.handler
     events:

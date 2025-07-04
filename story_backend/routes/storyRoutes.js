@@ -182,6 +182,7 @@ else{
   }
 });
 
+
 router.put("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
   try {
     const { id, chapterIndex } = req.params;
@@ -285,6 +286,20 @@ router.delete("/:id/reject-chapter/:chapterIndex", protect, async (req, res) => 
   } catch (error) {
     console.error("Error rejecting chapter:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+});
+
+router.get('/user-stories',protect,async (req, res) => {
+  try {
+    
+    console.log("User ID:", req.user._id);
+    // ✅ Find stories authored by the user
+    const stories = await Story.find({ author: req.user._id }).populate('author', 'name');
+
+    return res.status(200).json(stories);
+  } catch (error) {
+    console.error('Error getting user stories:', error);
+    return res.status(500).json({ message: 'Error getting user stories', error: error.message });
   }
 });
 
