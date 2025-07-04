@@ -46,8 +46,8 @@ router.post("/", protect, async (req, res) => {
     const story = new Story({
       title,
       author: req.user._id,
-      imageUrl,
-    content: Chapters
+      imageUrl: imageUrl ,
+      content: Chapters
     });
 
     const savedStory = await story.save();
