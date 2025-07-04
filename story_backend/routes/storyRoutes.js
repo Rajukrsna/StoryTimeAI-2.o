@@ -7,9 +7,25 @@ import Chapter from "../models/Chapter.js"; // Import Chapter model
 
 const router = express.Router();
 
+
+
+router.get('/getUserStories',protect,async (req, res) => {
+  try {
+    console.log("Fetching user stories  fucker sezer:", req.user._id);
+    console.log("User ID:", req.user._id);
+    // ✅ Find stories authored by the user
+    const stories = await Story.find({ author: req.user._id }).populate('author', 'name');
+
+    return res.status(200).json(stories);
+  } catch (error) {
+    console.error('Error getting user stories:', error);
+    return res.status(500).json({ message: 'Error getting user stories', error: error.message });
+  }
+});
 // /** ✅ Create a New Story (Protected) */
 router.post("/", protect, async (req, res) => {
   try {
+
     const { title, chapters, summary, imageUrl, embeds } = req.body;
     console.log("summary", summary);
     console.log("chapters", chapters);
@@ -289,19 +305,6 @@ router.delete("/:id/reject-chapter/:chapterIndex", protect, async (req, res) => 
   }
 });
 
-router.get('/user-stories',protect,async (req, res) => {
-  try {
-    
-    console.log("User ID:", req.user._id);
-    // ✅ Find stories authored by the user
-    const stories = await Story.find({ author: req.user._id }).populate('author', 'name');
-
-    return res.status(200).json(stories);
-  } catch (error) {
-    console.error('Error getting user stories:', error);
-    return res.status(500).json({ message: 'Error getting user stories', error: error.message });
-  }
-});
 
 
  export default router;
