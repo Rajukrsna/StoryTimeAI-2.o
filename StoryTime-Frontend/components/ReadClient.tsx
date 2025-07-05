@@ -114,8 +114,29 @@ const handleReadOut = () => {
     </section>
   ) : (
     <p className="text-center text-gray-500 text-lg mt-20">
-      No chapter data available
-    </p>
+  <span className="inline-block animate-bounce">L</span>
+  <span className="inline-block animate-bounce delay-100">o</span>
+  <span className="inline-block animate-bounce delay-200">a</span>
+  <span className="inline-block animate-bounce delay-300">d</span>
+  <span className="inline-block animate-bounce delay-400">i</span>
+  <span className="inline-block animate-bounce delay-500">n</span>
+  <span className="inline-block animate-bounce delay-600">g</span>
+  <span className="inline-block animate-bounce delay-700">&nbsp;c</span>
+  <span className="inline-block animate-bounce delay-800">h</span>
+  <span className="inline-block animate-bounce delay-900">a</span>
+  <span className="inline-block animate-bounce delay-[1000ms]">p</span>
+  <span className="inline-block animate-bounce delay-[1100ms]">t</span>
+  <span className="inline-block animate-bounce delay-[1200ms]">e</span>
+  <span className="inline-block animate-bounce delay-[1300ms]">r</span>
+  <span className="inline-block animate-bounce delay-[1400ms]">&nbsp;d</span>
+  <span className="inline-block animate-bounce delay-[1500ms]">a</span>
+  <span className="inline-block animate-bounce delay-[1600ms]">t</span>
+  <span className="inline-block animate-bounce delay-[1700ms]">a</span>
+  <span className="inline-block animate-bounce delay-[1800ms]">.</span>
+  <span className="inline-block animate-bounce delay-[1900ms]">.</span>
+  <span className="inline-block animate-bounce delay-[2000ms]">.</span>
+</p>
+
   )}
 </main>
 

@@ -55,10 +55,21 @@ export default function BookPage() {
     fetchData();
     }, [id]);
     if (!story) {
-        return <p className="text-center mt-10 text-gray-500"> Loading story...</p>;
-    }
+  return (
+    <div className="flex justify-center items-center mt-10 text-gray-500 gap-3">
+      <div className="w-5 h-5 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+      <p>Loading story...</p>
+    </div>
+  );
+}
    return (
-        <Suspense fallback={<div className="p-10 text-center">Loading story...</div>}>
+        <Suspense fallback={
+              <div className="flex justify-center items-center mt-10 text-gray-500 gap-3">
+
+      <div className="w-5 h-5 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+      <p>Loading Story...</p>
+        </div>
+        }>
 
   <main className="min-h-screen bg-white text-black">
     <Navbar />

@@ -22,6 +22,11 @@ export default function ProfilePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [filepath, setSelectedFilePath] = useState<string>("");
   const [chapterStatuses, setChapterStatuses] = useState<ChapterStatus[]>([])
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [chapterLoading, setChapterLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -33,6 +38,10 @@ export default function ProfilePage() {
       } catch (error) {
         console.error("Failed to fetch profile:", error);
       }
+      finally {
+      setProfileLoading(false);
+    }
+
     };
     
 
@@ -43,10 +52,20 @@ export default function ProfilePage() {
         } catch (err) {
           console.error("Failed to fetch chapters", err);
         }
+        finally {
+      setProfileLoading(false);
+    }
+
       };
       fetchChapters();
       fetchProfile();
   }, []);
+const AnimatedLoader = ({ text = "Loading..." }: { text?: string }) => (
+  <div className="flex justify-center items-center gap-2 text-gray-500 mt-10 text-lg">
+    <div className="w-6 h-6 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+    <span>{text}</span>
+  </div>
+);
 
 const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
@@ -64,6 +83,7 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 const handleUpload = async () => {
     if (!selectedFile || !profile) return;
+      setUploading(true);
 
     const formData = new FormData();
     formData.append("image", selectedFile);
@@ -71,13 +91,18 @@ const handleUpload = async () => {
     formData.append("email", profile.email||"No email found");
     if (profile.bio) formData.append("bio", profile.bio);
 
-      const updated = await updateMyProfile({
-        ...profile,
-        profilePicture: filepath, // e.g., "/uploads/myimg.jpg"
-      });
-      setProfile(updated);
-      toast.success('Profile picture updated successfully!')
-
+      try {
+    const updated = await updateMyProfile({
+      ...profile,
+      profilePicture: filepath,
+    });
+    setProfile(updated);
+    toast.success('Profile picture updated successfully!');
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setUploading(false);
+  }
    
       };
 
@@ -121,6 +146,9 @@ const handleUpload = async () => {
 
       {/* Form */}
       <div className="w-full lg:w-2/3">
+      {profileLoading ? (
+  <AnimatedLoader text="Loading profile..." />
+) : (
         <Card className="w-full max-w-xl mx-auto shadow-sm border border-gray-200">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold text-black">User Account</CardTitle>
@@ -160,6 +188,7 @@ const handleUpload = async () => {
             </Button>
           </CardFooter>
         </Card>
+        )}
       </div>
     </div>
 
@@ -172,7 +201,9 @@ const handleUpload = async () => {
     {/* ✅ New Section: Chapter Contribution Status */}
     <div className="mt-16">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6">Your Chapter Contributions</h1>
-
+{chapterLoading ? (
+  <AnimatedLoader text="Loading chapter contributions..." />
+) : (
       <div className="overflow-x-auto">
         <table className="w-full table-auto border border-gray-200 rounded-lg">
           <thead className="bg-gray-100 text-left text-sm uppercase text-gray-600">
@@ -215,6 +246,7 @@ const handleUpload = async () => {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   </section>
 </main>
