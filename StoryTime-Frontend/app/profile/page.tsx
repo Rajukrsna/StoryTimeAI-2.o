@@ -23,8 +23,6 @@ export default function ProfilePage() {
   const [filepath, setSelectedFilePath] = useState<string>("");
   const [chapterStatuses, setChapterStatuses] = useState<ChapterStatus[]>([])
   const [profileLoading, setProfileLoading] = useState(true);
-  const [chapterLoading, setChapterLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
 
 
   useEffect(() => {
@@ -83,7 +81,6 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 const handleUpload = async () => {
     if (!selectedFile || !profile) return;
-      setUploading(true);
 
     const formData = new FormData();
     formData.append("image", selectedFile);
@@ -100,11 +97,8 @@ const handleUpload = async () => {
     toast.success('Profile picture updated successfully!');
   } catch (err) {
     console.error(err);
-  } finally {
-    setUploading(false);
-  }
-   
-      };
+  } 
+}
 
   return (
    <main className="min-h-screen bg-white text-black">
@@ -201,9 +195,6 @@ const handleUpload = async () => {
     {/* ✅ New Section: Chapter Contribution Status */}
     <div className="mt-16">
       <h1 className="text-3xl sm:text-4xl font-bold mb-6">Your Chapter Contributions</h1>
-{chapterLoading ? (
-  <AnimatedLoader text="Loading chapter contributions..." />
-) : (
       <div className="overflow-x-auto">
         <table className="w-full table-auto border border-gray-200 rounded-lg">
           <thead className="bg-gray-100 text-left text-sm uppercase text-gray-600">
@@ -246,7 +237,6 @@ const handleUpload = async () => {
           </tbody>
         </table>
       </div>
-      )}
     </div>
   </section>
 </main>
