@@ -18,38 +18,45 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError(null);
+
         try {
             const response = await login(email, password);
-    console.log("Login response:", response);
-    if (!response.success) {
-        setError( "Invalid credentials. Please try again.");
-        return;
-    }
-            localStorage.setItem("userId", response._id)
-            await new Promise((res) => setTimeout(res, 100)); // wait 100ms
+            console.log("Login response:", response);
+            if (!response.success) {
+                setError("Invalid credentials. Please try again.");
+                return;
+            }
+            localStorage.setItem("userId", response._id);
+            await new Promise((res) => setTimeout(res, 100));
             router.push("/homepage");
-          
         } catch (error) {
             console.error("Login failed", error);
             setError("Login failed. Please check your credentials and try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
-  <Card className="p-8 w-full max-w-lg"></Card>
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card className="p-8 w-full max-w-lg">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>Enter your email below to login to your account</CardDescription>
+            <Card className="p-8 w-full max-w-lg bg-white/80 backdrop-blur-sm border-2 border-gray-200/50 shadow-xl rounded-3xl">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
+                    <CardDescription className="text-base text-gray-600">
+                        Enter your credentials to access your account
+                    </CardDescription>
                 </CardHeader>
-                <div className="mt-2" />
+                
                 <CardContent>
                     <form className="flex flex-col gap-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
+                        <div className="space-y-3">
+                            <Label htmlFor="email" className="text-sm font-semibold">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -57,13 +64,14 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className="text-base"
                             />
                         </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
-                                    Forgot your password?
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="password" className="text-sm font-semibold">Password</Label>
+                                <a href="#" className="text-sm text-gray-600 hover:text-gray-800 hover:underline transition-colors">
+                                    Forgot password?
                                 </a>
                             </div>
                             <Input
@@ -72,14 +80,30 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                className="text-base"
                             />
                         </div>
-                        {error && <p style={{ color: 'red' }}>{error}</p>}
-                        <Button onClick={handleLogin} type="button" className="w-full">
-                            Login
+                        {error && (
+                            <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+                                <p className="text-sm text-red-600">{error}</p>
+                            </div>
+                        )}
+                        <Button 
+                            onClick={handleLogin} 
+                            type="button" 
+                            size="lg"
+                            disabled={isLoading || !email || !password}
+                            className="w-full py-4 text-base font-semibold bg-black text-white hover:bg-gray-800 disabled:opacity-50"
+                        >
+                            {isLoading ? "Signing in..." : "Sign In"}
                         </Button>
-                        <Button onClick={handleLogin} type="button" variant="outline" className="w-full">
-                            Login with Google
+                        <Button 
+                            type="button" 
+                            variant="outline" 
+                            size="lg"
+                            className="w-full py-4 text-base font-semibold"
+                        >
+                            Continue with Google
                         </Button>
                     </form>
                 </CardContent>
