@@ -11,7 +11,6 @@ import { createAIStory } from "@/api/aiApi";
 import { useState } from "react"; 
 import { FaFeatherAlt } from "react-icons/fa";
 
-
 export default function CreatePage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -27,135 +26,143 @@ export default function CreatePage() {
     };
 
     const handleUpload = async () => {
-    if (!file) return null;
+        if (!file) return null;
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "unsigned_preset"); // from step 2
-
-    try {
-        const res = await fetch("https://api.cloudinary.com/v1_1/dneqrmfuv/image/upload", {
-            method: "POST",
-            body: formData,
-        });
-
-        const data = await res.json();
-        if (data.secure_url) {
-            console.log("Uploaded image URL:", data.secure_url);
-            return data.secure_url;
-        } else {
-            alert("Cloudinary upload failed");
-            return null;
-        }
-    } catch (error) {
-        console.error("Upload error:", error);
-        return null;
-    }
-};
-
-    const handleCreate = async () => {
-        setIsLoading(true); // Start loading
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "unsigned_preset");
 
         try {
-            
-            const imageUrl = await handleUpload(); // Upload file and get URL
+            const res = await fetch("https://api.cloudinary.com/v1_1/dneqrmfuv/image/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await res.json();
+            if (data.secure_url) {
+                console.log("Uploaded image URL:", data.secure_url);
+                return data.secure_url;
+            } else {
+                alert("Cloudinary upload failed");
+                return null;
+            }
+        } catch (error) {
+            console.error("Upload error:", error);
+            return null;
+        }
+    };
+
+    const handleCreate = async () => {
+        setIsLoading(true);
+
+        try {
+            const imageUrl = await handleUpload();
           
             console.log("Uploaded image URL:", imageUrl);
 
             if (!imageUrl) {
                 alert("Please upload a cover image!");
+                setIsLoading(false);
                 return;
             }
             const response = await createAIStory(title, description);
             if (response) {
-                // Navigate to AIPage with the generated story
                 router.push(`/aiPage?summary=${encodeURIComponent(response.summary)}&story=${encodeURIComponent(response.suggestion)}&title=${encodeURIComponent(title)}&imageUrl=${encodeURIComponent(imageUrl)}`);  
             } else {
                 alert("AI generation failed!");
             }
         } catch (error) {
             console.log("Error creating story:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-      <main className="bg-[#fcfcfc] min-h-screen text-gray-900 font-sans">
-  <Navbar />
+      <main className="bg-gradient-to-br from-white via-gray-50 to-gray-100 min-h-screen text-gray-900 font-sans">
+        <Navbar />
 
-  <div className="mx-auto max-w-4xl px-4 sm:px-6 py-12 flex flex-col items-center justify-center">
-    <Card className="w-full rounded-2xl border border-gray-200 shadow-md p-6 sm:p-12 bg-white transition-all duration-300">
-      <CardHeader className="text-center mb-6">
-        <div className="flex items-center justify-center mb-3">
-          <FaFeatherAlt className="text-3xl text-gray-700" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+          <Card className="w-full max-w-2xl rounded-3xl border-2 border-gray-200/50 shadow-xl p-6 sm:p-12 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl animate-scale-in">
+            <CardHeader className="text-center mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="p-4 bg-gray-100 rounded-full">
+                  <FaFeatherAlt className="text-3xl text-gray-700" />
+                </div>
+              </div>
+              <CardTitle className="text-3xl lg:text-4xl font-bold mb-2 text-balance">Create Your Story</CardTitle>
+              <CardDescription className="text-gray-600 text-lg">
+                Begin your journey as a storyteller ✨
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="space-y-8">
+              {/* Title */}
+              <div className="space-y-3">
+                <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                  Story Title
+                </Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="A Tale of Two Worlds"
+                  className="text-base"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="space-y-3">
+                <Label htmlFor="desc" className="text-sm font-semibold text-gray-700">
+                  Description
+                </Label>
+                <Textarea
+                  id="desc"
+                  placeholder="Brief summary of your story"
+                  className="h-32 text-base resize-none"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+              {/* Cover */}
+              <div className="space-y-3">
+                <Label htmlFor="picture" className="text-sm font-semibold text-gray-700">
+                  Cover Image
+                </Label>
+                <Input
+                  id="picture"
+                  type="file"
+                  accept="image/*"
+                  className="file:border-0 file:rounded-lg file:bg-black file:text-white file:px-4 file:py-2 file:mr-4 hover:file:bg-gray-800 file:transition-colors"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </CardContent>
+
+            <CardFooter className="pt-8">
+              <Button
+                onClick={handleCreate}
+                disabled={isLoading || !title || !description || !file}
+                size="lg"
+                className="w-full py-4 text-lg bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? "Creating..." : "Create Story"}
+              </Button>
+            </CardFooter>
+          </Card>
         </div>
-        <CardTitle className="text-3xl font-bold mb-1">Create Your Story</CardTitle>
-        <CardDescription className="text-gray-600">
-          Begin your journey as a storyteller ✨
-        </CardDescription>
-      </CardHeader>
 
-      <CardContent className="space-y-6">
-        {/* Title */}
-        <div className="grid gap-2">
-          <Label htmlFor="name" className="text-sm font-medium">
-            Story Title
-          </Label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="A Tale of Two Worlds"
-            className="focus:ring-2 focus:ring-black/40"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* Description */}
-        <div className="grid gap-2">
-          <Label htmlFor="desc" className="text-sm font-medium">
-            Description
-          </Label>
-          <Textarea
-            id="desc"
-            placeholder="Brief summary of your story"
-            className="h-32 focus:ring-2 focus:ring-black/30"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {/* Cover */}
-        <div className="grid gap-2">
-          <Label htmlFor="picture" className="text-sm font-medium">
-            Cover Image
-          </Label>
-          <Input
-            id="picture"
-            type="file"
-            accept="image/*"
-            className="file:border-0 file:rounded file:bg-black file:text-white hover:file:bg-gray-800"
-            onChange={handleFileChange}
-          />
-        </div>
-      </CardContent>
-
-      <CardFooter className="pt-6">
-        <Button
-          onClick={handleCreate}
-          className="w-full py-3 text-lg bg-black text-white hover:bg-gray-800 transition-transform hover:scale-[1.02]"
-        >
-          Create
-        </Button>
-      </CardFooter>
-    </Card>
-  </div>
-  {isLoading && (
-  <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
-<FaFeatherAlt className="text-5xl text-black animate-spin mb-6" />
-    <p className="text-xl font-semibold text-gray-800 animate-pulse">Generating your story...</p>
-  </div>
-)}
-</main>
-
+        {isLoading && (
+          <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center">
+            <div className="bg-white rounded-3xl p-8 shadow-2xl border-2 border-gray-200/50 text-center max-w-md mx-4">
+              <FaFeatherAlt className="text-6xl text-black animate-spin mb-6 mx-auto" />
+              <p className="text-xl font-semibold text-gray-800 animate-pulse">Generating your story...</p>
+              <p className="text-sm text-gray-600 mt-2">This may take a few moments</p>
+            </div>
+          </div>
+        )}
+      </main>
     );
 }
