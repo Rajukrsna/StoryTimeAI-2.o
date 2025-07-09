@@ -1,3 +1,4 @@
+// StoryTime-Frontend/components/exploreComponent.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import { getAuthors } from "@/api/profile";
 import Image from "next/image"; 
 import ReactMarkdown from 'react-markdown';
 import type { Story, User } from "@/types";
+import { motion } from "framer-motion"; // Import motion
 
 export default function ExplorePage() {
     const [activeTab, setActiveTab] = useState<"stories" | "authors">("stories");
@@ -133,57 +135,62 @@ function StoriesList({ stories }: { stories: Story[] }) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {stories.map((story, index) => (
-          <CardHorizontal
+          <motion.div
             key={story._id}
-            className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
-              hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
-              transition-all duration-300 ease-out 
-              flex flex-col gap-6 cursor-pointer group"
-            style={{ animationDelay: `${index * 100}ms` }}
-            onClick={() => handleNavBook(story._id)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            {/* Cover Image */}
-            <div className="relative w-full h-48 rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
-              <Image
-                src={story.imageUrl || "/uploads/cover.jpg"}
-                alt={story.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-
-            {/* Story Info */}
-            <div className="flex-1 min-w-0">
-              <h2 className="text-xl font-bold text-black mb-2 line-clamp-2 group-hover:text-gray-700 transition-colors">
-                {story.title}
-              </h2>
-
-              <p className="text-sm text-gray-500 mb-3">
-                by{" "}
-                {story.author
-                  ? typeof story.author === "string"
-                    ? story.author
-                    : story.author.name
-                  : "Unknown"}
-              </p>
-
-              <div className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
-                <ReactMarkdown>
-                  {story.content[0].content.substring(0, 120) + "..."}
-                </ReactMarkdown>
+            <CardHorizontal
+              className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
+                hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
+                transition-all duration-300 ease-out 
+                flex flex-col gap-6 cursor-pointer group"
+              onClick={() => handleNavBook(story._id)}
+            >
+              {/* Cover Image */}
+              <div className="relative w-full h-48 rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
+                <Image
+                  src={story.imageUrl || "/uploads/cover.jpg"}
+                  alt={story.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
 
-              <Button
-                className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded-xl transition-all duration-200 hover:scale-105"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNavBook(story._id);
-                }}
-              >
-                Read Now
-              </Button>
-            </div>
-          </CardHorizontal>
+              {/* Story Info */}
+              <div className="flex-1 min-w-0">
+                <h2 className="text-xl font-bold text-black mb-2 line-clamp-2 group-hover:text-gray-700 transition-colors">
+                  {story.title}
+                </h2>
+
+                <p className="text-sm text-gray-500 mb-3">
+                  by{" "}
+                  {story.author
+                    ? typeof story.author === "string"
+                      ? story.author
+                      : story.author.name
+                    : "Unknown"}
+                </p>
+
+                <div className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
+                  <ReactMarkdown>
+                    {story.content[0].content.substring(0, 120) + "..."}
+                  </ReactMarkdown>
+                </div>
+
+                <Button
+                  className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded-xl transition-all duration-200 hover:scale-105"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNavBook(story._id);
+                  }}
+                >
+                  Read Now
+                </Button>
+              </div>
+            </CardHorizontal>
+          </motion.div>
         ))}
       </div>
     );
@@ -193,34 +200,39 @@ function AuthorsList({ authors }: { authors: User[] }) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {authors.map((author, index) => (
-          <CardHorizontal
+          <motion.div
             key={author._id}
-            className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
-              hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
-              transition-all duration-300 ease-out 
-              flex flex-col items-center text-center gap-4 cursor-pointer group"
-            style={{ animationDelay: `${index * 100}ms` }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            {/* Profile Image */}
-            <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
-              <Image
-                src={author.profilePicture || "/default-user.png"}
-                alt={author.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
+            <CardHorizontal
+              className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
+                hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
+                transition-all duration-300 ease-out 
+                flex flex-col items-center text-center gap-4 cursor-pointer group"
+            >
+              {/* Profile Image */}
+              <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
+                <Image
+                  src={author.profilePicture || "/default-user.png"}
+                  alt={author.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
 
-            {/* Author Info */}
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-black mb-2 group-hover:text-gray-700 transition-colors">
-                {author.name}
-              </h2>
-              <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                {author.bio?.substring(0, 120) || "No bio available."}
-              </p>
-            </div>
-          </CardHorizontal>
+              {/* Author Info */}
+              <div className="flex-1">
+                <h2 className="text-xl font-bold text-black mb-2 group-hover:text-gray-700 transition-colors">
+                  {author.name}
+                </h2>
+                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                  {author.bio?.substring(0, 120) || "No bio available."}
+                </p>
+              </div>
+            </CardHorizontal>
+          </motion.div>
         ))}
       </div>
     );

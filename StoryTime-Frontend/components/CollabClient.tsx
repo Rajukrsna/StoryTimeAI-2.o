@@ -1,3 +1,4 @@
+// StoryTime-Frontend/components/CollabClient.tsx
 "use client";
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect,useRef } from "react";
@@ -5,23 +6,23 @@ import { Navbar } from "@/components/Navbar";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { X, Lightbulb } from 'lucide-react';
+import { X, Lightbulb, Loader2 } from 'lucide-react'; // Added Loader2
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { getStory } from "@/api/storyApi";
 import {updateStory} from "@/api/storyApi";
 import {createAIStory} from "@/api/aiApi";
 import {getMyProfile} from "@/api/profile"
-import {  Users, Save, Sparkles } from "lucide-react";
+import { Users, Save, Sparkles } from "lucide-react";
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
 import { toast } from "sonner";
 import { sendToPlotBot } from "@/api/aiApi";  
 import clsx from "clsx";
-import {    Bold, Italic,UnderlineIcon, List, AlignLeft, AlignCenter, AlignRight, StopCircle } from 'lucide-react';
-import type { Story, User, Chapter} from "@/types"; // Adjust the path as needed
-import getEmbeddings  from "@/components/hooks/useEmbeddings"; // Ensure this is the correct import for your embeddings API
-
+import { Bold, Italic, UnderlineIcon, List, AlignLeft, AlignCenter, AlignRight, StopCircle } from 'lucide-react';
+import type { Story, User, Chapter} from "@/types";
+import getEmbeddings from "@/components/hooks/useEmbeddings";
+import { motion } from "framer-motion"; // Import motion
 
 export default function CollabPage() {
 
@@ -31,17 +32,17 @@ export default function CollabPage() {
     const [story, setStory] = useState<Story | null>(null);
     const id = searchParams.get("id");
     const typingRef = useRef<NodeJS.Timeout | null>(null);
-    const isTypingRef = useRef(false); // Use ref instead of state
+    const isTypingRef = useRef(false);
     const [isLoading, setIsLoading] = useState(false);
     const [botInput, setBotInput] = useState("");
     const [botResponse, setBotResponse] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loadingBot, setLoadingBot] = useState(false); // Renamed to avoid conflict
     const [summary, setSummary] = useState(""); 
 
 
     const handleSave = async () => {
     if (!editor || !story || !id) return;
-  const embedding = await getEmbeddings(summary); // ✅ Await this async function
+  const embedding = await getEmbeddings(summary);
   const profile = await getMyProfile(); 
 
   const newChapter: Chapter = {
@@ -83,12 +84,12 @@ export default function CollabPage() {
   const summarizedContent = story.content.map(chapter=>chapter.summary).join(" ");
   const OGcontent = summarizedContent + "\n\nUser Prompt: " + previousContent;
   try {
-        setIsLoading(true);         // Start loading
+        setIsLoading(true);
     editor.commands.setContent("");
     const response = await createAIStory(title, OGcontent);
     const aiText = response.suggestion || "No suggestion received.";
-    setIsLoading(false);        // Stop loading
-    editor.commands.setContent(""); // Clear editor
+    setIsLoading(false);
+    editor.commands.setContent("");
     setSummary(response.summary);
     let index = 0;
     isTypingRef.current = true;
@@ -105,7 +106,7 @@ export default function CollabPage() {
     typeNextChar();
   } catch (err) {
     console.error("AI story generation failed:", err);
-    setIsLoading(false); // Stop loading on error
+    setIsLoading(false);
 
   }
 };
@@ -120,7 +121,7 @@ const handleStopTyping = () => {
 const handleBotGeneration = async () => {
   if (!botInput.trim()) return;
   try {
-    setLoading(true);
+    setLoadingBot(true); // Use loadingBot
     const embeddedInput = await getEmbeddings(botInput);  
     const result = await sendToPlotBot(botInput, embeddedInput);
     setBotResponse(result);
@@ -128,7 +129,7 @@ const handleBotGeneration = async () => {
     console.error("PlotBot error:", err);
     setBotResponse("Something went wrong. Please try again.");
   } finally {
-    setLoading(false);
+    setLoadingBot(false); // Use loadingBot
   }
 };
 
@@ -298,61 +299,65 @@ const editor = useEditor({
         </div>
 
         {/* PlotBot */}
-{isPlotBotOpen ? (
-  <div className="lg:w-1/4 bg-white border rounded-xl shadow-md p-4 flex flex-col justify-between">
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-800">PlotBot</h2>
-        <button onClick={togglePlotBot}>
-          <X className="text-gray-500 hover:text-gray-700" />
-        </button>
-      </div>
-
-      {/* Input Section */}
-      <div className="flex items-center gap-2 mb-4">
-        <input
-          value={botInput}
-          onChange={(e) => setBotInput(e.target.value)}
-          className="flex-1 p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-          placeholder="Enter command..."
-        />
-        <button
-          onClick={handleBotGeneration}
-          className="p-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 shadow-sm"
+        <motion.div
+          initial={{ opacity: 0, x: isPlotBotOpen ? 0 : 20 }}
+          animate={{ opacity: isPlotBotOpen ? 1 : 0, x: isPlotBotOpen ? 0 : 20 }}
+          transition={{ duration: 0.3 }}
+          className={clsx(
+            "lg:w-1/4 bg-white border rounded-xl shadow-md p-4 flex flex-col justify-between",
+            !isPlotBotOpen && "hidden lg:flex" // Hide on small screens when closed, but keep for animation on large
+          )}
         >
-          ➤
-        </button>
-      </div>
-
-      {/* Response Section */}
-      <div className="flex flex-col gap-4">
-        {loading ? (
-          <div className="text-sm text-gray-500 animate-pulse">
-            PlotBot is thinking...
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-800">PlotBot</h2>
+            <button onClick={togglePlotBot}>
+              <X className="text-gray-500 hover:text-gray-700" />
+            </button>
           </div>
-        ) : (
-          botResponse && (
-            <div className="bg-gray-100 p-3 rounded-md text-sm whitespace-pre-wrap">
-              {botResponse}
-            </div>
-          )
+
+          {/* Input Section */}
+          <div className="flex items-center gap-2 mb-4">
+            <input
+              value={botInput}
+              onChange={(e) => setBotInput(e.target.value)}
+              className="flex-1 p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Ask PlotBot a question..."
+            />
+            <button
+              onClick={handleBotGeneration}
+              className="p-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 shadow-sm transition-colors"
+              disabled={loadingBot}
+            >
+              {loadingBot ? <Loader2 className="animate-spin" size={20} /> : "➤"}
+            </button>
+          </div>
+
+          {/* Response Section */}
+          <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
+            {loadingBot ? (
+              <div className="text-sm text-gray-500 flex items-center gap-2 animate-pulse">
+                <Loader2 className="animate-spin" size={16} /> PlotBot is thinking...
+              </div>
+            ) : (
+              botResponse && (
+                <div className="bg-gray-100 p-3 rounded-md text-sm whitespace-pre-wrap border border-gray-200">
+                  {botResponse}
+                </div>
+              )
+            )}
+          </div>
+        </motion.div>
+
+        {!isPlotBotOpen && (
+          <button
+            onClick={togglePlotBot}
+            className="fixed bottom-6 right-6 px-4 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition shadow-lg flex items-center gap-2 z-40"
+          >
+            <Lightbulb size={18} /> Open PlotBot
+          </button>
         )}
       </div>
-    </div>
-  </div>
-) : (
-  <button
-    onClick={togglePlotBot}
-    className="fixed bottom-6 right-6 px-4 py-2 bg-gray-300 text-black rounded-full hover:bg-gray-400 transition shadow-lg flex items-center gap-2"
-  >
-    <Lightbulb size={18} /> Open PlotBot
-  </button>
-)}
-
-      </div>
     </main>
-       
-
   );
-
 }
+
