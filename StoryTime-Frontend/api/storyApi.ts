@@ -12,8 +12,8 @@ export const getStories = async (
   if (search?.trim()) params.append("search", search.trim());
   if (sort) params.append("sort", sort);
 
-  const response = await lambdaClient.get<Story[]>(
-    `/stories?${params.toString()}`
+  const response = await expressClient.get<Story[]>(
+    `/api/stories/stories?${params.toString()}`
   );
   return response.data;
 };

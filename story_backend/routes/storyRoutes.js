@@ -22,6 +22,33 @@ router.get('/getUserStories',protect,async (req, res) => {
     return res.status(500).json({ message: 'Error getting user stories', error: error.message });
   }
 });
+
+router.get("/stories",protect, async (req, res) => {
+  try {
+    console.log("enterd getAllStories route");
+    const { search, sort } = req.query;
+    let filter = {};
+
+    if (search?.trim()) {
+      const safeSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.$or = [{ title: { $regex: safeSearch, $options: "i" } }];
+    }
+
+    let query = Story.find(filter).populate("author", "name profilePicture");
+
+    if (sort === "latest") query.sort({ createdAt: -1 });
+    else if (sort === "oldest") query.sort({ createdAt: 1 });
+    else if (sort === "top") query.sort({ votes: -1 });
+
+    const stories = await query.lean();
+
+    res.status(200).json(stories);
+  } catch (error) {
+  
+    res.status(500).json({ message: "Error fetching stories", error: error.message });
+  }
+});
+
 // /** ✅ Create a New Story (Protected) */
 router.post("/", protect, async (req, res) => {
   try {

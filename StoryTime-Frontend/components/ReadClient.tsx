@@ -33,9 +33,10 @@ export default function ReadPage() {
         const chapterIndex = parseInt(chapId);
         const chapterData = storyData.content[chapterIndex];
         setChapter(chapterData);
-        
+        console.log("Fetched chapter data:", chapterData.content);
         // Paginate the content
         const pages = paginateContent(chapterData.content, { wordsPerPage: 300 });
+        console.log("paginated content:", pages);
         setPaginatedContent(pages);
         setCurrentPageIndex(0);
       } catch (error) {
@@ -71,7 +72,7 @@ export default function ReadPage() {
       setCurrentPageIndex(prev => prev + 1);
     }
   };
-
+     const testMarkdown = "# Hello\n\nThis is **bold** text";
   const goToPreviousPage = () => {
     if (currentPageIndex > 0) {
       setPageDirection('prev');
@@ -196,7 +197,6 @@ export default function ReadPage() {
               className="relative bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden"
               style={{ 
                 minHeight: '600px',
-                maxHeight: '70vh',
                 perspective: '1000px'
               }}
             >
@@ -213,18 +213,16 @@ export default function ReadPage() {
                     transition={{
                       duration: 0.5,
                       ease: "easeInOut"
-                    }}
-                    className="absolute inset-0 p-8 overflow-hidden"
+                    }}        
+                    className="relative p-8 overflow-y-visible"
                     style={{ transformStyle: 'preserve-3d' }}
                   >
-                    <div 
-                      className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
-                      style={{ fontSize: `${fontSize}px` }}
-                    >
-                      <article className="prose prose-gray max-w-none leading-relaxed">
-                        <ReactMarkdown>{currentContent}</ReactMarkdown>
-                      </article>
+                    <div className="p-4 border-2 border-blue-500 text-black">
+                      
+
+                      <ReactMarkdown>{currentContent}</ReactMarkdown>
                     </div>
+
                   </motion.div>
                 </AnimatePresence>
 
@@ -247,6 +245,7 @@ export default function ReadPage() {
                   >
                     <FaChevronRight className="text-gray-400 group-hover:text-gray-600 transition-colors" />
                   </button>
+                  
                 )}
               </div>
 
@@ -277,7 +276,7 @@ export default function ReadPage() {
                   const pageNum = Math.max(0, Math.min(currentPageIndex - 2 + i, totalPages - 5 + i));
                   return (
                     <button
-                      key={pageNum}
+                      key={`page-${i}`}
                       onClick={() => {
                         setPageDirection(pageNum > currentPageIndex ? 'next' : 'prev');
                         setCurrentPageIndex(pageNum);
