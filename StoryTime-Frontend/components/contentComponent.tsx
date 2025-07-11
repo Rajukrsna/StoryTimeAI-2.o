@@ -92,19 +92,43 @@ export default function ContentComponent({
         </div>
       </nav>
 
-      <section className="mt-8">
-        <Suspense fallback={<div>Loading Chapters...</div>}>
-          {activeTab === "read" && <ChapterList title={title} chapters={chapters} id={id} onEditChapter={handleEditChapter} />}
-        </Suspense>
+    <section className="mt-8">
+  <Suspense
+    fallback={
+      <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+        <div className="animate-spin h-8 w-8 border-4 border-black border-t-transparent rounded-full mb-2"></div>
+        <p>Loading Chapters...</p>
+      </div>
+    }
+  >
+    {activeTab === "read" && (
+      <ChapterList title={title} chapters={chapters} id={id} onEditChapter={handleEditChapter} />
+    )}
+  </Suspense>
 
-        <Suspense fallback={<div>Loading Collaboration...</div>}>
-          {activeTab === "collab" && <CollabList id={id} />}
-        </Suspense>
+  <Suspense
+    fallback={
+      <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+        <div className="animate-spin h-8 w-8 border-4 border-purple-500 border-t-transparent rounded-full mb-2"></div>
+        <p>Loading Collaboration...</p>
+      </div>
+    }
+  >
+    {activeTab === "collab" && <CollabList id={id} />}
+  </Suspense>
 
-        <Suspense fallback={<div>Loading Leaderboard...</div>}>
-          {activeTab === "leaderboard" && <LeaderboardList id={id} title={title} />}
-        </Suspense>
-      </section>
+  <Suspense
+    fallback={
+      <div className="flex flex-col items-center justify-center h-40 text-gray-500">
+        <div className="animate-spin h-8 w-8 border-4 border-yellow-500 border-t-transparent rounded-full mb-2"></div>
+        <p>Loading Leaderboard...</p>
+      </div>
+    }
+  >
+    {activeTab === "leaderboard" && <LeaderboardList id={id} title={title} />}
+  </Suspense>
+</section>
+
     </main>
   );
 }

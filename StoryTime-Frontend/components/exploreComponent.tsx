@@ -289,6 +289,7 @@ function AuthorsList({ authors }: { authors: User[] }) {
                     {author.contributions.reduce((sum, c) => sum + c.score, 0)}
                   </p>
                 )}
+                <p className ="text-sm font-semibold text-gray-500 mb-4">Followers: {author.followers? author.followers.length: "0"}</p>
                 <div className="flex flex-col gap-2 w-full">
                 <Button
                   onClick={() => handleViewProfile()}//later use the author's ID

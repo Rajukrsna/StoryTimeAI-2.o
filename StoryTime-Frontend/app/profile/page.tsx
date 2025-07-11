@@ -23,7 +23,9 @@ export default function ProfilePage() {
   const [filepath, setSelectedFilePath] = useState<string>("");
   const [chapterStatuses, setChapterStatuses] = useState<ChapterStatus[]>([])
   const [profileLoading, setProfileLoading] = useState(true);
-
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -73,6 +75,26 @@ export default function ProfilePage() {
     }
   };
 
+  const handleProfileUpdate = async () => {
+    if (!profile) return;
+    setProfileLoading(true);
+    try {
+      const updatedProfile = await updateMyProfile({
+        ...profile,
+        name: name || profile.name,
+        email: email || profile.email,
+        bio: bio || profile.bio,
+      });
+      setProfile(updatedProfile);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+      toast.error("Failed to update profile.");
+    } finally {
+      setProfileLoading(false);
+    }
+  }
+
   const handleUpload = async () => {
     if (!selectedFile || !profile) return;
 
@@ -87,6 +109,7 @@ export default function ProfilePage() {
       console.error(err);
     } 
   }
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-gray-100 text-black">
@@ -146,6 +169,8 @@ export default function ProfilePage() {
                       type="text"
                       placeholder={profile?.name || "Your name"}
                       className="text-base"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
@@ -156,12 +181,25 @@ export default function ProfilePage() {
                       type="email"
                       placeholder={profile?.email || "Your email"}
                       className="text-base"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
+                  <div className= "space-y-3">
+                    <Label htmlFor="bio" className="text-sm font-semibold">Bio</Label>
+                    <Input
+                      id="bio"
+                      type="text"
+                      placeholder={profile?.bio || "A short bio about you"}
+                      className="text-base"
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                    />
+                    </div>
                 </CardContent>
 
                 <CardFooter className="pt-6 flex flex-col gap-4">
-                  <Button size="lg" className="w-full py-4 text-base font-semibold bg-black text-white hover:bg-gray-800">
+                  <Button onClick={handleProfileUpdate} size="lg" className="w-full py-4 text-base font-semibold bg-black text-white hover:bg-gray-800">
                     Update Account
                   </Button>
                   <Button size="lg" variant="outline" className="w-full py-4 text-base font-semibold">

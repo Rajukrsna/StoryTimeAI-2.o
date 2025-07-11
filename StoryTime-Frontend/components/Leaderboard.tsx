@@ -82,7 +82,7 @@ return (
     {leaderboard.length === 0 ? (
       <div className="flex flex-col items-center justify-center text-center bg-white p-10 rounded-2xl shadow-md border border-gray-200">
         <Image
-          src="/leaderboard-empty.svg"
+          src="/leaderboard.svg"
           alt="No contributors yet"
           width={200}
           height={200}

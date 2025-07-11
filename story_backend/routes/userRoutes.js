@@ -36,9 +36,9 @@ const upload = multer({ storage });
 
 
 
-router.put('/update', async (req, res) => {
+router.put('/update', protect , async (req, res) => {
   try {
-   
+   console.log("Update profile request received:", req.body);
     // ✅ Find user by ID
     const user = await User.findById(req.user._id,'-password');
     if (!user) {
@@ -62,7 +62,6 @@ router.put('/update', async (req, res) => {
       email: updatedUser.email,
       bio: updatedUser.bio,
       profilePicture: updatedUser.profilePicture,
-      token,
     });
   } catch (error) {
     console.error('Update profile error:', error.message);

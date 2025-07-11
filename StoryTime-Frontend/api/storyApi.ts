@@ -67,6 +67,16 @@ export const getUserStories = async():Promise<Story[]> => {
   return response.data;
 };
 
+export const updateStoryVotes = async (storyId: string, vote: number): Promise<{ message: string; votes: number }> => {
+  const response = await expressClient.post<{ message: string; votes: number }>(`/api/stories/${storyId}/vote`, { vote });
+  return response.data;
+};
+
+export const updateChapterLikes = async (storyId: string, chapterIndex: number, liked: boolean): Promise<{ message: string; likes: number }> => {
+  const response = await expressClient.post<{ message: string; likes: number }>(`/api/stories/${storyId}/chapter/${chapterIndex}/like`, { liked });
+  return response.data;
+};
+
 export const approveStory = async(storyId: string, chapterIndex: number): Promise<Story> =>{
   const response = await expressClient.post<Story>(`/api/stories/${storyId}/approve-chapter/${chapterIndex}`)
   return response.data;

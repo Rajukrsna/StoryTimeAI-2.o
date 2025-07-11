@@ -1,6 +1,6 @@
 import expressClient from './axiosInstance/expressClient';
 import lambdaClient from './axiosInstance/lambdaClient'; 
-import type { Story, User, Contribution, Chapter,Author, ChapterStatus  } from "@/types"; // Adjust the path as needed
+import type {  User,  ChapterStatus  } from "@/types"; // Adjust the path as needed
 
 interface ChapterResponse{
   chapters: ChapterStatus[];  
@@ -26,7 +26,7 @@ export const getUserById = async (userId: string): Promise<User> => {
 
 // Update user profile
 export const updateMyProfile = async (data: Partial<User> & { password?: string }): Promise<User> => {
-  const response = await lambdaClient.put<User>("/users/profile", data);
+  const response = await expressClient.put<User>("/api/users/update", data);
   return response.data;
 };
 
