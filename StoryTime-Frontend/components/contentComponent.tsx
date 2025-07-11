@@ -47,7 +47,7 @@ export default function ContentComponent({
   };
 
   return (
-    <main className="min-h-screen px-6 py-6 bg-white font-sans">
+    <main className="min-h-screen px-4 sm:px-6 py-6 bg-white font-sans">
       <nav className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
@@ -76,7 +76,7 @@ export default function ContentComponent({
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="relative w-64">
+       <div className="relative w-full sm:w-64">
             <Input placeholder="Search" className="pl-10" />
             <HiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
           </div>
