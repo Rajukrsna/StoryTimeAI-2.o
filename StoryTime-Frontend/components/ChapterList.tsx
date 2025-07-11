@@ -1,11 +1,10 @@
-// File: ChapterList.tsx
-
+// StoryTime-Frontend/components/ChapterList.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, Heart } from "lucide-react";
-import { updateStory } from "@/api/storyApi";
+import { BookOpen, Heart, Edit } from "lucide-react"; // Import Edit icon
+import { updateStory } from "@/api/storyApi"; // Ensure this import is correct
 import { CardHorizontal } from "@/components/ui/card";
 import type { User } from "@/types";
 
@@ -13,6 +12,7 @@ export default function ChapterList({
   title,
   chapters: initialChapters,
   id,
+  onEditChapter, // New prop for editing
 }: {
   title: string;
   chapters: {
@@ -26,6 +26,7 @@ export default function ChapterList({
     liked: boolean;
   }[];
   id: string;
+  onEditChapter: (chapterIndex: number) => void; // New prop type
 }) {
   const router = useRouter();
   const [chapters, setChapters] = useState(initialChapters);
@@ -49,26 +50,8 @@ export default function ChapterList({
     setChapters(updatedChapters);
 
     try {
-      await updateStory(
-        id,
-        {
-          _id: id,
-          title,
-          content: updatedChapters,
-          pendingChapters: [],
-          author: { id: "", name: "", bio: "", profileImage: "" },
-          votes: 0,
-          imageUrl: "",
-        },
-        {
-          title: "",
-          content: "",
-          summary: "",
-          likes: 0,
-          createdBy: "",
-          createdAt: "",
-        }
-      );
+      // CORRECTED CALL: Pass the story ID and a payload object with 'content'
+      await updateStory(id, { content: updatedChapters });
     } catch (err) {
       console.error("Failed to update likes:", err);
     }
@@ -76,9 +59,8 @@ export default function ChapterList({
 
   return (
     <div className="grid gap-6">
-      {chapters.map((chapter) => (
+      {chapters.map((chapter, index) => ( // Use index for chapterIndex
         <CardHorizontal
-          onClick={() => handleNavRead(chapter.id)}
           key={chapter.id}
           className="p-4 flex items-center justify-between rounded-xl border hover:shadow-md transition-all duration-300 group hover:-translate-y-[2px] cursor-pointer bg-white"
         >
@@ -86,7 +68,7 @@ export default function ChapterList({
             <BookOpen className="w-[50%] h-[50%] group-hover:scale-110 transition-transform" />
           </div>
 
-          <div className="flex-1 px-4">
+          <div className="flex-1 px-4" onClick={() => handleNavRead(chapter.id)}> {/* Make this clickable for read */}
             <h2 className="text-lg font-semibold group-hover:text-blue-600 transition-colors duration-300">
               {chapter.title}
             </h2>
@@ -102,10 +84,21 @@ export default function ChapterList({
                 chapter.liked ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-400"
               } hover:scale-110 active:scale-95`}
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent card click
                 handleToggleLike(chapter.id);
               }}
             />
+            {/* New Edit Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent card click
+                onEditChapter(index); // Pass the chapter index
+              }}
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              title="Edit Chapter"
+            >
+              <Edit className="w-5 h-5 text-gray-500 hover:text-blue-600" />
+            </button>
           </div>
         </CardHorizontal>
       ))}

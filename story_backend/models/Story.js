@@ -30,6 +30,9 @@ const pendingChapterSchema = new mongoose.Schema({
     enum: ["pending", "approved", "rejected"],
     default: "pending"
   }
+  ,
+   type: { type: String, enum: ["new_chapter", "edit_chapter"], required: true }, // "new_chapter" or "edit_chapter"
+  originalChapterIndex: { type: Number }
 });
 
 // ✅ Comment Schema

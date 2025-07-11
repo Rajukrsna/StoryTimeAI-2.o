@@ -7,6 +7,26 @@ import Chapter from "../models/Chapter.js"; // Import Chapter model
 
 const router = express.Router();
 
+router.delete("/stories/:id", async (req, res) => {
+  const { id } = req.params;
+
+  
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid Story ID format" });
+  }
+
+  try {
+    const story = await Story.findById(id);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    await story.deleteOne();
+    return res.status(200).json({ message: "Story deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error deleting story", error: error.message });
+  }
+});
 
 
 router.get('/getUserStories',protect,async (req, res) => {
@@ -178,128 +198,169 @@ router.get("/leaderboard/:title", async (req, res) => {
   }
 });
 
-// /**  Update a Story (Protected) */
 router.put("/:id", protect, async (req, res) => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
-    const { votes } = req.body;
+    // Destructure all possible payload fields
+    const { content, votes, newChapter, editedChapterData, editedChapterIndex } = req.body;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid Story ID format" });
     }
-    if ( !content) {
-      return res
-        .status(400)
-        .json({ message: "Title or content required for update" });
+
+    const story = await Story.findById(id);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
     }
-    const story = await Story.findById(id);    
-    if (!story) return res.status(404).json({ message: "Story not found" });
-      if (story.author.toString() !== req.user._id.toString()) {
-    // Not author - add to pending requests
-    const  newChapter = req.body.newChapter;
-    console.log("these are the field of the new chapters", newChapter)
-    if (!newChapter) {
-      return res.status(400).json({ message: "Chapter data missing" });
+    console.log("content of the storyh", content);
+    const isAuthor = story.author.toString() === req.user._id.toString();
+
+    // Scenario 1: Author is updating the entire story content (e.g., after editing a chapter)
+    // This is triggered when `content` (the full array) is sent and no `newChapter` or `editedChapterData` is present.
+    if (isAuthor && content && !newChapter && !editedChapterData) {
+      console.log("Author updating entire story content");
+      story.content = content; // Replace the entire content array
+      story.votes = votes !== undefined ? votes : story.votes; // Update votes if provided
+      const updatedStory = await story.save();
+      return res.status(200).json(updatedStory);
     }
+
+    // Scenario 2: Adding a new chapter (either author or non-author)
+    if (newChapter) {
+      if (isAuthor) {
+        story.content.push(newChapter);
+        story.votes = votes !== undefined ? votes : story.votes;
+        await story.save();
+        // Also save the new chapter to the Chapter collection
+        const chapterToSave = new Chapter({
+          ...newChapter,
+          storyId: story._id,
+          embedding: newChapter.embedding || [], // Ensure embedding is included
+        });
+        await chapterToSave.save();
+        return res.status(200).json(story);
+      } else {
+        // Non-author adding a new chapter, add to pending
+        story.pendingChapters = story.pendingChapters || [];
+        story.pendingChapters.push({
+          ...newChapter,
+          requestedBy: req.user._id,
+          status: "pending",
+          type: "new_chapter", // Explicitly mark as new chapter
+        });
+        story.votes = votes !== undefined ? votes : story.votes;
+        await story.save();
+        return res.status(202).json({ message: "Chapter request sent to author for approval." });
+      }
+    }
+
+    // Scenario 3: Non-author proposing an edit to an existing chapter
+    // This is triggered when `editedChapterData` and `editedChapterIndex` are sent.
+    if (!isAuthor && editedChapterData && editedChapterIndex !== undefined) {
+      // Validate editedChapterData structure if necessary
+      if (typeof editedChapterIndex !== 'number' || editedChapterIndex < 0) {
+        return res.status(400).json({ message: "Invalid editedChapterIndex." });
+      }
+      if (!editedChapterData.content || !editedChapterData.title) { // Basic validation
+        return res.status(400).json({ message: "Edited chapter data is incomplete." });
+      }
+
       story.pendingChapters = story.pendingChapters || [];
       story.pendingChapters.push({
-      ...newChapter,
-      requestedBy: req.user._id,
-      status: "pending",
-    });
-     story.votes= votes||story.votes;
-    await story.save();
-    return res.status(202).json({ message: "Chapter request sent to author for approval." });
-  }
-else{
-    story.votes= votes||story.votes;
-    story.content = content || story.content;
-    const updatedStory = await story.save();
-    res.json(updatedStory);
-}
+        ...editedChapterData, // This is the single chapter object
+        originalChapterIndex: editedChapterIndex, // Store the index of the chapter being edited
+        requestedBy: req.user._id,
+        status: "pending",
+        type: "edit_chapter", // Explicitly mark as an edit request
+      });
+      story.votes = votes !== undefined ? votes : story.votes;
+      await story.save();
+      return res.status(202).json({ message: "Edit request sent for approval." });
+    }
+
+    // If none of the above scenarios match, it's an invalid request
+    return res.status(400).json({ message: "Invalid update request. Missing content, newChapter, or editedChapterData." });
+
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: "Error updating story", error: error.message });
+    console.error("Error updating story:", error);
+    res.status(500).json({ message: "Error updating story", error: error.message });
   }
 });
 
 
-router.put("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
+
+router.post("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
   try {
+    console.log("entered teh chapter approval route");
     const { id, chapterIndex } = req.params;
-    //console.log(id, chapterIndex);
     const story = await Story.findById(id);
     if (!story) return res.status(404).json({ message: "Story not found" });
 
-    // Check if current user is the story author
+    // Ensure the current user is the author of the story
     if (story.author.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Only the author can approve chapters." });
+      return res.status(403).json({ message: "You are not authorized to approve chapters for this story." });
     }
 
-    const index = parseInt(chapterIndex, 10);
-    const pendingChapter = story.pendingChapters[index];
-    if (!pendingChapter) {
-      return res.status(404).json({ message: "Pending chapter not found" });
-    }
-    const user = await User.findById(pendingChapter.requestedBy)
-  const contributions= [
-        {
-          title: story.title || "N/A",
-          score: 1,
-        }];
-            console.log("contri user", user)
-   if (Array.isArray(contributions)) {
-     contributions.forEach((c) => {
-        if (c.title && typeof c.score === 'number') {
-          user.contributions.push(c);
-        }
+    const chapterToApprove = story.pendingChapters[chapterIndex];
+    console.log("chapterToApprove", chapterToApprove);
+    if (!chapterToApprove) return res.status(404).json({ message: "Pending chapter not found." });
+
+    // Create a clean chapter object to add to story.content
+    const approvedChapterContent = {
+      title: chapterToApprove.title,
+      content: chapterToApprove.content,
+      summary: chapterToApprove.summary,
+      likes: chapterToApprove.likes,
+      createdBy: chapterToApprove.createdBy, // The user who submitted the pending chapter
+      createdAt: chapterToApprove.createdAt,
+    };
+    if (chapterToApprove.type === "new_chapter") {
+      story.content.push(approvedChapterContent);
+      //also add the chapter to the Chapter collection
+      const newChapter = new Chapter({
+        ...approvedChapterContent,
+        storyId: story._id,
+        embedding: chapterToApprove.embedding || [], // Ensure embedding is included
       });
+      await newChapter.save();
+    } else if (chapterToApprove.type === "edit_chapter") {
+      const originalIndex = chapterToApprove.originalChapterIndex;
+      if (originalIndex === undefined || originalIndex < 0 || originalIndex >= story.content.length) {
+        return res.status(400).json({ message: "Invalid original chapter index for edit approval." });
+      }
+      // Replace the existing chapter at the specified index
+      story.content[originalIndex] = approvedChapterContent;
+    } else {
+      return res.status(400).json({ message: "Unknown pending chapter type." });
     }
 
-     await user.save();
+    // Remove the approved chapter from pendingChapters
+    story.pendingChapters.splice(chapterIndex, 1);
 
-    // ✅ Destructure only allowed fields for content
-    const { title, content, createdBy, createdAt, likes , embedding, summary} = pendingChapter;
+    // Update the contributor's score (if applicable)
+    const contributor = await User.findById(chapterToApprove.createdBy);
+    if (contributor) {
+      const contributionTitle = story.title; // Or chapterToApprove.title
+      const existingContributionIndex = contributor.contributions.findIndex(
+        (c) => c.title === contributionTitle
+      );
 
-    // ✅ Push clean version to main content
-    story.content.push({
-      title,
-      content,
-      createdBy,
-      createdAt,
-      summary,
-      embedding,
-      likes
-    });
+      if (existingContributionIndex > -1) {
+        contributor.contributions[existingContributionIndex].score += 1; // Increment score
+      } else {
+        contributor.contributions.push({ title: contributionTitle, score: 1 }); // Add new contribution
+      }
+      await contributor.save();
+    }
 
-       // ✅ Insert into Chapter collection
-await Chapter.create({
-  title,
-  content,
-  createdBy,
-  createdAt,
-  likes,
-  storyId: story._id,     // Reference to the main story
-  summary: pendingChapter.summary || "", // Optional if you store it
-  embedding: pendingChapter.embedding || [],
-});
-
-
-    // ✅ Remove from pendingChapters
-    story.pendingChapters.splice(index, 1);
-
-    // ✅ Save story
     await story.save();
-
-    res.status(200).json({ message: "Chapter approved and added to story", story });
-
+    res.status(200).json({ message: "Chapter approved and added to story." });
   } catch (error) {
     console.error("Error approving chapter:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res.status(500).json({ message: "Error approving chapter", error: error.message });
   }
 });
+
 // ✅ In your Express router (e.g., storyRoutes.js)
 router.delete("/:id/reject-chapter/:chapterIndex", protect, async (req, res) => {
   try {

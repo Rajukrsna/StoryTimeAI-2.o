@@ -11,6 +11,8 @@ export interface User {
   profilePicture?: string;
   email?: string;
   bio?: string;
+  following?: string[]; // Array of user IDs that this user is following
+  followers?: string[]; // Array of user IDs that follow this user
   contributions?: Contribution[];
 }
 
@@ -31,7 +33,7 @@ export interface PendingChapter extends Chapter {
 }
 
 export interface Author {
-  id: string;
+  _id: string;
   name: string;
   bio: string;
   profileImage: string;
@@ -50,6 +52,7 @@ export interface ChapterStatus {
   storyTitle: string;
   chapterTitle: string;
   status: "approved" | "pending" | "rejected";
+  
   createdAt: string;
 }
 

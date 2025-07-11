@@ -1,3 +1,4 @@
+// StoryTime-Frontend/app/create/page.tsx
 "use client"
 
 import { Navbar } from "@/components/Navbar";
@@ -8,16 +9,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { useRouter } from "next/navigation";
 import { createAIStory } from "@/api/aiApi";
-import { useState } from "react"; 
+import { useState, useEffect } from "react"; // Import useEffect
 import { FaFeatherAlt } from "react-icons/fa";
+import { X } from "lucide-react"; // Import X icon for close button
 
 export default function CreatePage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showGuide, setShowGuide] = useState(false); // New state for guide modal
 
     const router = useRouter();
+
+    useEffect(() => {
+        // Check if the user has seen the guide before
+        const hasSeenGuide = localStorage.getItem("hasSeenCreateGuide");
+        if (!hasSeenGuide) {
+            setShowGuide(true);
+        }
+    }, []);
+
+    const handleCloseGuide = () => {
+        setShowGuide(false);
+        localStorage.setItem("hasSeenCreateGuide", "true"); // Mark as seen
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -160,6 +176,38 @@ export default function CreatePage() {
               <FaFeatherAlt className="text-6xl text-black animate-spin mb-6 mx-auto" />
               <p className="text-xl font-semibold text-gray-800 animate-pulse">Generating your story...</p>
               <p className="text-sm text-gray-600 mt-2">This may take a few moments</p>
+            </div>
+          </div>
+        )}
+
+        {/* Onboarding Guide Modal */}
+        {showGuide && (
+          <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative">
+              <button
+                onClick={handleCloseGuide}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={24} />
+              </button>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Story Creation!</h2>
+              <p className="text-gray-700 mb-4">
+                Here's a quick guide to get started:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>
+                  <strong>Story Title:</strong> Give your story a captivating name.
+                </li>
+                <li>
+                  <strong>Description:</strong> Provide a brief summary or a starting prompt for your story. This helps the AI generate the first chapter.
+                </li>
+                <li>
+                  <strong>Cover Image:</strong> Upload an image that represents your story. This will be its visual identity!
+                </li>
+              </ul>
+              <Button onClick={handleCloseGuide} className="mt-6 w-full bg-black text-white hover:bg-gray-800">
+                Got it! Let's create.
+              </Button>
             </div>
           </div>
         )}

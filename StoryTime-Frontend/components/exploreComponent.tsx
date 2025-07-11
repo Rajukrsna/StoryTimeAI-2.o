@@ -197,6 +197,13 @@ function StoriesList({ stories }: { stories: Story[] }) {
 }
 
 function AuthorsList({ authors }: { authors: User[] }) {
+    const router = useRouter();
+    const handleViewProfile = (userId: string) => {
+        // For now, navigate to the current user's profile page.
+        // In a full implementation, this would go to a public profile page for the specific author.
+        router.push(`/profile`);
+    };
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {authors.map((author, index) => (
@@ -223,13 +230,25 @@ function AuthorsList({ authors }: { authors: User[] }) {
               </div>
 
               {/* Author Info */}
-              <div className="flex-1">
+              <div className="flex-1 flex flex-col items-center">
                 <h2 className="text-xl font-bold text-black mb-2 group-hover:text-gray-700 transition-colors">
                   {author.name}
                 </h2>
-                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                  {author.bio?.substring(0, 120) || "No bio available."}
+                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-3">
+                  {author.bio || "No bio available."}
                 </p>
+                {author.contributions && author.contributions.length > 0 && (
+                  <p className="text-sm font-semibold text-gray-700 mb-4">
+                    Total Contributions:{" "}
+                    {author.contributions.reduce((sum, c) => sum + c.score, 0)}
+                  </p>
+                )}
+                <Button
+                  onClick={() => handleViewProfile(author._id)}
+                  className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-xl transition-all duration-200 hover:scale-105"
+                >
+                  View Profile
+                </Button>
               </div>
             </CardHorizontal>
           </motion.div>
@@ -237,3 +256,4 @@ function AuthorsList({ authors }: { authors: User[] }) {
       </div>
     );
 }
+

@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import bcrypt from "bcryptjs";
+//import bcrypt from "bcryptjs";
 
 const userSchema = new Schema(
   {
@@ -34,15 +34,25 @@ const userSchema = new Schema(
     score: { type: Number, required: true }
   }
 ],
+    // Add these new fields for follow functionality
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
   { timestamps: true }
 );
 
-
-
-
+// // Pre-save hook to hash password (if not already hashed, and if password is modified)
+// userSchema.pre("save", async function (next) {
+//   if (this.isModified("password") && this.password) {
+//     // Only hash if the password is a new string and not already hashed
+//     // Note: The current register route directly assigns password without hashing.
+//     // You should uncomment and use bcrypt.hash here if you want to hash passwords.
+//     // this.password = await bcrypt.hash(this.password, 10);
+//   }
+//   next();
+// });
 
 const User = model("User", userSchema);
 export default User;

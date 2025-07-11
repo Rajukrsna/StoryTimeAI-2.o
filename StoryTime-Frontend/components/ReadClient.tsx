@@ -118,7 +118,7 @@ export default function ReadPage() {
   const readingTime = currentContent ? estimateReadingTime(currentContent) : 0;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 text-gray-900 font-serif">
+    <main className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 text-gray-900 ">
       <Navbar />
 
       {chapter && paginatedContent.length > 0 ? (
@@ -245,7 +245,7 @@ export default function ReadPage() {
                   >
                     <FaChevronRight className="text-gray-400 group-hover:text-gray-600 transition-colors" />
                   </button>
-                  
+
                 )}
               </div>
 

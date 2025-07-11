@@ -1,4 +1,4 @@
-// LeaderboardList.tsx
+// StoryTime-Frontend/components/Leaderboard.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import { CardHorizontal } from "@/components/ui/card";
 import Image from "next/image";
 import { FaMedal, FaUserPlus, FaSearch } from "react-icons/fa";
 import { HiOutlineStar } from "react-icons/hi";
+import { followUser, unfollowUser, getMyProfile } from "@/api/profile"; // Import follow/unfollow and getMyProfile
+import { toast } from "sonner";
 
 interface LeaderboardEntry {
   userId: string;
@@ -20,22 +22,55 @@ interface LeaderboardEntry {
 export default function LeaderboardList({ title }: { title: string }) {
   const router = useRouter();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [currentUserFollowing, setCurrentUserFollowing] = useState<string[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const handleNavAuthor = () => {
     router.push("/author");
   };
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
+    const fetchLeaderboardAndProfile = async () => {
       try {
-        const res = await getLeaderBoard(title); // GET `/leaderboard/:title`
-        setLeaderboard(res);
+        const [leaderboardData, myProfileData] = await Promise.all([
+          getLeaderBoard(title),
+          getMyProfile(), // Fetch current user's profile to get following list
+        ]);
+        setLeaderboard(leaderboardData);
+        setCurrentUserFollowing(myProfileData.following?.map(id => id.toString()) || []);
+        setCurrentUserId(myProfileData._id);
       } catch (err) {
-        console.error("Failed to fetch leaderboard", err);
+        console.error("Failed to fetch leaderboard or profile", err);
       }
     };
-    fetchLeaderboard();
+    fetchLeaderboardAndProfile();
   }, [title]);
+
+  const handleFollowToggle = async (authorId: string) => {
+    if (!currentUserId) {
+      toast.error("Please log in to follow users.");
+      return;
+    }
+    if (authorId === currentUserId) {
+      toast.info("You cannot follow yourself.");
+      return;
+    }
+
+    try {
+      if (currentUserFollowing.includes(authorId)) {
+        await unfollowUser(authorId);
+        setCurrentUserFollowing(prev => prev.filter(id => id !== authorId));
+        toast.success(`Unfollowed ${leaderboard.find(a => a.userId === authorId)?.name}`);
+      } else {
+        await followUser(authorId);
+        setCurrentUserFollowing(prev => [...prev, authorId]);
+        toast.success(`Following ${leaderboard.find(a => a.userId === authorId)?.name}`);
+      }
+    } catch (error) {
+      console.error("Error toggling follow status:", error);
+      toast.error("Failed to update follow status.");
+    }
+  };
 
   return (
     <div className="grid gap-6">
@@ -71,8 +106,17 @@ export default function LeaderboardList({ title }: { title: string }) {
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2">
-            <Button size="sm" className="flex items-center gap-2">
-              <FaUserPlus /> Follow
+            <Button
+              size="sm"
+              onClick={() => handleFollowToggle(entry.userId)}
+              disabled={entry.userId === currentUserId} // Disable if it's the current user
+              className={`${
+                currentUserFollowing.includes(entry.userId)
+                  ? "bg-gray-600 hover:bg-gray-700"
+                  : "bg-black hover:bg-gray-900"
+              } text-white flex items-center gap-2`}
+            >
+              <FaUserPlus /> {currentUserFollowing.includes(entry.userId) ? "Following" : "Follow"}
             </Button>
             <Button
               onClick={handleNavAuthor}

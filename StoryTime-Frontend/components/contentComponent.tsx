@@ -1,3 +1,4 @@
+// StoryTime-Frontend/components/contentComponent.tsx
 "use client";
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ export default function ContentComponent({
   const [activeTab, setActiveTab] = useState<"read" | "collab" | "leaderboard">("read");
   const router = useRouter();
   const chapters = story.map((chapter, index) => ({
-    id: index,
+    id: index, // Use index as a temporary ID for client-side mapping
     title: chapter.title,
     content: chapter.content,
     createdBy: chapter.createdBy,
@@ -38,6 +39,11 @@ export default function ContentComponent({
 
   const handleNavCollab = () => {
     router.push(`/collab?id=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}`);
+  };
+
+  const handleEditChapter = (chapterIndex: number) => {
+    // Navigate to the collab page with parameters to indicate editing an existing chapter
+    router.push(`/collab?id=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}&editChapterIndex=${chapterIndex}`);
   };
 
   return (
@@ -88,7 +94,7 @@ export default function ContentComponent({
 
       <section className="mt-8">
         <Suspense fallback={<div>Loading Chapters...</div>}>
-          {activeTab === "read" && <ChapterList title={title} chapters={chapters} id={id} />}
+          {activeTab === "read" && <ChapterList title={title} chapters={chapters} id={id} onEditChapter={handleEditChapter} />}
         </Suspense>
 
         <Suspense fallback={<div>Loading Collaboration...</div>}>

@@ -1,6 +1,5 @@
 import expressClient from './axiosInstance/expressClient';
-import lambdaClient from './axiosInstance/lambdaClient';  
-import type { Story, User, Contribution, Chapter,Author  } from "@/types"; // Adjust the path as needed
+import type { Story ,Chapter } from "@/types"; // Adjust the path as needed
 
 
 
@@ -35,15 +34,22 @@ export const createStory = async (title: string,  initialContent: string
     return response.data;
 };
 
-export const updateStory = async (id: string, story: Story, newChap: Chapter): Promise<Story> => {
-    const response = await expressClient.put<Story>(`api/stories/${id}`,  
-        { votes: story.votes, content: story.content, newChapter: newChap}
- );
-    return response.data;
+export const updateStory = async (
+  storyId: string,
+  payload: {
+    content?: Chapter[]; // For author's full content update
+    votes?: number;
+    newChapter?: Chapter; // For new chapter submission (non-author)
+    editedChapterData?: Chapter; // For non-author's edit proposal
+    editedChapterIndex?: number; // Index of chapter being edited
+  },
+): Promise<Story> => {
+  const response = await expressClient.put<Story>(`/api/stories/${storyId}`, payload);
+  return response.data;
 };
 
 export const deleteStory = async (id: string): Promise<void> => {
-    await lambdaClient.delete(`/stories/${id}`);
+    await expressClient.delete(`/api/stories/stories/${id}`);
 };
 
 export interface LeaderboardEntry {
@@ -63,7 +69,7 @@ export const getUserStories = async():Promise<Story[]> => {
 };
 
 export const approveStory = async(storyId: string, chapterIndex: number): Promise<Story> =>{
-  const response = await expressClient.put<Story>(`/api/stories/${storyId}/approve-chapter/${chapterIndex}`)
+  const response = await expressClient.post<Story>(`/api/stories/${storyId}/approve-chapter/${chapterIndex}`)
   return response.data;
 };
 

@@ -14,7 +14,7 @@ export const getAuthors = async (): Promise<User[]> => {
 
 //  Get current logged-in user's profile
 export const getMyProfile = async (): Promise<User> => {
-  const response = await lambdaClient.get<User>("/users/profile");
+  const response = await expressClient.get<User>("/api/users/profile");
   return response.data;
 };
 
@@ -67,4 +67,13 @@ export const fetchMyChaptersStatus = async (
   console.log(response)
 
   return response.data.chapters;
+};
+
+// New API functions for follow/unfollow
+export const followUser = async (userId: string): Promise<void> => {
+  await expressClient.post(`/api/users/${userId}/follow`);
+};
+
+export const unfollowUser = async (userId: string): Promise<void> => {
+  await expressClient.post(`/api/users/${userId}/unfollow`);
 };

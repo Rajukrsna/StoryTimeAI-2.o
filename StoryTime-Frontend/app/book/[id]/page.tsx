@@ -29,14 +29,7 @@ export default function BookPage() {
 
         setStory(updatedStory); // Optimistic UI update
   try {
-    await updateStory(id, updatedStory,{
-        title: "",
-        content: "",
-        likes: 0,
-        summary: "", 
-        createdBy:"",
-        createdAt: "",
-    }); // Send update to server
+    await updateStory(id, updatedStory); // Send update to server
   } catch (error) {
     console.error("Failed to update story votes:", error);
   }
