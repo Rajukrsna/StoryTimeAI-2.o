@@ -47,7 +47,7 @@ export default function ContentComponent({
   };
 
   return (
-    <main className="min-h-screen px-4 sm:px-6 py-6 bg-white font-sans">
+    <main className="min-h-screen px-4 sm:px-6 py-6 bg-white font-sans overflow-x-hidden">
       <nav className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
