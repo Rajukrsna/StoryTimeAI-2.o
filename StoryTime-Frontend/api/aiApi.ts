@@ -20,11 +20,12 @@ interface PlotBotResponse {
 
 export const sendToPlotBot = async (
   prompt: string,
-  embed: number[]
+  embed: number[],
+  storyId?: string  
 ): Promise<string> => {
   const res = await expressClient.post<PlotBotResponse>(
     "/api/ai-suggestions/plot-bot",
-    { prompt, embed }
+    { prompt, embed, storyId }
   );
   return res.data.response;
 };

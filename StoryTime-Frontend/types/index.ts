@@ -47,6 +47,8 @@ export interface Story {
   author: Author;
   votes: number;
   imageUrl: string;
+  collaborationInstructions?: string; 
+
 }
 export interface ChapterStatus {
   storyTitle: string;

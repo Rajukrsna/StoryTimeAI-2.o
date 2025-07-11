@@ -68,6 +68,8 @@ const storySchema = new mongoose.Schema(
         updatedAt: { type: Date, default: Date.now },
       },
     ], 
+  collaborationInstructions: { type: String, default: "" }, // ADD THIS LINE
+
   },
   
   { timestamps: true },

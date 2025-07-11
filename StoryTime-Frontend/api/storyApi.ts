@@ -24,13 +24,13 @@ export const getStory = async (id: string): Promise<Story> => {
 };
 
 export const createStory = async (title: string,  initialContent: string 
-,imageUrl: string, summary: string, embeds: number[]): Promise<Story> => {
+,imageUrl: string, summary: string, embeds: number[],collaborationInstructions: string): Promise<Story> => {
     const response = await expressClient.post<Story>('/api/stories', { title,  chapters: [
       {
         
         content: initialContent,
       }
-    ], imageUrl, summary , embeds});
+    ], imageUrl, summary , embeds,collaborationInstructions});
     return response.data;
 };
 
@@ -38,7 +38,6 @@ export const updateStory = async (
   storyId: string,
   payload: {
     content?: Chapter[]; // For author's full content update
-    votes?: number;
     newChapter?: Chapter; // For new chapter submission (non-author)
     editedChapterData?: Chapter; // For non-author's edit proposal
     editedChapterIndex?: number; // Index of chapter being edited

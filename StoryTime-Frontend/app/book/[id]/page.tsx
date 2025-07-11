@@ -1,3 +1,4 @@
+// StoryTime-Frontend/app/book/[id]/page.tsx
 "use client";  // Mark as a Client Component
 
 import { useEffect, useState } from "react";
@@ -9,8 +10,8 @@ import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import {updateStory} from "@/api/storyApi"
 import type { Story  } from "@/types"; // Adjust the path as needed
 import { Suspense } from "react";
-
-
+import LoadingSpinner from "@/components/LoadingSpinner"; // Import the LoadingSpinner
+import { updateStoryVotes } from "@/api/storyApi"; // Import the new API function
 
 export default function BookPage() {
    
@@ -20,20 +21,17 @@ export default function BookPage() {
     const handleUpdateStory = async (vote: number) => {
         if (!story) return;
 
-        const updatedVotes = story.votes + vote;
-
-        const updatedStory: Story = {
-            ...story,
-            votes: updatedVotes,
-        };
-
-        setStory(updatedStory); // Optimistic UI update
-  try {
-    await updateStory(id, updatedStory); // Send update to server
-  } catch (error) {
-    console.error("Failed to update story votes:", error);
-  }
-};
+        // Optimistic UI update
+        setStory(prevStory => prevStory ? { ...prevStory, votes: prevStory.votes + vote } : null);
+        
+        try {
+            await updateStoryVotes(id, vote); // Call the new API function
+        } catch (error) {
+            console.error("Failed to update story votes:", error);
+            // Revert optimistic update if API call fails
+            setStory(prevStory => prevStory ? { ...prevStory, votes: prevStory.votes - vote } : null);
+        }
+    };
     useEffect(() => {
         if (!id) return;
 
@@ -56,13 +54,7 @@ export default function BookPage() {
   );
 }
    return (
-        <Suspense fallback={
-              <div className="flex justify-center items-center mt-10 text-gray-500 gap-3">
-
-      <div className="w-5 h-5 border-4 border-gray-300 border-t-transparent rounded-full animate-spin"></div>
-      <p>Loading Story...</p>
-        </div>
-        }>
+        <Suspense fallback={<LoadingSpinner message="Loading story details..." />}>
 
   <main className="min-h-screen bg-white text-black">
     <Navbar />
@@ -122,3 +114,4 @@ export default function BookPage() {
 
 );
 }
+

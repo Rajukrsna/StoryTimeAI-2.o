@@ -17,7 +17,7 @@ export default function AiPageClient() {
   const initialSummary = searchParams.get("summary") || "";
   const title = searchParams.get("title") || "No title provided.";
   const imageUrl = searchParams.get("imageUrl") || "No image provided.";
-
+  const collaborationInstructions = searchParams.get("collaborationInstructions") || "";
   const [story, setStory] = useState(initialStory);
   const [displayedStory, setDisplayedStory] = useState(initialStory);
   const [isTyping, setIsTyping] = useState(false);
@@ -68,7 +68,7 @@ export default function AiPageClient() {
   const handlePublish = async () => {
     try {
       const embeds = await getEmbeddings(summary);
-      const response = await createStory(title, story, imageUrl, summary, embeds);
+      const response = await createStory(title, story, imageUrl, summary, embeds,collaborationInstructions);
       if (response) {
         toast.success("🎉 Story published successfully!");
         router.push("/homepage");

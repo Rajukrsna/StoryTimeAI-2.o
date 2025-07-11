@@ -19,6 +19,7 @@ export default function CreatePage() {
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [showGuide, setShowGuide] = useState(false); // New state for guide modal
+    const [collaborationInstructions, setCollaborationInstructions] = useState(""); // ADD THIS LINE
 
     const router = useRouter();
 
@@ -66,7 +67,7 @@ export default function CreatePage() {
     };
 
     const handleCreate = async () => {
-        setIsLoading(true);
+          setIsLoading(true);
 
         try {
             const imageUrl = await handleUpload();
@@ -80,7 +81,7 @@ export default function CreatePage() {
             }
             const response = await createAIStory(title, description);
             if (response) {
-                router.push(`/aiPage?summary=${encodeURIComponent(response.summary)}&story=${encodeURIComponent(response.suggestion)}&title=${encodeURIComponent(title)}&imageUrl=${encodeURIComponent(imageUrl)}`);  
+                router.push(`/aiPage?summary=${encodeURIComponent(response.summary)}&story=${encodeURIComponent(response.suggestion)}&title=${encodeURIComponent(title)}&imageUrl=${encodeURIComponent(imageUrl)}&collaborationInstructions=${encodeURIComponent(collaborationInstructions)}`);  
             } else {
                 alert("AI generation failed!");
             }
@@ -136,6 +137,19 @@ export default function CreatePage() {
                   className="h-32 text-base resize-none"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+               {/* Collaboration Instructions */}
+              <div className="space-y-3">
+                <Label htmlFor="instructions" className="text-sm font-semibold text-gray-700">
+                  Collaboration Instructions (Optional)
+                </Label>
+                <Textarea
+                  id="instructions"
+                  placeholder="e.g., 'Keep the tone light and humorous. Avoid introducing new main characters.'"
+                  className="h-32 text-base resize-none"
+                  value={collaborationInstructions}
+                  onChange={(e) => setCollaborationInstructions(e.target.value)}
                 />
               </div>
 
@@ -199,7 +213,7 @@ export default function CreatePage() {
                   <strong>Description:</strong> Provide a brief summary or a starting prompt for your story. This helps the AI generate the first chapter.
                 </li>
                 <li>
-                  <strong>Cover Image:</strong> Upload an image that represents your story. This will be its visual identity!
+                  <strong>Cover Image:</strong> Upload an image that represents your story. This will be its visual identity.
                 </li>
               </ul>
               <Button onClick={handleCloseGuide} className="mt-6 w-full bg-black text-white hover:bg-gray-800">

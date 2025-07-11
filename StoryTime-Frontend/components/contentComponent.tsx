@@ -102,7 +102,7 @@ export default function ContentComponent({
         </Suspense>
 
         <Suspense fallback={<div>Loading Leaderboard...</div>}>
-          {activeTab === "leaderboard" && <LeaderboardList title={title} />}
+          {activeTab === "leaderboard" && <LeaderboardList id={id} title={title} />}
         </Suspense>
       </section>
     </main>

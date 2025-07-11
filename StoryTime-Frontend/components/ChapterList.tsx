@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BookOpen, Heart, Edit } from "lucide-react"; // Import Edit icon
-import { updateStory } from "@/api/storyApi"; // Ensure this import is correct
+import { updateChapterLikes } from "@/api/storyApi"; // Import updateChapterLikes
 import { CardHorizontal } from "@/components/ui/card";
 import type { User } from "@/types";
 
@@ -36,24 +36,33 @@ export default function ChapterList({
   };
 
   const handleToggleLike = async (chapId: number) => {
+    const chapterIndex = chapters.findIndex(ch => ch.id === chapId);
+    if (chapterIndex === -1) return;
+
+    const currentChapter = chapters[chapterIndex];
+    const newLikedStatus = !currentChapter.liked;
+    const newLikesCount = newLikedStatus ? currentChapter.likes + 1 : currentChapter.likes - 1;
+
+    // Optimistic UI update
     const updatedChapters = chapters.map((ch) => {
       if (ch.id === chapId) {
         return {
           ...ch,
-          likes: ch.liked ? ch.likes - 1 : ch.likes + 1,
-          liked: !ch.liked,
+          likes: newLikesCount,
+          liked: newLikedStatus,
         };
       }
       return ch;
     });
-
     setChapters(updatedChapters);
 
     try {
-      // CORRECTED CALL: Pass the story ID and a payload object with 'content'
-      await updateStory(id, { content: updatedChapters });
+      // Call the new API function
+      await updateChapterLikes(id, chapterIndex, newLikedStatus);
     } catch (err) {
       console.error("Failed to update likes:", err);
+      // Revert optimistic update if API call fails
+      setChapters(chapters); // Revert to original state
     }
   };
 
@@ -105,3 +114,4 @@ export default function ChapterList({
     </div>
   );
 }
+

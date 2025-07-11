@@ -1,3 +1,4 @@
+// story_backend/utils/aiHelper.js
 import fetch from "node-fetch";
 import {  GEMINI_API_KEY } from "../config/config.js";
 
@@ -21,7 +22,8 @@ Guidelines:
 - Expand with rich descriptions and vivid details.
 - Develop character emotions and realistic interactions.
 - Introduce an engaging plot twist or unexpected event.
-- Keep the writing style natural and immersive.`;
+- Keep the writing style natural and immersive.
+- Write in clear, simple English, avoiding overly complex vocabulary or sentence structures.`; // ADDED THIS LINE
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -91,3 +93,4 @@ export const summarizeContent = async (chapterText) => {
     return "Summary generation failed.";
   }
 };
+

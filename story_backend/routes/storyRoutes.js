@@ -73,7 +73,7 @@ router.get("/stories",protect, async (req, res) => {
 router.post("/", protect, async (req, res) => {
   try {
 
-    const { title, chapters, summary, imageUrl, embeds } = req.body;
+    const { title, chapters, summary, imageUrl, embeds ,collaborationInstructions } = req.body;
     console.log("summary", summary);
     console.log("chapters", chapters);
 
@@ -94,7 +94,8 @@ router.post("/", protect, async (req, res) => {
       title,
       author: req.user._id,
       imageUrl: imageUrl ,
-      content: Chapters
+      content: Chapters,
+      collaborationInstructions
     });
 
     const savedStory = await story.save();
@@ -198,11 +199,75 @@ router.get("/leaderboard/:title", async (req, res) => {
   }
 });
 
+// NEW: Endpoint for updating story votes
+router.post("/:id/vote", protect, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { vote } = req.body; // Expecting vote: 1 for upvote, -1 for downvote
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid Story ID format" });
+    }
+
+    const story = await Story.findById(id);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    // Update votes atomically
+    story.votes += vote;
+    await story.save();
+
+    res.status(200).json({ message: "Vote updated successfully", votes: story.votes });
+  } catch (error) {
+    console.error("Error updating story vote:", error);
+    res.status(500).json({ message: "Error updating story vote", error: error.message });
+  }
+});
+
+// NEW: Endpoint for updating chapter likes
+router.post("/:storyId/chapter/:chapterIndex/like", protect, async (req, res) => {
+  try {
+    const { storyId, chapterIndex } = req.params;
+    const { liked } = req.body; // Expecting liked: true for like, false for unlike
+
+    if (!mongoose.Types.ObjectId.isValid(storyId)) {
+      return res.status(400).json({ message: "Invalid Story ID format" });
+    }
+
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    const index = parseInt(chapterIndex, 10);
+    if (isNaN(index) || index < 0 || index >= story.content.length) {
+      return res.status(400).json({ message: "Invalid chapter index" });
+    }
+
+    const chapter = story.content[index];
+    if (liked) {
+      chapter.likes += 1;
+    } else {
+      chapter.likes -= 1;
+    }
+
+    await story.save(); // Save the parent story to persist chapter changes
+
+    res.status(200).json({ message: "Chapter likes updated successfully", likes: chapter.likes });
+  } catch (error) {
+    console.error("Error updating chapter likes:", error);
+    res.status(500).json({ message: "Error updating chapter likes", error: error.message });
+  }
+});
+
+
+
 router.put("/:id", protect, async (req, res) => {
   try {
     const { id } = req.params;
     // Destructure all possible payload fields
-    const { content, votes, newChapter, editedChapterData, editedChapterIndex } = req.body;
+    const { content, newChapter, editedChapterData, editedChapterIndex } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid Story ID format" });
@@ -220,7 +285,6 @@ router.put("/:id", protect, async (req, res) => {
     if (isAuthor && content && !newChapter && !editedChapterData) {
       console.log("Author updating entire story content");
       story.content = content; // Replace the entire content array
-      story.votes = votes !== undefined ? votes : story.votes; // Update votes if provided
       const updatedStory = await story.save();
       return res.status(200).json(updatedStory);
     }
@@ -229,7 +293,6 @@ router.put("/:id", protect, async (req, res) => {
     if (newChapter) {
       if (isAuthor) {
         story.content.push(newChapter);
-        story.votes = votes !== undefined ? votes : story.votes;
         await story.save();
         // Also save the new chapter to the Chapter collection
         const chapterToSave = new Chapter({
@@ -248,7 +311,6 @@ router.put("/:id", protect, async (req, res) => {
           status: "pending",
           type: "new_chapter", // Explicitly mark as new chapter
         });
-        story.votes = votes !== undefined ? votes : story.votes;
         await story.save();
         return res.status(202).json({ message: "Chapter request sent to author for approval." });
       }
@@ -273,7 +335,6 @@ router.put("/:id", protect, async (req, res) => {
         status: "pending",
         type: "edit_chapter", // Explicitly mark as an edit request
       });
-      story.votes = votes !== undefined ? votes : story.votes;
       await story.save();
       return res.status(202).json({ message: "Edit request sent for approval." });
     }

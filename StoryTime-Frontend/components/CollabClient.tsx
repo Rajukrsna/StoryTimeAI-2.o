@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { X, Lightbulb, Loader2 } from 'lucide-react'; // Added Loader2
+import { X, Lightbulb, Loader2, Info } from 'lucide-react'; // Added Info icon
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { getStory } from "@/api/storyApi";
@@ -22,7 +22,7 @@ import clsx from "clsx";
 import { Bold, Italic, UnderlineIcon, List, AlignLeft, AlignCenter, AlignRight, StopCircle } from 'lucide-react';
 import type { Story, User, Chapter } from "@/types";
 import getEmbeddings from "@/components/hooks/useEmbeddings";
-import { motion } from "framer-motion"; // Import motion
+import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence
 
 export default function CollabPage() {
 
@@ -40,6 +40,7 @@ export default function CollabPage() {
   const [loadingBot, setLoadingBot] = useState(false); // Renamed to avoid conflict
   const [summary, setSummary] = useState("");
   const [isEditingExistingChapter, setIsEditingExistingChapter] = useState(false);
+  const [showInstructionsModal, setShowInstructionsModal] = useState(false); // ADD THIS LINE
 
 
   const editor = useEditor({
@@ -438,6 +439,56 @@ export default function CollabPage() {
           </button>
         )}
       </div>
+
+      {/* Collaboration Instructions Icon */}
+      {story?.collaborationInstructions && (
+        <motion.button
+          className="fixed bottom-6 left-6 p-4 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center z-40 cursor-pointer"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          onClick={() => setShowInstructionsModal(true)}
+          title="Read Collaboration Instructions"
+        >
+          <Info size={24} />
+        </motion.button>
+      )}
+
+      {/* Collaboration Instructions Modal */}
+      <AnimatePresence>
+        {showInstructionsModal && story?.collaborationInstructions && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: -20 }}
+              className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative"
+            >
+              <button
+                onClick={() => setShowInstructionsModal(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={24} />
+              </button>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Collaboration Instructions</h2>
+              <div className="text-gray-700 prose max-w-none overflow-y-auto max-h-[60vh]">
+                <p>{story.collaborationInstructions}</p>
+              </div>
+              <Button onClick={() => setShowInstructionsModal(false)} className="mt-6 w-full bg-black text-white hover:bg-gray-800">
+                Got it!
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
+

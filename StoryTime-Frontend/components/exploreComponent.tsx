@@ -14,7 +14,10 @@ import Image from "next/image";
 import ReactMarkdown from 'react-markdown';
 import type { Story, User } from "@/types";
 import { motion } from "framer-motion"; // Import motion
-
+import { getMyProfile } from "@/api/profile"; // Import getMyProfile
+import { followUser, unfollowUser } from "@/api/profile"; // Import follow/unfollow functions
+import { toast } from "sonner"; // Import toast for notifications
+import { FaUserPlus } from "react-icons/fa"; // Import user icon for follow button
 export default function ExplorePage() {
     const [activeTab, setActiveTab] = useState<"stories" | "authors">("stories");
     const [stories, setStories] = useState<Story[]>([]);
@@ -173,10 +176,9 @@ function StoriesList({ stories }: { stories: Story[] }) {
                     : "Unknown"}
                 </p>
 
-                <div className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
-                  <ReactMarkdown>
-                    {story.content[0].content.substring(0, 120) + "..."}
-                  </ReactMarkdown>
+               <div className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
+                  {/* CHANGE HERE: Pass full content to ReactMarkdown */}
+                  <ReactMarkdown>{story.content[0].content}</ReactMarkdown>
                 </div>
 
                 <Button
@@ -198,11 +200,55 @@ function StoriesList({ stories }: { stories: Story[] }) {
 
 function AuthorsList({ authors }: { authors: User[] }) {
     const router = useRouter();
+    const [currentUserFollowing, setCurrentUserFollowing] = useState<string[]>([]);
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+    useEffect(() => {
+        const fetchLeaderboardAndProfile = async () => {
+          try {
+            const [ myProfileData] = await Promise.all([
+              getMyProfile(), // Fetch current user's profile to get following list
+            ]);
+          
+    
+            setCurrentUserFollowing(myProfileData.following?.map(id => id.toString()) || []);
+            setCurrentUserId(myProfileData._id);
+          } catch (err) {
+            console.error("Failed to fetch leaderboard or profile", err);
+          }
+        };
+        fetchLeaderboardAndProfile();
+      }, []);
+    
     const handleViewProfile = () => {
         // For now, navigate to the current user's profile page.
         // In a full implementation, this would go to a public profile page for the specific author.
         router.push(`/profile`);
     };
+     const handleFollowToggle = async (authorId: string) => {
+        if (!currentUserId) {
+          toast.error("Please log in to follow users.");
+          return;
+        }
+        if (authorId === currentUserId) {
+          toast.info("You cannot follow yourself.");
+          return;
+        }
+    
+        try {
+          if (currentUserFollowing.includes(authorId)) {
+            await unfollowUser(authorId);
+            setCurrentUserFollowing(prev => prev.filter(id => id !== authorId));
+            toast.success(`You have unfollowed ${authors.find(a => a._id === authorId)?.name}`);
+          } else {
+            await followUser(authorId);
+            setCurrentUserFollowing(prev => [...prev, authorId]);
+            toast.success(`Following ${authors.find(a => a._id === authorId)?.name}`);
+          }
+        } catch (error) {
+          console.error("Error toggling follow status:", error);
+          toast.error("Failed to update follow status.");
+        }
+      };
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -243,12 +289,26 @@ function AuthorsList({ authors }: { authors: User[] }) {
                     {author.contributions.reduce((sum, c) => sum + c.score, 0)}
                   </p>
                 )}
+                <div className="flex flex-col gap-2 w-full">
                 <Button
                   onClick={() => handleViewProfile()}//later use the author's ID
                   className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   View Profile
                 </Button>
+                     <Button
+                               size="sm"
+                               onClick={() => handleFollowToggle(author._id)}
+                              // disabled={author._id === currentUserId} // Disable if it's the current user
+                               className={`${
+                                 currentUserFollowing.includes(author._id)
+                                   ? "bg-gray-600 hover:bg-gray-700"
+                                   : "bg-black hover:bg-gray-900"
+                               } text-white flex items-center gap-2`}
+                             >
+                               <FaUserPlus /> {currentUserFollowing.includes(author._id) ? "Following" : "Follow"}
+                             </Button>
+                </div>
               </div>
             </CardHorizontal>
           </motion.div>

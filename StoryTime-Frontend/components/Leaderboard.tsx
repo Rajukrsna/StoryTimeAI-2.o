@@ -19,14 +19,15 @@ interface LeaderboardEntry {
   totalScore: number;
 }
 
-export default function LeaderboardList({ title }: { title: string }) {
+export default function LeaderboardList({id, title }: { id:string, title: string }) {
   const router = useRouter();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [currentUserFollowing, setCurrentUserFollowing] = useState<string[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const handleNavAuthor = () => {
-    router.push("/author");
+       router.push(`/book/${id}`);
+
   };
 
   useEffect(() => {
@@ -36,7 +37,10 @@ export default function LeaderboardList({ title }: { title: string }) {
           getLeaderBoard(title),
           getMyProfile(), // Fetch current user's profile to get following list
         ]);
-        setLeaderboard(leaderboardData);
+        setLeaderboard(leaderboardData)
+      
+        console.log("Leaderboard data received in frontend:", leaderboardData.length);
+
         setCurrentUserFollowing(myProfileData.following?.map(id => id.toString()) || []);
         setCurrentUserId(myProfileData._id);
       } catch (err) {
@@ -72,9 +76,28 @@ export default function LeaderboardList({ title }: { title: string }) {
     }
   };
 
-  return (
-    <div className="grid gap-6">
-      {leaderboard.map((entry, index) => (
+
+return (
+  <div className="grid gap-6">
+    {leaderboard.length === 0 ? (
+      <div className="flex flex-col items-center justify-center text-center bg-white p-10 rounded-2xl shadow-md border border-gray-200">
+        <Image
+          src="/leaderboard-empty.svg"
+          alt="No contributors yet"
+          width={200}
+          height={200}
+          className="mb-6"
+        />
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">No contributors yet!</h2>
+        <p className="text-gray-600 mb-4 max-w-md">
+          The leaderboard is currently empty. Be the first to share your stories and climb to the top!
+        </p>
+        <Button onClick={handleNavAuthor} className="bg-black hover:bg-gray-900 text-white">
+          Start Contributing
+        </Button>
+      </div>
+    ) : (
+      leaderboard.map((entry, index) => (
         <CardHorizontal
           key={entry.userId}
           className="p-4 flex items-center gap-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow bg-white"
@@ -127,8 +150,12 @@ export default function LeaderboardList({ title }: { title: string }) {
               <FaSearch /> Search
             </Button>
           </div>
+
+          
+          {/* ...existing content... */}
         </CardHorizontal>
-      ))}
-    </div>
-  );
-} 
+      ))
+    )}
+  </div>
+);
+}
