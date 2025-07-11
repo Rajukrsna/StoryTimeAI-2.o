@@ -7,7 +7,6 @@ import { getStory } from "@/api/storyApi";
 import ContentComponent from "@/components/contentComponent";
 import { Navbar } from "@/components/Navbar";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
-import {updateStory} from "@/api/storyApi"
 import type { Story  } from "@/types"; // Adjust the path as needed
 import { Suspense } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner"; // Import the LoadingSpinner
