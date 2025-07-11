@@ -23,16 +23,13 @@ export default function CreatePage() {
     const router = useRouter();
 
     useEffect(() => {
-        // Check if the user has seen the guide before
-        const hasSeenGuide = localStorage.getItem("hasSeenCreateGuide");
-        if (!hasSeenGuide) {
+       
             setShowGuide(true);
-        }
+        
     }, []);
 
     const handleCloseGuide = () => {
         setShowGuide(false);
-        localStorage.setItem("hasSeenCreateGuide", "true"); // Mark as seen
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,7 +203,7 @@ export default function CreatePage() {
                 </li>
               </ul>
               <Button onClick={handleCloseGuide} className="mt-6 w-full bg-black text-white hover:bg-gray-800">
-                Got it! Let's create.
+                        Got it! Let&apos;s create.
               </Button>
             </div>
           </div>

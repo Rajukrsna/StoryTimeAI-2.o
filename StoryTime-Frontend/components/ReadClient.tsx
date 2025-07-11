@@ -72,7 +72,6 @@ export default function ReadPage() {
       setCurrentPageIndex(prev => prev + 1);
     }
   };
-     const testMarkdown = "# Hello\n\nThis is **bold** text";
   const goToPreviousPage = () => {
     if (currentPageIndex > 0) {
       setPageDirection('prev');

@@ -198,7 +198,7 @@ function StoriesList({ stories }: { stories: Story[] }) {
 
 function AuthorsList({ authors }: { authors: User[] }) {
     const router = useRouter();
-    const handleViewProfile = (userId: string) => {
+    const handleViewProfile = () => {
         // For now, navigate to the current user's profile page.
         // In a full implementation, this would go to a public profile page for the specific author.
         router.push(`/profile`);
@@ -244,7 +244,7 @@ function AuthorsList({ authors }: { authors: User[] }) {
                   </p>
                 )}
                 <Button
-                  onClick={() => handleViewProfile(author._id)}
+                  onClick={() => handleViewProfile()}//later use the author's ID
                   className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-xl transition-all duration-200 hover:scale-105"
                 >
                   View Profile
