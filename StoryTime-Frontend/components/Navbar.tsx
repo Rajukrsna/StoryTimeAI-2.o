@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { FaHome, FaUser, FaSignOutAlt, FaBookOpen } from "react-icons/fa";
+import { FaHome, FaUser, FaSignOutAlt } from "react-icons/fa";
 import Image from "next/image";
 
 export function Navbar() {
