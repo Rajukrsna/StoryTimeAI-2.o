@@ -7,6 +7,9 @@ import Image from "next/image";
 import { FaBookOpen, FaUserPlus } from "react-icons/fa";
 import { Typewriter } from 'react-simple-typewriter';
 
+
+
+
 export default function LoginPage() {
   const router = useRouter();
   const handleNavigation = () => {
