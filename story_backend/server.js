@@ -18,13 +18,14 @@ app.use(express.json());
 // ✅ CORS (Fixes frontend issues)
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000"||"https://story-time-ai-2-o.vercel.app", // Change to deployed frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    origin: process.env.FRONTEND_URL , // Change to deployed frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
     credentials: true, // If using cookies/auth tokens
   })
 );
 
+app.options('*', cors()); // Handle preflight
 
 app.use("/api/ai-suggestions", aiRoute);
 app.use("/api/users", userRoutes);
