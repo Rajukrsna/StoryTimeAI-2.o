@@ -91,15 +91,17 @@ router.get('/profile',protect, async (req, res) => {
 
 router.get("/all", async (req, res) => {
   try {
-    const authors = await User.find({}, "name bio profilePicture contributions"); // Fetch contributions
+    const authors = await User.find({}, "name bio profilePicture contributions followers"); // Fetch contributions
     const formattedAuthors = authors.map((author) => ({
       _id: author._id,
       name: author.name,
       bio: author.bio || "",
       profilePicture: author.profilePicture || "/default.jpg", // fallback image
-      contributions: author.contributions || [], // Include contributions
+      contributions: author.contributions || [],
+      followers: author.followers || [],
+       // Include contributions
     }));
-
+   console.log("Fetched authors:", formattedAuthors);
     res.status(200).json(formattedAuthors);
   } catch (error) {
     console.error("Error in /all route:", error);

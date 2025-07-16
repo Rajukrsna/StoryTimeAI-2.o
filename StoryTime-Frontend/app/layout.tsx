@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono ,Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'sonner';
+import { Analytics } from "@vercel/analytics/react"
 
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default function RootLayout({
       >
         <Toaster position="top-center" richColors />
         {children}
+         <Analytics />
       </body>
     </html>
   );
