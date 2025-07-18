@@ -18,7 +18,7 @@ app.use(express.json());
 // ✅ CORS (Fixes frontend issues)
 app.use(
   cors({
-    origin: 'https://story-time-ai-2-o.vercel.app' , // Change to deployed frontend URL
+    origin:  process.env.FRONTEND_URL, // Change to deployed frontend URL
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
     credentials: true, // If using cookies/auth tokens
