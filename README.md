@@ -37,7 +37,7 @@ Storytime AI is a collaborative, AI-powered storytelling platform where creativi
 - **Lambda functions** support fast, stateless data fetches for user profile and story galleries.
 
 ---
-
+![Homepage Preview](https://i.ibb.co/Jh8K0Lp/image1.png)
 ## 🧪 Setup Instructions
 
 ### 1. Clone the Repository and run the Frontend
