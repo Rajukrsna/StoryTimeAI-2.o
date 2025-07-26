@@ -32,7 +32,7 @@ export default function ContentComponent({
     id: index,
     title: chapter.title,
     content: chapter.content,
-    createdBy: chapter.createdBy,
+    createdBy: typeof chapter.createdBy === "string" ? chapter.createdBy : (chapter.createdBy?.name || "Unknown"),
     createdAt: chapter.createdAt,
     summary: chapter.summary || "No summary available",
     likes: chapter.likes,

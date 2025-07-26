@@ -49,15 +49,15 @@ export default function CollabList({ id }: { id: string }) {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: { 
+      opacity: 0, 
+      y: 20, 
+      scale: 0.95 
+    },
     visible: { 
       opacity: 1, 
       y: 0, 
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
+      scale: 1
     }
   };
 
@@ -93,6 +93,10 @@ export default function CollabList({ id }: { id: string }) {
           <motion.div
             key={content._id}
             variants={itemVariants}
+            transition={{ 
+              duration: 0.4,
+              ease: "easeOut"
+            }}
             whileHover={{ 
               scale: 1.02,
               transition: { duration: 0.2 }

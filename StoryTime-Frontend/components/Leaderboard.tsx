@@ -121,15 +121,15 @@ export default function LeaderboardList({id, title }: { id:string, title: string
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: { 
+      opacity: 0, 
+      y: 20, 
+      scale: 0.95 
+    },
     visible: { 
       opacity: 1, 
       y: 0, 
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
+      scale: 1
     }
   };
 
@@ -166,6 +166,7 @@ export default function LeaderboardList({id, title }: { id:string, title: string
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="flex flex-col items-center justify-center text-center bg-white/80 backdrop-blur-md border border-white/30 p-6 sm:p-10 rounded-3xl shadow-xl"
           >
             <div className="w-24 h-24 sm:w-32 sm:h-32 mb-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center">
@@ -194,6 +195,10 @@ export default function LeaderboardList({id, title }: { id:string, title: string
               <motion.div
                 key={entry.userId}
                 variants={itemVariants}
+                transition={{ 
+                  duration: 0.4,
+                  ease: "easeOut"
+                }}
                 whileHover={{ 
                   scale: 1.02,
                   transition: { duration: 0.2 }

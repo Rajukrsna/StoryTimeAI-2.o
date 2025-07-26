@@ -30,15 +30,15 @@ export default function StoriesList({ stories }: StoriesListProps) {
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 30, scale: 0.9 },
+        hidden: { 
+            opacity: 0, 
+            y: 30, 
+            scale: 0.9 
+        },
         visible: { 
             opacity: 1, 
             y: 0, 
-            scale: 1,
-            transition: {
-                duration: 0.5,
-                ease: "easeOut"
-            }
+            scale: 1
         }
     };
 
@@ -47,6 +47,7 @@ export default function StoriesList({ stories }: StoriesListProps) {
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="flex flex-col items-center justify-center text-center bg-white/80 backdrop-blur-md border border-white/30 p-12 rounded-3xl shadow-xl"
             >
                 <div className="w-24 h-24 mb-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center">
@@ -71,6 +72,10 @@ export default function StoriesList({ stories }: StoriesListProps) {
                 <motion.div
                     key={story._id}
                     variants={itemVariants}
+                    transition={{ 
+                        duration: 0.5, 
+                        ease: "easeOut" 
+                    }}
                     whileHover={{ 
                         y: -8, 
                         scale: 1.02,
@@ -152,7 +157,7 @@ export default function StoriesList({ stories }: StoriesListProps) {
                                         <BookOpen className="w-3 h-3" />
                                         <span>{story.content?.length || 0} chapters</span>
                                     </div>
-                                    {story.content[0].createdAt && (
+                                    {story.content[0]?.createdAt && (
                                         <div className="flex items-center gap-1">
                                             <Calendar className="w-3 h-3" />
                                             <span>{new Date(story.content[0].createdAt).toLocaleDateString()}</span>

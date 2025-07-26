@@ -7,8 +7,6 @@ import { BookOpen, Heart, Edit, Clock, User, Eye, ArrowRight } from "lucide-reac
 import { MdAutoStories } from "react-icons/md";
 import { updateChapterLikes } from "@/api/storyApi";
 import { motion, AnimatePresence } from "framer-motion";
-import type { User } from "@/types";
-
 export default function ChapterList({
   title,
   chapters: initialChapters,
@@ -21,7 +19,7 @@ export default function ChapterList({
     title: string;
     content: string;
     summary: string;
-    createdBy: string | User;
+    createdBy: string 
     createdAt: string;
     likes: number;
     liked: boolean;
@@ -189,7 +187,7 @@ export default function ChapterList({
                         <div className="flex items-center gap-1">
                           <User className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
                           <span className="text-gray-600 font-medium truncate max-w-[120px] sm:max-w-none">
-                            {typeof chapter.createdBy === "string" ? chapter.createdBy : chapter.createdBy.name}
+                            {typeof chapter.createdBy === "string" ? chapter.createdBy : chapter.createdBy}
                           </span>
                         </div>
                         <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
