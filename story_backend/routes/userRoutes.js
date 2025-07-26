@@ -38,7 +38,7 @@ const upload = multer({ storage });
 
 router.put('/update', protect , async (req, res) => {
   try {
-   console.log("Update profile request received:", req.body);
+   //console.log("Update profile request received:", req.body);
     // ✅ Find user by ID
     const user = await User.findById(req.user._id,'-password');
     if (!user) {
@@ -101,7 +101,7 @@ router.get("/all", async (req, res) => {
       followers: author.followers || [],
        // Include contributions
     }));
-   console.log("Fetched authors:", formattedAuthors);
+  // console.log("Fetched authors:", formattedAuthors);
     res.status(200).json(formattedAuthors);
   } catch (error) {
     console.error("Error in /all route:", error);
@@ -122,9 +122,9 @@ router.post("/change-pic", upload.single("profilePicture"), (req, res) => {
 
 router.get("/my-chapters",protect, async (req, res) =>
 {
-  console.log("Entered")
+ // console.log("Entered")
    const userId = req.user._id; 
-   console.log("Fetching chapters for user:", userId);
+  // console.log("Fetching chapters for user:", userId);
     try {
       const stories = await Story.find({
         $or: [
@@ -170,7 +170,7 @@ router.get("/my-chapters",protect, async (req, res) =>
 
   router.post("/register", upload.single("profilePicture"), async (req, res) => {
   try {
-    console.log("📥 Sign-up request received:", req.body);
+   // console.log("📥 Sign-up request received:", req.body);
     const { name, email, password, profilePicture } = req.body;
 
     if (!email || !password) {
@@ -208,27 +208,27 @@ router.get("/my-chapters",protect, async (req, res) =>
 
 router.post('/login', async (req, res) => {
   try {
-    console.log("📥 Login request received:", req.body);
+    //console.log("📥 Login request received:", req.body);
     const { email, password } = req.body;
 
     // 🔍 Find user
     const user = await User.findOne({ email });
-console.log("Found user:", user);
+//console.log("Found user:", user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // 🔐 Validate password
 const isMatch = await bcrypt.compare(password, user.password);
-console.log("Password match:", isMatch);
-console.log("Password match:", isMatch);
+//console.log("Password match:", isMatch);
+//console.log("Password match:", isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
     // ✅ Generate JWT token
     const token = generateToken(user._id);
-   console.log("Generated token:", token);
+   //console.log("Generated token:", token);
     // 🎉 Send response
     res.status(200).json({
       _id: user._id,

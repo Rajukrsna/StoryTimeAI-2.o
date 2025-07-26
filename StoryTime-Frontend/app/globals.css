@@ -191,3 +191,17 @@
     box-shadow: var(--shadow-xl);
   }
 }
+/* Add to your global CSS */
+:root {
+    --navbar-height: 4rem; /* 16 in Tailwind */
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --navbar-height: 4.5rem; /* 18 in Tailwind */
+    }
+}
+
+.page-content {
+    padding-top: var(--navbar-height);
+}

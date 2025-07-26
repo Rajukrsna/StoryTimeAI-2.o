@@ -1,23 +1,17 @@
-// StoryTime-Frontend/components/exploreComponent.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CardHorizontal } from "@/components/ui/card";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Filter, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Filter, Search, BookOpen, Users } from "lucide-react";
 import { getStories } from "@/api/storyApi";
 import { getAuthors } from "@/api/profile";
-import Image from "next/image"; 
-import ReactMarkdown from 'react-markdown';
 import type { Story, User } from "@/types";
-import { motion } from "framer-motion"; // Import motion
-import { getMyProfile } from "@/api/profile"; // Import getMyProfile
-import { followUser, unfollowUser } from "@/api/profile"; // Import follow/unfollow functions
-import { toast } from "sonner"; // Import toast for notifications
-import { FaUserPlus } from "react-icons/fa"; // Import user icon for follow button
+import { motion, AnimatePresence } from "framer-motion";
+import { FaSearch, FaFilter } from "react-icons/fa";
+import StoriesList from "./StoriesList";
+import AuthorsList from "./AuthorsList";
+
 export default function ExplorePage() {
     const [activeTab, setActiveTab] = useState<"stories" | "authors">("stories");
     const [stories, setStories] = useState<Story[]>([]);
@@ -49,272 +43,152 @@ export default function ExplorePage() {
     }, [activeTab, search, sort]);
 
     return (
-      <main className="min-h-screen px-4 py-6 md:px-6 lg:px-8">
-        {/* Navigation Section */}
-        <nav className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-gray-200/50">
-          {/* Left: Explore and Toggle */}
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 animate-slide-in-left">Explore</h1>
-            <ToggleGroup
-              type="single"
-              value={activeTab}
-              onValueChange={(value) => setActiveTab(value as "stories" | "authors")}
-              className="flex bg-white shadow-md rounded-2xl border-2 border-gray-200/50 overflow-hidden"
+        <main className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4 py-6 md:px-6 lg:px-8">
+            {/* Enhanced Navigation Section */}
+            <motion.nav 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white/80 backdrop-blur-md rounded-3xl border border-white/30 p-6 mb-8 shadow-xl"
             >
-              <ToggleGroupItem
-                value="stories"
-                className="px-6 py-3 text-base font-semibold transition-all duration-200"
-              >
-                Stories
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="authors"
-                className="px-6 py-3 text-base font-semibold transition-all duration-200"
-              >
-                Authors
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                    {/* Left: Title and Tab Toggle */}
+                    <div className="flex flex-col md:flex-row md:items-center gap-6 w-full lg:w-auto">
+                        {/* Enhanced Title */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="flex items-center gap-3"
+                        >
+                            <div className="p-3 bg-gradient-to-r from-gray-600 to-gray-800 rounded-2xl">
+                                <Search className="w-6 h-6 text-white" />
+                            </div>
+                            <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                                Explore
+                            </h1>
+                        </motion.div>
 
-          {/* Right: Sort, Search, Filter */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto animate-slide-in-right">
-            <ToggleGroup
-              type="single"
-              value={sort}
-              onValueChange={(value) => setSort((value as "latest" | "oldest" | "top") || "latest")}
-              className="flex bg-white shadow-md rounded-2xl border-2 border-gray-200/50 overflow-hidden"
+                        {/* Enhanced Tab Toggle */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                            className="bg-gray-100 p-1 rounded-2xl shadow-inner"
+                        >
+                            <div className="flex">
+                                {[
+                                    { key: "stories", label: "Stories", icon: BookOpen },
+                                    { key: "authors", label: "Authors", icon: Users }
+                                ].map((tab) => {
+                                    const Icon = tab.icon;
+                                    return (
+                                        <button
+                                            key={tab.key}
+                                            onClick={() => setActiveTab(tab.key as "stories" | "authors")}
+                                            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                                                activeTab === tab.key
+                                                    ? "bg-white text-gray-900 shadow-lg"
+                                                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
+                                            }`}
+                                        >
+                                            <Icon className="w-4 h-4" />
+                                            <span className="hidden sm:inline">{tab.label}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Right: Controls */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto"
+                    >
+                        {/* Sort Toggle */}
+                        <div className="bg-gray-100 p-1 rounded-xl shadow-inner">
+                            <div className="flex">
+                                {[
+                                    { key: "latest", label: "Latest" },
+                                    { key: "oldest", label: "Oldest" },
+                                    { key: "top", label: "Top" }
+                                ].map((sortOption) => (
+                                    <button
+                                        key={sortOption.key}
+                                        onClick={() => setSort(sortOption.key as "latest" | "oldest" | "top")}
+                                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                                            sort === sortOption.key
+                                                ? "bg-white text-gray-900 shadow-md"
+                                                : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
+                                        }`}
+                                    >
+                                        {sortOption.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Search and Filter */}
+                        <div className="flex items-center gap-3">
+                            <div className="relative flex-1 sm:w-80">
+                                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                                <Input
+                                    placeholder="Search stories and authors..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="pl-12 pr-4 py-3 border-gray-300 bg-white/80 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-gray-500 focus:border-gray-500 shadow-lg"
+                                />
+                            </div>
+                            <Button 
+                                variant="outline" 
+                                size="icon" 
+                                className="p-3 border-gray-300 bg-white/80 backdrop-blur-sm rounded-xl hover:bg-gray-50 shadow-lg"
+                            >
+                                <FaFilter size={16} className="text-gray-600" />
+                            </Button>
+                        </div>
+                    </motion.div>
+                    </div>
+                
+            </motion.nav>
+
+            {/* Enhanced Content Section */}
+            <motion.section
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
             >
-              <ToggleGroupItem value="latest" className="px-4 py-2 text-sm font-semibold">
-                Latest
-              </ToggleGroupItem>
-              <ToggleGroupItem value="oldest" className="px-4 py-2 text-sm font-semibold">
-                Oldest
-              </ToggleGroupItem>
-              <ToggleGroupItem value="top" className="px-4 py-2 text-sm font-semibold">
-                Top
-              </ToggleGroupItem>
-            </ToggleGroup>
-
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="relative flex-1 sm:w-80">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <Input
-                  placeholder="Search..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-12 border-2 border-gray-200/50 shadow-md"
-                />
-              </div>
-              <Button variant="outline" size="icon" className="border-2 border-gray-200/50 shadow-md hover:shadow-lg">
-                <Filter size={20} className="text-gray-600" />
-              </Button>
-            </div>
-          </div>
-        </nav>
-
-        {/* Content Section */}
-        <section className="mt-12">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-12 h-12 border-4 border-gray-300 border-t-black rounded-full animate-spin mb-4"></div>
-              <p className="text-gray-500 text-lg animate-pulse">Loading amazing content...</p>
-            </div>
-          ) : activeTab === "stories" ? (
-            <StoriesList stories={stories} />
-          ) : (
-            <AuthorsList authors={authors} />
-          )}
-        </section>
-      </main>
+                <AnimatePresence mode="wait">
+                    {loading ? (
+                        <motion.div
+                            key="loading"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="flex flex-col items-center justify-center py-20"
+                        >
+                            <div className="relative">
+                                <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-600 rounded-full animate-spin mb-6"></div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    {activeTab === "stories" ? (
+                                        <BookOpen className="w-6 h-6 text-gray-600" />
+                                    ) : (
+                                        <Users className="w-6 h-6 text-gray-600" />
+                                    )}
+                                </div>
+                            </div>
+                            <p className="text-gray-600 text-lg font-medium">
+                                Discovering amazing {activeTab}...
+                            </p>
+                        </motion.div>
+                    ) : activeTab === "stories" ? (
+                        <StoriesList stories={stories} />
+                    ) : (
+                        <AuthorsList authors={authors} />
+                    )}
+                </AnimatePresence>
+            </motion.section>
+        </main>
     );
 }
-
-function StoriesList({ stories }: { stories: Story[] }) {
-    const router = useRouter();
-    const handleNavBook = (id: string) => {
-        router.push(`/book/${id}`);
-    };
-
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {stories.map((story, index) => (
-          <motion.div
-            key={story._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <CardHorizontal
-              className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
-                hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
-                transition-all duration-300 ease-out 
-                flex flex-col gap-6 cursor-pointer group"
-              onClick={() => handleNavBook(story._id)}
-            >
-              {/* Cover Image */}
-              <div className="relative w-full h-48 rounded-2xl overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
-                <Image
-                  src={story.imageUrl || "/uploads/cover.jpg"}
-                  alt={story.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Story Info */}
-              <div className="flex-1 min-w-0">
-                <h2 className="text-xl font-bold text-black mb-2 line-clamp-2 group-hover:text-gray-700 transition-colors">
-                  {story.title}
-                </h2>
-
-                <p className="text-sm text-gray-500 mb-3">
-                  by{" "}
-                  {story.author
-                    ? typeof story.author === "string"
-                      ? story.author
-                      : story.author.name
-                    : "Unknown"}
-                </p>
-
-               <div className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
-                  {/* CHANGE HERE: Pass full content to ReactMarkdown */}
-                  <ReactMarkdown>{story.content[0].content}</ReactMarkdown>
-                </div>
-
-                <Button
-                  className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded-xl transition-all duration-200 hover:scale-105"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNavBook(story._id);
-                  }}
-                >
-                  Read Now
-                </Button>
-              </div>
-            </CardHorizontal>
-          </motion.div>
-        ))}
-      </div>
-    );
-}
-
-function AuthorsList({ authors }: { authors: User[] }) {
-    const router = useRouter();
-    const [currentUserFollowing, setCurrentUserFollowing] = useState<string[]>([]);
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-    useEffect(() => {
-        const fetchLeaderboardAndProfile = async () => {
-          try {
-            const [ myProfileData] = await Promise.all([
-              getMyProfile(), // Fetch current user's profile to get following list
-            ]);
-          
-    
-            setCurrentUserFollowing(myProfileData.following?.map(id => id.toString()) || []);
-            setCurrentUserId(myProfileData._id);
-          } catch (err) {
-            console.error("Failed to fetch leaderboard or profile", err);
-          }
-        };
-        fetchLeaderboardAndProfile();
-      }, []);
-    
-    const handleViewProfile = () => {
-        // For now, navigate to the current user's profile page.
-        // In a full implementation, this would go to a public profile page for the specific author.
-        router.push(`/profile`);
-    };
-     const handleFollowToggle = async (authorId: string) => {
-        if (!currentUserId) {
-          toast.error("Please log in to follow users.");
-          return;
-        }
-        if (authorId === currentUserId) {
-          toast.info("You cannot follow yourself.");
-          return;
-        }
-    
-        try {
-          if (currentUserFollowing.includes(authorId)) {
-            await unfollowUser(authorId);
-            setCurrentUserFollowing(prev => prev.filter(id => id !== authorId));
-            toast.success(`You have unfollowed ${authors.find(a => a._id === authorId)?.name}`);
-          } else {
-            await followUser(authorId);
-            setCurrentUserFollowing(prev => [...prev, authorId]);
-            toast.success(`Following ${authors.find(a => a._id === authorId)?.name}`);
-          }
-        } catch (error) {
-          console.error("Error toggling follow status:", error);
-          toast.error("Failed to update follow status.");
-        }
-      };
-
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {authors.map((author, index) => (
-          <motion.div
-            key={author._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <CardHorizontal
-              className="p-6 bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200/50 shadow-lg 
-                hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] 
-                transition-all duration-300 ease-out 
-                flex flex-col items-center text-center gap-4 cursor-pointer group"
-            >
-              {/* Profile Image */}
-              <div className="relative w-24 h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow">
-                <Image
-                  src={author.profilePicture || "/default-user.png"}
-                  alt={author.name}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Author Info */}
-              <div className="flex-1 flex flex-col items-center">
-                <h2 className="text-xl font-bold text-black mb-2 group-hover:text-gray-700 transition-colors">
-                  {author.name}
-                </h2>
-                <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-3">
-                  {author.bio || "No bio available."}
-                </p>
-                {author.contributions && author.contributions.length > 0 && (
-                  <p className="text-sm font-semibold text-gray-700 mb-4">
-                    Total Contributions:{" "}
-                    {author.contributions.reduce((sum, c) => sum + c.score, 0)}
-                  </p>
-                )}
-                <p className ="text-sm font-semibold text-gray-500 mb-4">Followers: {author.followers? author.followers.length: "0"}</p>
-                <div className="flex flex-col gap-2 w-full">
-                <Button
-                  onClick={() => handleViewProfile()}//later use the author's ID
-                  className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-xl transition-all duration-200 hover:scale-105"
-                >
-                  View Profile
-                </Button>
-                     <Button
-                               size="sm"
-                               onClick={() => handleFollowToggle(author._id)}
-                              // disabled={author._id === currentUserId} // Disable if it's the current user
-                               className={`${
-                                 currentUserFollowing.includes(author._id)
-                                   ? "bg-gray-600 hover:bg-gray-700"
-                                   : "bg-black hover:bg-gray-900"
-                               } text-white flex items-center gap-2`}
-                             >
-                               <FaUserPlus /> {currentUserFollowing.includes(author._id) ? "Following" : "Follow"}
-                             </Button>
-                </div>
-              </div>
-            </CardHorizontal>
-          </motion.div>
-        ))}
-      </div>
-    );
-}
-

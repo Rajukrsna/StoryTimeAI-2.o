@@ -31,8 +31,8 @@ router.delete("/stories/:id", async (req, res) => {
 
 router.get('/getUserStories',protect,async (req, res) => {
   try {
-    console.log("Fetching user stories  fucker sezer:", req.user._id);
-    console.log("User ID:", req.user._id);
+   // console.log("Fetching user stories  fucker sezer:", req.user._id);
+    //console.log("User ID:", req.user._id);
     // ✅ Find stories authored by the user
     const stories = await Story.find({ author: req.user._id }).populate('author', 'name');
 
@@ -45,7 +45,7 @@ router.get('/getUserStories',protect,async (req, res) => {
 
 router.get("/stories",protect, async (req, res) => {
   try {
-    console.log("enterd getAllStories route");
+   // console.log("enterd getAllStories route");
     const { search, sort } = req.query;
     let filter = {};
 
@@ -74,8 +74,8 @@ router.post("/", protect, async (req, res) => {
   try {
 
     const { title, chapters, summary, imageUrl, embeds ,collaborationInstructions } = req.body;
-    console.log("summary", summary);
-    console.log("chapters", chapters);
+  //  console.log("summary", summary);
+   // console.log("chapters", chapters);
 
     if (!title || !chapters) {
       return res.status(400).json({ message: "Title and chapters are required" });
@@ -181,7 +181,7 @@ router.get("/leaderboard/:title", async (req, res) => {
       path: "_id",
       select: "name profilePicture",
     });
-    console.log("Populated Leaderboard:", populatedLeaderboard);
+    //console.log("Populated Leaderboard:", populatedLeaderboard);
     res.json(
       populatedLeaderboard.map((entry) => ({
         userId: entry._id._id,
@@ -277,13 +277,13 @@ router.put("/:id", protect, async (req, res) => {
     if (!story) {
       return res.status(404).json({ message: "Story not found" });
     }
-    console.log("content of the storyh", content);
+    //console.log("content of the storyh", content);
     const isAuthor = story.author.toString() === req.user._id.toString();
 
     // Scenario 1: Author is updating the entire story content (e.g., after editing a chapter)
     // This is triggered when `content` (the full array) is sent and no `newChapter` or `editedChapterData` is present.
     if (isAuthor && content && !newChapter && !editedChapterData) {
-      console.log("Author updating entire story content");
+      //console.log("Author updating entire story content");
       story.content = content; // Replace the entire content array
       const updatedStory = await story.save();
       return res.status(200).json(updatedStory);
@@ -352,7 +352,7 @@ router.put("/:id", protect, async (req, res) => {
 
 router.post("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
   try {
-    console.log("entered teh chapter approval route");
+    //console.log("entered teh chapter approval route");
     const { id, chapterIndex } = req.params;
     const story = await Story.findById(id);
     if (!story) return res.status(404).json({ message: "Story not found" });
@@ -363,7 +363,7 @@ router.post("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
     }
 
     const chapterToApprove = story.pendingChapters[chapterIndex];
-    console.log("chapterToApprove", chapterToApprove);
+    //console.log("chapterToApprove", chapterToApprove);
     if (!chapterToApprove) return res.status(404).json({ message: "Pending chapter not found." });
 
     // Create a clean chapter object to add to story.content
