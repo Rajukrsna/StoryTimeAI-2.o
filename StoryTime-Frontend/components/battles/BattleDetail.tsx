@@ -198,7 +198,7 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
   };
 
   // ✅ Gray-themed gradients
-  const getThemeColor = (_theme: string) => {
+  const getThemeColor = () => {
     return 'bg-gradient-to-r from-gray-600 to-gray-800 text-white';
   };
 
@@ -277,7 +277,7 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
                       <Star className="w-4 h-4 mr-2 inline" />
                       {battle.status.charAt(0).toUpperCase() + battle.status.slice(1)}
                     </span>
-                    <span className={`px-6 py-3 rounded-2xl text-sm font-bold shadow-lg ${getThemeColor(battle.theme)}`}>
+                    <span className={`px-6 py-3 rounded-2xl text-sm font-bold shadow-lg ${getThemeColor()}`}>
                       {getThemeIcon(battle.theme)} {battle.theme.charAt(0).toUpperCase() + battle.theme.slice(1)}
                     </span>
                   </div>
