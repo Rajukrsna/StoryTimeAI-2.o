@@ -104,7 +104,7 @@ export default function ChapterList({
           </h2>
         </div>
         <p className="text-gray-600 text-sm sm:text-base px-4">
-          Explore each chapter of "{title}" and dive into the story
+          Explore each chapter of {title} and dive into the story
         </p>
       </motion.div>
 
@@ -279,7 +279,7 @@ export default function ChapterList({
                       className="hidden sm:block mt-4 pt-4 border-t border-gray-200 overflow-hidden"
                     >
                       <p className="text-sm text-gray-600 italic leading-relaxed">
-                        "{chapter.content.substring(0, 150)}..."
+                        {chapter.content.substring(0, 150)}...
                       </p>
                     </motion.div>
                   )}

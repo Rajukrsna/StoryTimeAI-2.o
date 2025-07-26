@@ -671,25 +671,3 @@ export default function CollabPage() {
   );
 }
 
-// Add these styles to your global CSS or styled-components
-const styles = `
-.toolbar-btn {
-  @apply p-2 rounded-lg text-white hover:bg-white/20 transition-all duration-200;
-}
-
-.prose-invert h1, .prose-invert h2, .prose-invert h3 {
-  @apply text-white;
-}
-
-.prose-invert p {
-  @apply text-gray-300;
-}
-
-.prose-invert strong {
-  @apply text-white font-bold;
-}
-
-.prose-invert em {
-  @apply text-gray-300 italic;
-}
-`;

@@ -8,16 +8,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { useRouter } from "next/navigation";
 import { createAIStory } from "@/api/aiApi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   FaFeatherAlt, 
   FaRobot, 
-  FaImage, 
-  FaUsers, 
-  FaBookOpen,
+
   FaMagic,
-  FaLightbulb,
+ 
   FaCamera
 } from "react-icons/fa";
 import { 
@@ -39,11 +37,10 @@ export default function CreatePage() {
     const [description, setDescription] = useState("");
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [showGuide, setShowGuide] = useState(false);
     const [collaborationInstructions, setCollaborationInstructions] = useState("");
     const [dragActive, setDragActive] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string>("");
-    const [currentStep, setCurrentStep] = useState(1);
+                   const currentStep = 1;
 
     const router = useRouter();
 

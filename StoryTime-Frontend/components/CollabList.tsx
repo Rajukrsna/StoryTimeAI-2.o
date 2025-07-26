@@ -78,7 +78,7 @@ export default function CollabList({ id }: { id: string }) {
           </h2>
         </div>
         <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto px-2">
-          Discover the talented writers who contributed to "{story.title}" and explore their creative chapters
+          Discover the talented writers who contributed to {story.title} and explore their creative chapters
         </p>
       </motion.div>
 
@@ -247,7 +247,7 @@ export default function CollabList({ id }: { id: string }) {
                     <div className="flex items-start gap-3">
                       <FaQuoteLeft className="w-4 h-4 text-gray-400 flex-shrink-0 mt-1" />
                       <p className="text-sm text-gray-600 italic leading-relaxed">
-                        "{content.content.substring(0, 200)}..."
+                        {content.content.substring(0, 200)}...
                       </p>
                     </div>
                   </motion.div>

@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar"
 import { useRouter } from "next/navigation";
 import { Typewriter } from 'react-simple-typewriter';
 import { motion } from "framer-motion";
-import { BookOpen, PenTool, Sparkles, ArrowRight, Users, Globe, Star } from "lucide-react";
+import { BookOpen, PenTool, Sparkles, ArrowRight, Users, Star } from "lucide-react";
 import { FaBookOpen, FaUsers, FaStar, FaGlobe } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
@@ -19,15 +19,6 @@ export default function HomePage() {
     }, []);
 
     const handleNavCreate = () => router.push("/create");
-
-    const stats = [
-        { icon: FaBookOpen, label: "Stories", value: "1,200+", color: "from-gray-600 to-gray-800" },
-        { icon: FaUsers, label: "Writers", value: "500+", color: "from-gray-500 to-gray-700" },
-        { icon: FaStar, label: "Reviews", value: "10k+", color: "from-gray-400 to-gray-600" },
-        { icon: FaGlobe, label: "Countries", value: "50+", color: "from-gray-700 to-gray-900" }
-    ];
-
-
     if (!mounted) {
         return (
             <main className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-gray-100">
@@ -167,7 +158,7 @@ export default function HomePage() {
                                             
                                             <h3 className="text-xl font-bold text-gray-800 mb-3">The Chronicles of Tomorrow</h3>
                                             <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                                                "In a world where words hold magic, a young writer discovers their power to shape reality through storytelling..."
+                                                In a world where words hold magic, a young writer discovers their power to shape reality through storytelling...
                                             </p>
                                             
                                             <div className="flex items-center gap-2 text-xs text-gray-500">

@@ -3,19 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getStory } from "@/api/storyApi";
 import ReactMarkdown from 'react-markdown';
-import { 
-    FaVolumeUp, 
-    FaVolumeMute, 
-    FaChevronLeft, 
-    FaChevronRight, 
-    FaBookmark, 
-    FaRegBookmark,
-    FaBook,
-    FaCog,
-    FaArrowLeft,
-    FaExpand,
-    FaCompress
-} from "react-icons/fa";
+
 import { 
     Book, 
     Settings, 
@@ -30,8 +18,7 @@ import {
     Type,
     Moon,
     Sun,
-    RotateCcw,
-    Share2,
+    
     Maximize,
     Minimize
 } from "lucide-react";

@@ -7,7 +7,7 @@ import {
   Trophy, 
   Calendar, 
   FileText, 
-  User, 
+   
   ChevronDown, 
   ChevronUp,
   Crown,

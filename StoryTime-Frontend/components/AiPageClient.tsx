@@ -10,32 +10,30 @@ import { createAIStory } from "@/api/aiApi";
 import { createStory } from "@/api/storyApi";
 import { 
   FaMagic, 
-  FaStop, 
-  FaUpload, 
+ 
+  
   FaRobot, 
-  FaBook, 
-  FaEdit,
-  FaEye,
+  
+  
   FaCopy,
   FaDownload,
-  FaSave,
+  
   FaUsers
 } from "react-icons/fa";
 import { 
   Sparkles, 
-  RefreshCw, 
+   
   Trash2, 
   Send, 
   Eye, 
   Edit3, 
   FileText, 
-  Share2,
-  Clock,
+  
   CheckCircle,
   AlertCircle,
-  Image as ImageIcon,
+  
   Loader2,
-  BookOpen,
+ 
   Wand2
 } from "lucide-react";
 import { toast } from "sonner";

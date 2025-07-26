@@ -1,6 +1,6 @@
 import React from 'react';
-import { Clock, Users, Trophy, Zap, Calendar } from 'lucide-react';
-import { formatDistanceToNow, format } from 'date-fns';
+import { Clock, Users, Trophy} from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
 interface BattleCardProps {
   battle: {
@@ -50,7 +50,6 @@ const BattleCard: React.FC<BattleCardProps> = ({ battle, onJoin, onView, current
   };
 
   const getTimeText = () => {
-    const now = new Date();
     const startTime = new Date(battle.startTime);
     const endTime = new Date(battle.endTime);
     const votingEndTime = new Date(battle.votingEndTime);

@@ -99,10 +99,13 @@ useEffect(() => {
         fetchBattles(); // Refresh battles
         alert('Successfully joined the battle!');
       }
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to join battle';
-      alert(message);
-    }
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert('Failed to join battle');
+  }
+}
   };
 
   const handleViewBattle = (battleId: string) => {

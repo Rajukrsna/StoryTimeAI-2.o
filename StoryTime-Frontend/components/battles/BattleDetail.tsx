@@ -123,10 +123,13 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
         setBattle(response.battle);
         alert('Successfully joined the battle!');
       }
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to join battle';
-      alert(message);
-    }
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert('Failed to join battle');
+  }
+}
   }, [battleId]);
 
   const handleVote = useCallback(async (submissionId: string) => {
@@ -144,10 +147,13 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
         
         alert('Vote recorded successfully!');
       }
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to vote';
-      alert(message);
-    }
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert('Failed to vote');
+  }
+}
   }, []);
 
   const handleSubmissionSuccess = useCallback((newSubmission: Submission) => {
@@ -222,7 +228,7 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
               <XCircle className="w-12 h-12 text-gray-700" />
             </div>
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Battle Not Found</h2>
-            <p className="text-gray-600 mb-8">The battle you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-8">The battle you are looking for does not exist.</p>
             <button
               onClick={() => window.history.back()}
               className="bg-gradient-to-r from-gray-700 to-gray-900 text-white px-8 py-4 rounded-xl hover:from-gray-800 hover:to-black transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -620,7 +626,7 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
                       Participants ({battle.participants.length}/{battle.maxParticipants})
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {battle.participants.map((participant, index) => (
+                      {battle.participants.map((participant) => (
                         <div key={participant.user._id} className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/30 hover:shadow-xl transition-all duration-300">
                           <div className="flex items-center">
                             <img 

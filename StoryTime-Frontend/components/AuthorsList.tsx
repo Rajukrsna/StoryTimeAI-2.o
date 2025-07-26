@@ -110,7 +110,7 @@ export default function AuthorsList({ authors }: AuthorsListProps) {
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
         >
-            {authors.map((author, index) => (
+            {authors.map((author) => (
                 <motion.div
                     key={author._id}
                     variants={itemVariants}

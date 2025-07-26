@@ -20,11 +20,10 @@ import {
   Calendar,
   User,
   FileText,
-  TrendingUp,
-  MoreVertical,
+ 
   X
 } from "lucide-react";
-import { FaBook, FaEye, FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaBook,  FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export default function UserStories() {
   const [stories, setStories] = useState<Story[]>([]);
@@ -104,16 +103,7 @@ export default function UserStories() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'approved':
-        return <FaCheckCircle className="w-4 h-4 text-green-600" />;
-      case 'rejected':
-        return <FaTimesCircle className="w-4 h-4 text-red-600" />;
-      default:
-        return <FaClock className="w-4 h-4 text-yellow-600" />;
-    }
-  };
+ 
 
   if (loading) {
     return (

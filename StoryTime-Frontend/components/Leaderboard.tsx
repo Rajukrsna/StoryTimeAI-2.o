@@ -6,10 +6,10 @@ import { getLeaderBoard } from "@/api/storyApi";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Trophy, Medal, Award, UserPlus, Search, Star, Crown, Users } from "lucide-react";
+import { Trophy, Medal, Award, UserPlus, Search, Star, Crown } from "lucide-react";
 import { followUser, unfollowUser, getMyProfile } from "@/api/profile";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface LeaderboardEntry {
   userId: string;
@@ -150,7 +150,7 @@ export default function LeaderboardList({id, title }: { id:string, title: string
           </h2>
         </div>
         <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto px-2">
-          Top contributors to "{title}" ranked by their amazing contributions
+          Top contributors to {title} ranked by their amazing contributions
         </p>
       </motion.div>
 
@@ -203,7 +203,7 @@ export default function LeaderboardList({id, title }: { id:string, title: string
                 <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white/80 backdrop-blur-md border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300">
                   {/* Background Pattern - Gray Theme */}
                   <div className="absolute inset-0 opacity-5">
-<div className={`absolute inset-0 bg-gradient-to-r ${getRankGradient(index)}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl sm:rounded-3xl z-0`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-r ${getRankGradient(index)}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl sm:rounded-3xl z-0`}></div>
                     {index < 3 && (
                       <div className="absolute top-4 right-4">
                         <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br ${getRankGradient(index)} opacity-20`}></div>

@@ -11,7 +11,7 @@ import Image from "next/image";
 import { getMyProfile, updateMyProfile, updateProfileImage, fetchMyChaptersStatus } from "@/api/profile";
 import type { User, ChapterStatus } from "@/types";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   Camera, 
   Edit3, 

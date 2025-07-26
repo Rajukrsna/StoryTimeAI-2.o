@@ -13,18 +13,15 @@ import {
   FaMagic, 
   FaUsers, 
   FaRocket,
-  FaPen,
+ 
   FaHeart,
   FaStar,
-  FaGlobe,
+ 
   FaQuoteLeft
 } from "react-icons/fa";
 import { 
   Sparkles, 
-  BookOpen, 
-  Users, 
-  Zap, 
-  Trophy,
+
   ChevronDown,
   Play,
   ArrowRight
@@ -32,7 +29,6 @@ import {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [currentFeature, setCurrentFeature] = useState(0);
   const [showScrollHint, setShowScrollHint] = useState(true);
 
   const handleNavigation = () => {
@@ -78,12 +74,7 @@ export default function LoginPage() {
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % features.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
+  
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -228,7 +219,7 @@ export default function LoginPage() {
               transition={{ delay: 0.7 }}
               className="flex flex-wrap gap-3"
             >
-              {['AI Writing Assistant', 'Real-time Collaboration', 'Instant Publishing'].map((feature, index) => (
+              {['AI Writing Assistant', 'Real-time Collaboration', 'Instant Publishing'].map((feature) => (
                 <div
                   key={feature}
                   className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium text-gray-700 border border-gray-200/50"
@@ -277,7 +268,7 @@ export default function LoginPage() {
                 { number: "10K+", label: "Stories Created" },
                 { number: "5K+", label: "Active Writers" },
                 { number: "50+", label: "Countries" }
-              ].map((stat, index) => (
+              ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-gray-900">{stat.number}</div>
                   <div className="text-xs lg:text-sm text-gray-600">{stat.label}</div>
@@ -458,7 +449,7 @@ export default function LoginPage() {
                 <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/30 h-full transition-all duration-300 group-hover:shadow-xl">
                   <FaQuoteLeft className="w-8 h-8 text-gray-400 mb-4" />
                   <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                    "{testimonial.text}"
+                    {testimonial.text}
                   </p>
                   <div>
                     <div className="font-bold text-gray-900">{testimonial.author}</div>

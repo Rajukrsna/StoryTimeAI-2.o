@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Filter, Search, BookOpen, Users } from "lucide-react";
+import {  Search, BookOpen, Users } from "lucide-react";
 import { getStories } from "@/api/storyApi";
 import { getAuthors } from "@/api/profile";
 import type { Story, User } from "@/types";

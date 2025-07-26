@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState,useEffect } from 'react';
-import { X, Edit3, FileText, Clock, AlertCircle } from 'lucide-react';
+import { X, Edit3, FileText, AlertCircle } from 'lucide-react';
 import {submitStoryToBattle} from '@/api/battle';
 import type { Submission } from '@/api/battle';
 import { createPortal } from 'react-dom';
@@ -101,10 +101,13 @@ const BattleSubmissionModal: React.FC<BattleSubmissionModalProps> = ({
         onSubmissionSuccess(response.submission);
         alert('Story submitted successfully!');
       }
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to submit story';
-      alert(message);
-    } finally {
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert('Failed to submit story');
+  }
+} finally {
       setLoading(false);
     }
   };

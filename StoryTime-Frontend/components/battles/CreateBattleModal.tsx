@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Users, Clock, Trophy, Plus, Trash2, Award } from 'lucide-react';
+import { X, Trophy, Plus, Trash2, Award } from 'lucide-react';
 import { createBattle } from '@/api/battle';
 import type { Battle } from '@/api/battle';
 import { createPortal } from 'react-dom';
@@ -123,10 +123,14 @@ const CreateBattleModal: React.FC<CreateBattleModalProps> = ({ onClose, onBattle
         alert('Battle created successfully!');
         onBattleCreated(response.battle);
       }
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Failed to create battle';
-      alert(message);
-    } finally {
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert('Failed to create battle');
+  }
+}
+ finally {
       setLoading(false);
     }
   };

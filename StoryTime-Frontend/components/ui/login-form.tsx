@@ -19,7 +19,6 @@ import {
     FaEyeSlash, 
     FaLock, 
     FaEnvelope,
-    FaSpinner,
     FaCheckCircle
 } from "react-icons/fa";
 import { 
@@ -299,7 +298,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                                     className="text-center pt-4"
                                 >
                                     <p className="text-sm text-gray-600">
-                                        Don't have an account?{" "}
+                                        Dont have an account?{" "}
                                         <motion.a
                                             href="/signup"
                                             whileHover={{ scale: 1.05 }}

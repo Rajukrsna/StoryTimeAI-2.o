@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Clock, Calendar, Zap, Trophy } from 'lucide-react';
-import { formatDistanceToNow, differenceInSeconds, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
 
 interface Battle {
   status: 'upcoming' | 'active' | 'voting' | 'completed';

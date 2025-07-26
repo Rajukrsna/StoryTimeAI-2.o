@@ -18,9 +18,7 @@ import {
     FaEye,
     FaEyeSlash,
     FaCheckCircle,
-    FaGoogle,
-    FaSpinner,
-    FaUpload
+   
 } from "react-icons/fa"
 import {
     Mail,
@@ -31,10 +29,10 @@ import {
     UserPlus,
     ArrowRight,
     Camera,
-    Upload,
-    Sparkles,
+   
+   
     Shield,
-    Heart
+  
 } from "lucide-react"
 import {
     Card,
@@ -244,7 +242,7 @@ export default function SignUpPage() {
                                     transition={{ delay: 0.4 }}
                                     className="flex flex-wrap justify-center gap-2 mt-4"
                                 >
-                                    {['AI Assistant', 'Free Forever', 'Global Community'].map((benefit, index) => (
+                                    {['AI Assistant', 'Free Forever', 'Global Community'].map((benefit) => (
                                         <div
                                             key={benefit}
                                             className="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700 border border-gray-200/50"

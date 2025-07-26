@@ -67,7 +67,7 @@ export default function StoriesList({ stories }: StoriesListProps) {
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
         >
-            {stories.map((story, index) => (
+            {stories.map((story) => (
                 <motion.div
                     key={story._id}
                     variants={itemVariants}
