@@ -23,7 +23,7 @@ import {
  
   X
 } from "lucide-react";
-import { FaBook,  FaClock, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaBook } from "react-icons/fa";
 
 export default function UserStories() {
   const [stories, setStories] = useState<Story[]>([]);

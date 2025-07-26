@@ -230,7 +230,7 @@ export default function CreatePage() {
                                         Story Creation Workshop
                                     </CardTitle>
                                     <CardDescription className="text-gray-600 text-lg">
-                                        Let's bring your story to life with AI assistance 
+                                        Lets bring your story to life with AI assistance 
                                     </CardDescription>
                                 </div>
                             </div>

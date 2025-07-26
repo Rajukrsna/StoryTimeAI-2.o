@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { Typewriter } from 'react-simple-typewriter';
 import { motion } from "framer-motion";
 import { BookOpen, PenTool, Sparkles, ArrowRight, Users, Star } from "lucide-react";
-import { FaBookOpen, FaUsers, FaStar, FaGlobe } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {

@@ -198,7 +198,7 @@ const BattleDetail: React.FC<BattleDetailProps> = ({ battleId }) => {
   };
 
   // ✅ Gray-themed gradients
-  const getThemeColor = (theme: string) => {
+  const getThemeColor = (_theme: string) => {
     return 'bg-gradient-to-r from-gray-600 to-gray-800 text-white';
   };
 
