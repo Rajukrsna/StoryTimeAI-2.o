@@ -7,6 +7,7 @@ import { BookOpen, Heart, Edit, Clock, User, Eye, ArrowRight } from "lucide-reac
 import { MdAutoStories } from "react-icons/md";
 import { updateChapterLikes } from "@/api/storyApi";
 import { motion, AnimatePresence } from "framer-motion";
+
 export default function ChapterList({
   title,
   chapters: initialChapters,
@@ -73,15 +74,15 @@ export default function ChapterList({
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    hidden: { 
+      opacity: 0, 
+      y: 20, 
+      scale: 0.95 
+    },
     visible: { 
       opacity: 1, 
       y: 0, 
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut"
-      }
+      scale: 1
     }
   };
 
@@ -117,6 +118,10 @@ export default function ChapterList({
           <motion.div
             key={chapter.id}
             variants={itemVariants}
+            transition={{
+              duration: 0.4,
+              ease: "easeOut"
+            }}
             onHoverStart={() => setHoveredChapter(index)}
             onHoverEnd={() => setHoveredChapter(null)}
             whileHover={{ 
