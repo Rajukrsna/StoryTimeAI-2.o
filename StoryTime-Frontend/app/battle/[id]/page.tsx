@@ -1,11 +1,12 @@
 import BattleDetail from '../../../components/battles/BattleDetail';
 
 interface BattlePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function BattlePage({ params }: BattlePageProps) {
-  return <BattleDetail battleId={params.id} />;
+export default async function BattlePage({ params }: BattlePageProps) {
+  const { id } = await params;
+  return <BattleDetail battleId={id} />;
 }
