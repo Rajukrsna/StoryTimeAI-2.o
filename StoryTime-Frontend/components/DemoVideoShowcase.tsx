@@ -110,7 +110,7 @@ const DemoVideoShowcase: React.FC<DemoVideoShowcaseProps> = ({
 
   // Convert YouTube video ID to embed URL
   const getYouTubeEmbedUrl = (videoId: string, startTime?: number) => {
-    let url = `https://www.youtube.com/embed/${videoId}?`;
+    const url = `https://www.youtube.com/embed/${videoId}?`;
     const params = new URLSearchParams({
       autoplay: '0',
       rel: '0',
