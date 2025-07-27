@@ -1,28 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Play, 
-  Pause, 
-  Volume2, 
-  VolumeX, 
-  Maximize, 
-  RotateCcw,
+
   X,
-  Minimize,
+ 
   BookOpen,
   Users,
   Trophy,
   Sword,
   Bot,
   PenTool,
-  Eye,
+ 
   Heart,
   ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FaBookOpen, FaRocket, FaYoutube } from "react-icons/fa";
+import {  FaRocket, FaYoutube } from "react-icons/fa";
 
 interface DemoVideoShowcaseProps {
   onClose: () => void;
@@ -34,8 +30,7 @@ const DemoVideoShowcase: React.FC<DemoVideoShowcaseProps> = ({
   youtubeVideoId = "YOUR_YOUTUBE_VIDEO_ID" // Replace with your actual video ID
 }) => {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
+
   const [showYouTubeVideo, setShowYouTubeVideo] = useState(true);
   
   const demoSections = [
@@ -229,7 +224,7 @@ const DemoVideoShowcase: React.FC<DemoVideoShowcaseProps> = ({
               </div>
               
               <div className="space-y-2">
-                {demoSections.map((section, index) => (
+                {demoSections.map((section) => (
                   <motion.button
                     key={section.id}
                     onClick={() => {
@@ -359,4 +354,4 @@ const DemoVideoShowcase: React.FC<DemoVideoShowcaseProps> = ({
   );
 };
 
-export default DemoVideoShowcase;``
+export default DemoVideoShowcase;
