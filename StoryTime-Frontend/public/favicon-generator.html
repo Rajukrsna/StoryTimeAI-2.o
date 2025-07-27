@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Favicon Generator</title>
+    <style>
+        canvas { border: 1px solid #ccc; margin: 10px; }
+        .favicon-container { text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="favicon-container">
+        <h2>StoryTime.AI Favicon Generator</h2>
+        <canvas id="favicon16" width="16" height="16"></canvas>
+        <canvas id="favicon32" width="32" height="32"></canvas>
+        <canvas id="favicon48" width="48" height="48"></canvas>
+        
+        <script>
+            function drawFavicon(canvas, size) {
+                const ctx = canvas.getContext('2d');
+                const scale = size / 32;
+                
+                // Clear canvas
+                ctx.clearRect(0, 0, size, size);
+                
+                // Background circle with gradient
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#6B7280');
+                gradient.addColorStop(1, '#374151');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size/2 - 1*scale, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Book/Story Element
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(8*scale, 10*scale, 16*scale, 11*scale);
+                
+                // Story lines
+                ctx.strokeStyle = '#4B5563';
+                ctx.lineWidth = 1.5*scale;
+                ctx.lineCap = 'round';
+                
+                // Line 1
+                ctx.beginPath();
+                ctx.moveTo(11*scale, 12*scale);
+                ctx.lineTo(21*scale, 12*scale);
+                ctx.stroke();
+                
+                // Line 2
+                ctx.lineWidth = 1.2*scale;
+                ctx.beginPath();
+                ctx.moveTo(11*scale, 15*scale);
+                ctx.lineTo(19*scale, 15*scale);
+                ctx.stroke();
+                
+                // Line 3
+                ctx.beginPath();
+                ctx.moveTo(11*scale, 18*scale);
+                ctx.lineTo(20*scale, 18*scale);
+                ctx.stroke();
+                
+                // AI Neural Network Dots
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.8)';
+                ctx.beginPath();
+                ctx.arc(12*scale, 6*scale, 1.5*scale, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(20*scale, 6*scale, 1.5*scale, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(16*scale, 4*scale, 1.5*scale, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Sparkle elements
+                ctx.fillStyle = 'rgba(251, 191, 36, 0.9)';
+                ctx.beginPath();
+                ctx.moveTo(26*scale, 8*scale);
+                ctx.lineTo(27*scale, 9*scale);
+                ctx.lineTo(26*scale, 10*scale);
+                ctx.lineTo(25*scale, 9*scale);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.moveTo(6*scale, 24*scale);
+                ctx.lineTo(7*scale, 25*scale);
+                ctx.lineTo(6*scale, 26*scale);
+                ctx.lineTo(5*scale, 25*scale);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Draw favicons
+            drawFavicon(document.getElementById('favicon16'), 16);
+            drawFavicon(document.getElementById('favicon32'), 32);
+            drawFavicon(document.getElementById('favicon48'), 48);
+            
+            // Download function
+            function downloadFavicon(canvasId, filename) {
+                const canvas = document.getElementById(canvasId);
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        </script>
+        
+        <div style="margin-top: 20px;">
+            <button onclick="downloadFavicon('favicon16', 'favicon-16x16.png')">Download 16x16</button>
+            <button onclick="downloadFavicon('favicon32', 'favicon-32x32.png')">Download 32x32</button>
+            <button onclick="downloadFavicon('favicon48', 'favicon-48x48.png')">Download 48x48</button>
+        </div>
+    </div>
+</body>
+</html>

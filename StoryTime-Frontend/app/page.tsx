@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Typewriter } from 'react-simple-typewriter';
+import DemoVideoShowcase from "@/components/DemoVideoShowcase"; // Add this import
+
 import { 
   FaBookOpen, 
   FaUserPlus, 
@@ -30,6 +32,7 @@ import {
 export default function LoginPage() {
   const router = useRouter();
   const [showScrollHint, setShowScrollHint] = useState(true);
+  const [showDemo, setShowDemo] = useState(false); // Add this state
 
   const handleNavigation = () => {
     router.push("/signup");
@@ -73,7 +76,13 @@ export default function LoginPage() {
       role: "Romance Novelist"
     }
   ];
+  const handleShowDemo = () => {
+    setShowDemo(true);
+  };
 
+  const handleCloseDemo = () => {
+    setShowDemo(false);
+  };
   
 
   useEffect(() => {
@@ -247,7 +256,8 @@ export default function LoginPage() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               
-              <Button
+                <Button
+                onClick={handleShowDemo} // Add this onClick handler
                 variant="outline"
                 size="lg"
                 className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-2xl px-8 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105"
@@ -256,7 +266,11 @@ export default function LoginPage() {
                 Watch Demo
               </Button>
             </motion.div>
-
+    <AnimatePresence>
+        {showDemo && (
+          <DemoVideoShowcase onClose={handleCloseDemo} />
+        )}
+      </AnimatePresence>
             {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -498,6 +512,7 @@ export default function LoginPage() {
           </motion.div>
         </div>
       </motion.section>
+
     </main>
   );
 }
