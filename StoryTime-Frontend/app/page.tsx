@@ -163,7 +163,7 @@ export default function LoginPage() {
       <div className="relative z-10 container mx-auto px-6 sm:px-12 pt-8 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-120px)]">
           
-          {/* Left Side - Hero Content - Removed extra spacing */}
+          {/* Left Side - Hero Content  */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -279,9 +279,9 @@ export default function LoginPage() {
               className="grid grid-cols-3 gap-4 lg:gap-6 pt-4 lg:pt-6"
             >
               {[
-                { number: "10K+", label: "Stories Created" },
-                { number: "5K+", label: "Active Writers" },
-                { number: "50+", label: "Countries" }
+                { number: "6", label: "Stories Created" },
+                { number: "2", label: "Active Writers" },
+                { number: "1", label: "Country" }
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-gray-900">{stat.number}</div>
