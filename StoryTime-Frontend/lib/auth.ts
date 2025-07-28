@@ -67,6 +67,8 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/login',
+    error: '/auth/error', // custom error page you will create
+
   },
   session: {
     strategy: "jwt",
