@@ -264,10 +264,8 @@ const token =
     }
 
     // Generate new token
-    const newToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '30d',
-    });
-// ✅ Send cookie back (optional)
+    const newToken = generateToken(user._id);
+
     res.cookie('authToken', newToken, {
       httpOnly: true,
       sameSite: 'Lax',
@@ -349,5 +347,49 @@ router.post("/:id/unfollow", protect, async (req, res) => {
   }
 });
 
+router.post('/google-auth', async (req, res) => {
+  try {
+    console.log("entered Google auth route");
+    const { email, name, googleId, profilePicture } = req.body;
+    console.log("Google auth request:", { email, name, googleId });
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+    console.log("Found user:", user);
+    if (!user) {
+      // Create new user
+      user = new User({
+        name,
+        email,
+        googleId,
+        profilePicture,
+        isVerified: true, 
+        password: "google-auth", // Placeholder password for Google users
+      });
+      await user.save();
+      console.log("New Google user created:", user._id);
+
+    } else if (!user.googleId) {
+      // Link existing account with Google
+      user.googleId = googleId;
+      if (profilePicture) user.profilePicture = profilePicture;
+      await user.save();
+    }
+
+    const token = generateToken(user._id);
+    console.log("Generated token for Google user:", token);
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePicture: user.profilePicture,
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Google authentication failed' });
+  }
+});
 
 export default router;

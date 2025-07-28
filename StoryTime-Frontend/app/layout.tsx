@@ -3,6 +3,7 @@ import { Geist, Geist_Mono ,Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'sonner';
 import { Analytics } from "@vercel/analytics/react"
+import { NextAuthProvider } from "@/components/providers/session-provider"
 
 
 const geistSans = Geist({
@@ -59,7 +60,9 @@ export default function RootLayout({
       className={`${roboto.variable} ${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <Toaster position="top-center" richColors />
-        {children}
+           <NextAuthProvider>
+          {children}
+        </NextAuthProvider>
          <Analytics />
       </body>
     </html>

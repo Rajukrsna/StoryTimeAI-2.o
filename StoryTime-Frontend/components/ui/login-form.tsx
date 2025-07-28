@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { login } from "@/api/login";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { signIn } from "next-auth/react"
+
 import { 
     FaGoogle, 
     FaEye, 
@@ -38,6 +40,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -62,10 +65,24 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         }
     };
 
-    const handleGoogleLogin = () => {
-        // Placeholder for Google OAuth implementation
-        console.log("Google login clicked");
-    };
+
+const handleGoogleLogin = async () => {
+  setIsGoogleLoading(true);
+  setError(null);
+  
+   try {
+    // Let NextAuth handle redirect
+    await signIn("google", { callbackUrl: "/homepage" });
+    //set authToken to localStorage and cookies
+    
+  } catch (error) {
+    console.error("Google login error:", error);
+    setError("Google authentication failed");
+  } finally {
+    setIsGoogleLoading(false);
+  }
+
+};
 
     const isFormValid = email && password;
 
@@ -281,11 +298,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                                         variant="outline" 
                                         size="lg"
                                         onClick={handleGoogleLogin}
+                                        disabled={isGoogleLoading}
+
                                         className="w-full h-14 text-base font-semibold border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 rounded-xl transition-all duration-300 group bg-white/70 backdrop-blur-sm"
                                     >
                                         <div className="flex items-center gap-3">
                                             <FaGoogle className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform duration-300" />
-                                            <span>Continue with Google</span>
+                                         {isGoogleLoading ? "Connecting..." : "Continue with Google"}
                                         </div>
                                     </Button>
                                 </motion.div>

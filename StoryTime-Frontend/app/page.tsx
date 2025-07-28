@@ -15,10 +15,8 @@ import {
   FaMagic, 
   FaUsers, 
   FaRocket,
- 
   FaHeart,
   FaStar,
- 
   FaQuoteLeft
 } from "react-icons/fa";
 import { 

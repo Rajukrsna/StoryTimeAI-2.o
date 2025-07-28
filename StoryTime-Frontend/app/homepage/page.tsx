@@ -8,14 +8,24 @@ import { Typewriter } from 'react-simple-typewriter';
 import { motion } from "framer-motion";
 import { BookOpen, PenTool, Sparkles, ArrowRight, Users, Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { setCookie } from "cookies-next";
 
 export default function HomePage() {
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
-
+    const { data: session, status } = useSession();
+    useEffect(() => {
+        if (status === "authenticated" && session?.accessToken) {
+            localStorage.setItem("authToken", session.accessToken);
+            setCookie( "authToken", session.accessToken, { path: "/" });
+        }
+    }, [status, session]);
     useEffect(() => {
         setMounted(true);
     }, []);
+
+ 
 
     const handleNavCreate = () => router.push("/create");
     if (!mounted) {
