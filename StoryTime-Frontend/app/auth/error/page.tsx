@@ -1,16 +1,14 @@
+// StoryTime-Frontend/app/auth/error/page.tsx
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import AuthErrorContent from '@/components/AuthErrorContent'; // Import your error content component
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function AuthErrorPage() {
-  const searchParams = useSearchParams();
-  const error = searchParams.get('error');
-
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Authentication Error</h1>
-      <p className="mt-4 text-red-500">Something went wrong: {error}</p>
-      <a href="/login" className="text-blue-600 underline mt-4 block">Go back to login</a>
-    </div>
+    <Suspense fallback={<LoadingSpinner message="Loading error details..." />}>
+      <AuthErrorContent />
+    </Suspense>
   );
 }
