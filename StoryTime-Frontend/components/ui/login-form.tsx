@@ -49,7 +49,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
         try {
             const response = await login(email, password);
-            console.log("Login response:", response);
+            
             if (!response.success) {
                 setError("Invalid credentials. Please try again.");
                 return;

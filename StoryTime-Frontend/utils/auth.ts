@@ -1,10 +1,9 @@
-import { getCookie, setCookie, deleteCookie } from 'cookies-next';
+import {  setCookie, deleteCookie } from 'cookies-next';
 
 const TOKEN_KEY = 'authToken';
 
 export const getAuthToken = (): string | null => {
   const token = localStorage.getItem("authToken");
-  console.log("🧪 Token from localStorage:", token);
   return token;
 };
 export const refreshAuthToken = async (): Promise<string | null> => {

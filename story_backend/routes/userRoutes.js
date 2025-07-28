@@ -160,7 +160,7 @@ router.get("/my-chapters",protect, async (req, res) =>
           }
         });
       });
-  console.log("Chapter statuses:", chapterStatuses);
+  //console.log("Chapter statuses:", chapterStatuses);
   res.json({ chapters: chapterStatuses });
     } catch (err) {
       console.error("Error fetching user chapters:", err);
@@ -349,13 +349,10 @@ router.post("/:id/unfollow", protect, async (req, res) => {
 
 router.post('/google-auth', async (req, res) => {
   try {
-    console.log("entered Google auth route");
     const { email, name, googleId, profilePicture } = req.body;
-    console.log("Google auth request:", { email, name, googleId });
 
     // Check if user exists
     let user = await User.findOne({ email });
-    console.log("Found user:", user);
     if (!user) {
       // Create new user
       user = new User({
@@ -367,7 +364,6 @@ router.post('/google-auth', async (req, res) => {
         password: "google-auth", // Placeholder password for Google users
       });
       await user.save();
-      console.log("New Google user created:", user._id);
 
     } else if (!user.googleId) {
       // Link existing account with Google
@@ -377,7 +373,7 @@ router.post('/google-auth', async (req, res) => {
     }
 
     const token = generateToken(user._id);
-    console.log("Generated token for Google user:", token);
+   
     res.json({
       token,
       user: {

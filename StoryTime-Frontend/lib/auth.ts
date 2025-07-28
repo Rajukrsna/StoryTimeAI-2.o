@@ -22,9 +22,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === "google") {
-        console.log("Google sign-in initiated for user:", user.email);
         try {
           // Send Google user data to your backend
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL2}/api/users/google-auth`, {
@@ -37,7 +36,7 @@ export const authOptions: NextAuthOptions = {
               profilePicture: user.image,
             })
           })
-          console.log("response:", response);
+
           if (response.ok) {
             const data = await response.json()
            
