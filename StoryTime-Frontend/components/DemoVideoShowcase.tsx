@@ -26,8 +26,8 @@ interface DemoVideoShowcaseProps {
 }
 
 const DemoVideoShowcase: React.FC<DemoVideoShowcaseProps> = ({ 
-  onClose, 
-  youtubeVideoId = "YOUR_YOUTUBE_VIDEO_ID" // Replace with your actual video ID
+  onClose,
+  youtubeVideoId = "H9hoprWLzho" // Replace with your actual video ID
 }) => {
   const [currentSection, setCurrentSection] = useState(0);
 

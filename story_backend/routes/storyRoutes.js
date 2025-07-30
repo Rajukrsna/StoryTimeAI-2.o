@@ -372,6 +372,7 @@ router.post("/:id/approve-chapter/:chapterIndex", protect, async (req, res) => {
       content: chapterToApprove.content,
       summary: chapterToApprove.summary,
       likes: chapterToApprove.likes,
+      embedding: chapterToApprove.embedding ||[], // Ensure embedding is included
       createdBy: chapterToApprove.createdBy, // The user who submitted the pending chapter
       createdAt: chapterToApprove.createdAt,
     };

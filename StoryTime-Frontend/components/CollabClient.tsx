@@ -146,7 +146,9 @@ export default function CollabPage() {
         }
       }
     } else {
-      const embedding = await getEmbeddings(summary || currentContent);
+      console.log("Adding new chapter");
+      const embedding = await getEmbeddings( summary || currentContent );
+      console.log("summary")
       const newChapter: Chapter = {
         title: `Chapter ${story.content.length + 1}`,
         content: currentContent,
@@ -163,9 +165,12 @@ export default function CollabPage() {
             ...story,
             content: [...story.content, newChapter],
           };
-          await updateStory(id, { content: updatedStory.content });
+          await updateStory(id, { newChapter: newChapter });
           toast.success("Chapter added successfully!");
         } else {
+          console.log("Sending chapter for approval");
+          console.log("i am not the author")
+          console.log("newChapter", newChapter)
           await updateStory(id, { newChapter: newChapter });
           const response = await sendEmail(story, newChapter, profile);
           console.log("good boy", response);
