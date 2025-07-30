@@ -245,7 +245,7 @@ Your next laugh-out-loud, mind-bending, absolutely unforgettable story adventure
   <h3>📬 Connect With Us</h3>
   
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/company/storytimeai)
-  [![Twitter](https://img.shields.io/badge/Twitter-Follow-blue?style=for-the-badge&logo=twitter)](https://twitter.com/storytimeai)
+
   [![Discord](https://img.shields.io/badge/Discord-Join_Community-purple?style=for-the-badge&logo=discord)](https://discord.gg/storytimeai)
   
   **Made with ❤️ and a lot of ☕ by story enthusiasts**
