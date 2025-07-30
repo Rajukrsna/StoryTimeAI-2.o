@@ -4,7 +4,7 @@
 
 Welcome to the most exciting storytelling adventure on the internet! StoryTime.AI isn't just another writing platform – it's where your wildest story ideas transform into epic collaborative adventures that will surprise even you.
 
-![StoryTime.AI Banner](https://i.ibb.co/35b8P22F/story.png)
+
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_StoryTime.AI-blue?style=for-the-badge)](https://story-time-ai-2-o.vercel.app/)
 [![GitHub](https://img.shields.io/badge/⭐_Star_Us-GitHub-black?style=for-the-badge)](https://github.com/Rajukrsna/StoryTimeAI-2.o)
