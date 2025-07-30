@@ -1,4 +1,4 @@
-import { NextAuthOptions, User as NextAuthUser } from "next-auth"
+import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { login } from "@/api/login"
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === "google") {
         console.log("Google sign-in initiated for user:", user.email);
         try {
@@ -82,7 +82,7 @@ export const authOptions: NextAuthOptions = {
       }
       return true
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.token
         token.userId = user.id

@@ -161,10 +161,7 @@ export default function CollabPage() {
 
       try {
         if (isAuthor) {
-          const updatedStory = {
-            ...story,
-            content: [...story.content, newChapter],
-          };
+         
           await updateStory(id, { newChapter: newChapter });
           toast.success("Chapter added successfully!");
         } else {
