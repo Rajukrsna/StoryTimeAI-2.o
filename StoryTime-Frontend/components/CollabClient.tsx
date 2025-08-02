@@ -134,7 +134,8 @@ export default function CollabPage() {
             editedChapterData: chapterToUpdate,
             editedChapterIndex: chapterIndex,
           });
-          const response = await sendEmail(story, chapterToUpdate, profile);
+          const type = "edit"
+          const response = await sendEmail(type, story, chapterToUpdate, profile);
           if (response.message) {
             toast.success(response.message);
           }
@@ -165,11 +166,9 @@ export default function CollabPage() {
           await updateStory(id, { newChapter: newChapter });
           toast.success("Chapter added successfully!");
         } else {
-          console.log("Sending chapter for approval");
-          console.log("i am not the author")
-          console.log("newChapter", newChapter)
+          const type = "new"
           await updateStory(id, { newChapter: newChapter });
-          const response = await sendEmail(story, newChapter, profile);
+          const response = await sendEmail(type , story, newChapter, profile);
           console.log("good boy", response);
           if (response.message) {
             toast.success(response.message);
@@ -208,7 +207,7 @@ export default function CollabPage() {
         editor.commands.insertContent(aiText[index]);
         index++;
 
-        typingRef.current = setTimeout(typeNextChar, 20);
+        typingRef.current = setTimeout(typeNextChar, 8);
       };
 
       typeNextChar();

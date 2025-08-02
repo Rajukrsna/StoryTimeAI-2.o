@@ -89,15 +89,17 @@ export const rejectStory = async ( storyId: string , chapterIndex: number): Prom
 
 
 export const sendEmail = async (
+  type: string,
   story: Story,
-  chapter: Chapter,
+  newChapter: Chapter,
   profile: any
 ): Promise<{ message: string }> => {
   const response = await expressClient.post<{ message: string }>(
     '/api/email/send-email',
     {
+      type,
       story,
-      chapter,
+      newChapter,
       profile,
     }
   );

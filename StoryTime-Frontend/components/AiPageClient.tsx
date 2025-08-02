@@ -41,7 +41,9 @@ import getEmbeddings from "@/components/hooks/useEmbeddings";
 import { Navbar } from "@/components/Navbar";
 import ReactMarkdown from "react-markdown";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { sendEmail } from "@/api/storyApi";
+import {getMyProfile} from "@/api/profile";
+import { User } from "@/types";
 export default function AiPageClient() {
   const searchParams = useSearchParams();
   const initialStory = searchParams.get("story") || "";
@@ -59,14 +61,26 @@ export default function AiPageClient() {
   const [wordCount, setWordCount] = useState(0);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [showPublishModal, setShowPublishModal] = useState(false);
-  
+  const [profile , setProfile] = useState<User|null>(null);
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setWordCount(story.split(' ').filter(word => word.length > 0).length);
   }, [story]);
-
+ useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await getMyProfile();
+        if (profile) {
+          setProfile(profile);
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
   // Auto-save functionality
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -106,6 +120,18 @@ export default function AiPageClient() {
       const response = await createStory(title, story, imageUrl, summary, embeds, collaborationInstructions);
       if (response) {
         toast.success("🎉 Story published successfully!");
+        // Use a valid Chapter object instead of a string
+        const type = "publish"
+        const newChapter = {
+          id: "create",
+          title: title,
+          content: story,
+          summary: summary,
+          likes: 0,
+          createdBy: profile?._id || "",
+          createdAt: new Date().toISOString()
+        };
+await sendEmail(type, response, newChapter, profile);
         setShowPublishModal(false);
         router.push("/homepage");
       } else {

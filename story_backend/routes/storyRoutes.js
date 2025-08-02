@@ -135,7 +135,7 @@ router.get("/:id", async (req, res) => {
   }
 
   try {
-    const story = await Story.findById(id).populate("author", "name");
+    const story = await Story.findById(id).populate("author", "name email");//populate author with name and email
 
     if (!story) {
       return res.status(404).json({ message: "Story not found" });
